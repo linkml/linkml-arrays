@@ -1,0 +1,23 @@
+{
+  "template": "https://github.com/monarch-initiative/monarch-project-template",
+  "commit": "b8678fcd6fddd8196e0dc77a49ba84d820cc21b0",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "linkml-arrays",
+      "__project_slug": "linkml_arrays",
+      "project_description": "Support for N-dimensional arrays in LinkML.",
+      "min_python_version": "3.9",
+      "file_name": "main",
+      "greeting_recipient": "World",
+      "full_name": "Ryan Ly",
+      "email": "rly@lbl.gov",
+      "__author": "Ryan Ly <rly@lbl.gov>",
+      "license": "BSD-3",
+      "github_token_for_doc_deployment": "GH_TOKEN",
+      "github_token_for_pypi_deployment": "PYPI_TOKEN",
+      "_template": "https://github.com/monarch-initiative/monarch-project-template"
+    }
+  },
+  "directory": null
+}
