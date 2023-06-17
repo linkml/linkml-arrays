@@ -1,0 +1,8 @@
+name: my_temperature
+temperatures: saved in TemperatureMatrix.temperatures.npy
+time:
+  values: saved in my_temperature.DaySeries.values.npy
+x:
+  values: saved in my_temperature.LatitudeSeries.values.npy
+y:
+  values: saved in my_temperature.LongitudeSeries.values.npy
