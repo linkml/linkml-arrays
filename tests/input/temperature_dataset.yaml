@@ -41,7 +41,7 @@ classes:
   TemperatureMatrix:
     description: A 3D array of temperatures
     implements:
-      - linkml:ThreeDimensionalArray
+      - linkml:NdArray
       - linkml:RowOrderedArray
     attributes:
       values:
@@ -56,7 +56,7 @@ classes:
   LatitudeSeries:
     description: A series whose values represent latitude
     implements:
-      - linkml:OneDimensionalSeries
+      - linkml:NdArray
     attributes:
       values:
         range: float
@@ -70,7 +70,7 @@ classes:
   LongitudeSeries:
     description: A series whose values represent longitude
     implements:
-      - linkml:OneDimensionalSeries
+      - linkml:NdArray
     attributes:
       values:
         range: float
@@ -84,7 +84,7 @@ classes:
   DaySeries:
     description: A series whose values represent the days since the start of the measurement period
     implements:
-      - linkml:OneDimensionalSeries
+      - linkml:NdArray
     attributes:
       values:
         range: float
