@@ -9,35 +9,46 @@ imports:
   - linkml:types
 
 classes:
-  TemperatureMatrix:
+  TemperatureDataset:
     tree_root: true
     implements:
-      - linkml:ThreeDimensionalArray
-      - linkml:RowOrderedArray
+      - linkml:ThreeDimensionalArrayDataset
     attributes:
       name:
         identifier: true
         range: string
-      x:
+      latitude_in_deg:
         implements:
           - linkml:axis0
         range: LatitudeSeries
         required: true
-      y:
+      longitude_in_deg:
         implements:
           - linkml:axis1
         range: LongitudeSeries
         required: true
-      time:
+      time_in_d:
         implements:
           - linkml:axis2
         range: DaySeries
         required: true
-      temperatures:
+      temperatures_in_K:
+        implements:
+          - linkml:array
+        range: TemperatureMatrix
+        required: true
+
+  TemperatureMatrix:
+    description: A 3D array of temperatures
+    implements:
+      - linkml:ThreeDimensionalArray
+      - linkml:RowOrderedArray
+    attributes:
+      values:
+        range: float
+        multivalued: true
         implements:
           - linkml:elements
-        multivalued: true
-        range: float
         required: true
         unit:
           ucum_code: K

@@ -17,7 +17,7 @@ def iterate_element(input_dict: dict, element_type: ClassDefinition, schemaview:
     for k, v in input_dict.items():
         found_slot = schemaview.induced_slot(k, element_type.name)
         if "linkml:elements" in found_slot.implements:
-            array_file_path = v.replace("saved in ", "")
+            array_file_path = v.replace("file://", "")
             v = np.load(array_file_path)
         elif isinstance(v, dict):
             found_slot_range = schemaview.get_class(found_slot.range)

@@ -5,7 +5,10 @@ import numpy as np
 from linkml_arrays.dumpers import YAMLNumpyDumper
 from linkml_runtime import SchemaView
 
-from tests.test_dumpers.array_classes import LatitudeSeries, LongitudeSeries, DaySeries, TemperatureMatrix
+from tests.test_dumpers.array_classes import (
+    LatitudeSeries, LongitudeSeries, DaySeries,
+    TemperatureMatrix, TemperatureDataset
+  )
 
 
 class YamlNumpyDumpersTestCase(unittest.TestCase):
@@ -14,28 +17,32 @@ class YamlNumpyDumpersTestCase(unittest.TestCase):
     """
 
     def test_dump_pydantic_arrays(self):
-        lat = LatitudeSeries(values=np.array([1, 2, 3]))
-        lon = LongitudeSeries(values=np.array([4, 5, 6]))
-        day = DaySeries(values=np.array([7, 8, 9]))
-        temperature = TemperatureMatrix(
+        latitude_in_deg = LatitudeSeries(values=np.array([1, 2, 3]))
+        longitude_in_deg = LongitudeSeries(values=np.array([4, 5, 6]))
+        time_in_d = DaySeries(values=np.array([7, 8, 9]))
+        temperatures_in_K = TemperatureMatrix(
+            values=np.ones((3, 3, 3)),
+        )
+        temperature = TemperatureDataset(
             name="my_temperature",
-            x=lat,
-            y=lon,
-            time=day,
-            temperatures=np.ones((3, 3, 3)),
+            latitude_in_deg=latitude_in_deg,
+            longitude_in_deg=longitude_in_deg,
+            time_in_d=time_in_d,
+            temperatures_in_K=temperatures_in_K,
         )
 
-        schemaview = SchemaView(Path(__file__) / "../../input/temperature_matrix.yaml")
+        schemaview = SchemaView(Path(__file__) / "../../input/temperature_dataset.yaml")
         ret = YAMLNumpyDumper().dumps(temperature, schemaview=schemaview)
 
-        expected = """name: my_temperature
-temperatures: saved in TemperatureMatrix.temperatures.npy
-time:
-  values: saved in my_temperature.DaySeries.values.npy
-x:
-  values: saved in my_temperature.LatitudeSeries.values.npy
-y:
-  values: saved in my_temperature.LongitudeSeries.values.npy
+        expected = """latitude_in_deg:
+  values: file://my_temperature.LatitudeSeries.values.npy
+longitude_in_deg:
+  values: file://my_temperature.LongitudeSeries.values.npy
+name: my_temperature
+temperatures_in_K:
+  values: file://my_temperature.TemperatureMatrix.values.npy
+time_in_d:
+  values: file://my_temperature.DaySeries.values.npy
 """
         assert ret == expected
 
