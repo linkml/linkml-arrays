@@ -35,14 +35,14 @@ class YamlNumpyDumpersTestCase(unittest.TestCase):
         ret = YAMLNumpyDumper().dumps(temperature, schemaview=schemaview)
 
         expected = """latitude_in_deg:
-  values: file://my_temperature.LatitudeSeries.values.npy
+  values: file:./my_temperature.LatitudeSeries.values.npy
 longitude_in_deg:
-  values: file://my_temperature.LongitudeSeries.values.npy
+  values: file:./my_temperature.LongitudeSeries.values.npy
 name: my_temperature
 temperatures_in_K:
-  values: file://my_temperature.TemperatureMatrix.values.npy
+  values: file:./my_temperature.TemperatureMatrix.values.npy
 time_in_d:
-  values: file://my_temperature.DaySeries.values.npy
+  values: file:./my_temperature.DaySeries.values.npy
 """
         assert ret == expected
 

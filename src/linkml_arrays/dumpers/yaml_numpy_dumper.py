@@ -39,7 +39,7 @@ def iterate_element(element: Union[YAMLRoot, BaseModel], schemaview: SchemaView,
             else:
                 output_file_path = f"{found_class.name}.{found_slot.name}.npy"
             np.save(output_file_path, v)  # TODO do not assume that there is only one by this name
-            ret_dict[k] = f"file://{output_file_path}"  # TODO make this nicer
+            ret_dict[k] = f"file:./{output_file_path}"  # TODO make this nicer
         else:
             if isinstance(v, BaseModel):
                 v2 = iterate_element(v, schemaview, id_value)
