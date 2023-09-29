@@ -12,10 +12,8 @@ python = "^3.9"
 #tox = "^3.25.1"
 #click = "^8.1.3"
 #importlib-metadata = "^4.8.0"
-linkml-runtime = "^1.5.2"
-pydantic = "^1.10.7"
+linkml-runtime = "^1.6.0"
 numpy = "^1.24.3"
-urllib3 = "<2"
 
 
 [tool.poetry.dev-dependencies]
