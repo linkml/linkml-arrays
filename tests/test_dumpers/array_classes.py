@@ -4,7 +4,6 @@ from enum import Enum
 import numpy as np
 from typing import List, Dict, Optional, Any, Union, Literal
 from pydantic import BaseModel as BaseModel, Field
-from linkml_runtime.linkml_model import Decimal
 import sys
 if sys.version_info >= (3, 8):
     from typing import Literal
@@ -30,12 +29,11 @@ class ConfiguredBaseModel(WeakRefShimBaseModel,
 
 class TemperatureDataset(ConfiguredBaseModel):
 
-    name: Optional[str] = Field(None)
+    name: str = Field(...)
     latitude_in_deg: LatitudeSeries = Field(...)
     longitude_in_deg: LongitudeSeries = Field(...)
     time_in_d: DaySeries = Field(...)
     temperatures_in_K: TemperatureMatrix = Field(...)
-
 
 
 class TemperatureMatrix(ConfiguredBaseModel):
@@ -45,7 +43,6 @@ class TemperatureMatrix(ConfiguredBaseModel):
     values: np.ndarray = Field(...)
 
 
-
 class LatitudeSeries(ConfiguredBaseModel):
     """
     A series whose values represent latitude
@@ -53,13 +50,11 @@ class LatitudeSeries(ConfiguredBaseModel):
     values: np.ndarray = Field(...)
 
 
-
 class LongitudeSeries(ConfiguredBaseModel):
     """
     A series whose values represent longitude
     """
     values: np.ndarray = Field(...)
-
 
 
 class DaySeries(ConfiguredBaseModel):
@@ -70,7 +65,6 @@ class DaySeries(ConfiguredBaseModel):
 
 
 
-
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
 TemperatureDataset.update_forward_refs()
@@ -78,3 +72,4 @@ TemperatureMatrix.update_forward_refs()
 LatitudeSeries.update_forward_refs()
 LongitudeSeries.update_forward_refs()
 DaySeries.update_forward_refs()
+

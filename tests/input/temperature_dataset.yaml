@@ -12,7 +12,7 @@ classes:
   TemperatureDataset:
     tree_root: true
     implements:
-      - linkml:ThreeDimensionalArrayDataset
+      - linkml:DataArray
     attributes:
       name:
         identifier: true
@@ -41,7 +41,7 @@ classes:
   TemperatureMatrix:
     description: A 3D array of temperatures
     implements:
-      - linkml:NdArray
+      - linkml:NDArray
       - linkml:RowOrderedArray
     attributes:
       values:
@@ -52,11 +52,13 @@ classes:
         required: true
         unit:
           ucum_code: K
+    annotations:
+      dimensions: 3
 
   LatitudeSeries:
     description: A series whose values represent latitude
     implements:
-      - linkml:NdArray
+      - linkml:NDArray
     attributes:
       values:
         range: float
@@ -66,11 +68,13 @@ classes:
         required: true
         unit:
           ucum_code: deg
+    annotations:
+      dimensions: 1
 
   LongitudeSeries:
     description: A series whose values represent longitude
     implements:
-      - linkml:NdArray
+      - linkml:NDArray
     attributes:
       values:
         range: float
@@ -80,11 +84,13 @@ classes:
         required: true
         unit:
           ucum_code: deg
+    annotations:
+      dimensions: 1
 
   DaySeries:
     description: A series whose values represent the days since the start of the measurement period
     implements:
-      - linkml:NdArray
+      - linkml:NDArray
     attributes:
       values:
         range: float
@@ -94,3 +100,5 @@ classes:
         required: true
         unit:
           ucum_code: d
+    annotations:
+      dimensions: 1
