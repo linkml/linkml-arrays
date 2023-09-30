@@ -1,6 +1,6 @@
 from typing import Union
 
-import numpy as np
+import h5py
 from pydantic import BaseModel
 import yaml
 
@@ -30,10 +30,11 @@ def iterate_element(element: Union[YAMLRoot, BaseModel], schemaview: SchemaView,
                 raise ValueError("The class requires an identifier.")
             # save the numpy array to file
             if parent_identifier is not None:
-                output_file_path = f"{parent_identifier}.{found_class.name}.{found_slot.name}.npy"
+                output_file_path = f"{parent_identifier}.{found_class.name}.{found_slot.name}.h5"
             else:
-                output_file_path = f"{found_class.name}.{found_slot.name}.npy"
-            np.save(output_file_path, v)  # TODO do not assume that there is only one by this name
+                output_file_path = f"{found_class.name}.{found_slot.name}.h5"
+            with h5py.File(output_file_path, "w") as f:  # TODO do not assume that there is only one by this name
+                f.create_dataset("data", data=v)
             ret_dict[k] = f"file:./{output_file_path}"  # TODO make this nicer
         else:
             if isinstance(v, BaseModel):
@@ -44,10 +45,10 @@ def iterate_element(element: Union[YAMLRoot, BaseModel], schemaview: SchemaView,
     return ret_dict
 
 
-class YamlNumpyDumper(Dumper):
+class YamlHdf5Dumper(Dumper):
 
     def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs) -> str:
-        """ Return element formatted as a YAML string with paths to numpy files containing the ndarrays"""
+        """ Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets"""
         input = iterate_element(element, schemaview)
 
         return yaml.dump(input)

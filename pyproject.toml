@@ -14,6 +14,8 @@ python = "^3.9"
 #importlib-metadata = "^4.8.0"
 linkml-runtime = "^1.6.0"
 numpy = "^1.24.3"
+h5py = "^3.9.0"
+zarr = "^2.16.1"
 
 
 [tool.poetry.dev-dependencies]

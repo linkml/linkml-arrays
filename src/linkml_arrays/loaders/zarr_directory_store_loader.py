@@ -1,8 +1,7 @@
 from typing import Type, Union
 
-import numpy as np
+import zarr
 from pydantic import BaseModel
-import yaml
 
 from linkml_runtime.loaders.loader_root import Loader
 from linkml_runtime.utils.yamlutils import YAMLRoot
@@ -10,14 +9,17 @@ from linkml_runtime import SchemaView
 from linkml_runtime.linkml_model import ClassDefinition
 
 
-def iterate_element(input_dict: dict, element_type: ClassDefinition, schemaview: SchemaView) -> dict:
+def iterate_element(group: zarr.hierarchy.Group, element_type: ClassDefinition, schemaview: SchemaView) -> dict:
     ret_dict = dict()
-    for k, v in input_dict.items():
-        found_slot = schemaview.induced_slot(k, element_type.name)
+    for k, v in group.attrs.items():
+        ret_dict[k] = v
+
+    for k, v in group.items():
+        found_slot = schemaview.induced_slot(k, element_type.name)  # assumes the slot name has been written as the name which is OK for now.
         if "linkml:elements" in found_slot.implements:
-            array_file_path = v.replace("file:./", "")
-            v = np.load(array_file_path)
-        elif isinstance(v, dict):
+            assert isinstance(v, zarr.Array)
+            v = v[()]  # read all the values into memory
+        elif isinstance(v, zarr.hierarchy.Group):  # it's a subgroup
             found_slot_range = schemaview.get_class(found_slot.range)
             v = iterate_element(v, found_slot_range, schemaview)
         # else: do not transform v
@@ -26,22 +28,21 @@ def iterate_element(input_dict: dict, element_type: ClassDefinition, schemaview:
     return ret_dict
 
 
-class YamlNumpyLoader(Loader):
+class ZarrDirectoryStoreLoader(Loader):
 
     def load_any(self, source: str, **kwargs):
-        """ Return element formatted as a YAML string with paths to numpy files containing the ndarrays"""
+        """ Return element formatted as a YAML string with the path to a Zarr directory store"""
         return self.load(source, **kwargs)
 
     def loads(self, source: str, **kwargs):
-        """ Return element formatted as a YAML string with paths to numpy files containing the ndarrays"""
+        """ Return element formatted as a YAML string with the path to a Zarr directory store"""
         return self.load(source, **kwargs)
 
     def load(self, source: str, target_class: Type[Union[YAMLRoot, BaseModel]], schemaview: SchemaView, **kwargs):
-        """ Return element formatted as a YAML string with paths to numpy files containing the ndarrays"""
-        input_dict = yaml.safe_load(source)
-
+        """ Return element formatted as a YAML string with the path to a Zarr directory store"""
         element_type = schemaview.get_class(target_class.__name__)
-        element = iterate_element(input_dict, element_type, schemaview)
+        z = zarr.open(source, mode="r")
+        element = iterate_element(z, element_type, schemaview)
         obj = target_class(**element)
 
         return obj

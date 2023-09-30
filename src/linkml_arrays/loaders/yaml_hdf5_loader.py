@@ -1,6 +1,6 @@
 from typing import Type, Union
 
-import numpy as np
+import h5py
 from pydantic import BaseModel
 import yaml
 
@@ -16,7 +16,8 @@ def iterate_element(input_dict: dict, element_type: ClassDefinition, schemaview:
         found_slot = schemaview.induced_slot(k, element_type.name)
         if "linkml:elements" in found_slot.implements:
             array_file_path = v.replace("file:./", "")
-            v = np.load(array_file_path)
+            with h5py.File(array_file_path, "r") as f:
+                v = f["data"][()]  # read all the values into memory
         elif isinstance(v, dict):
             found_slot_range = schemaview.get_class(found_slot.range)
             v = iterate_element(v, found_slot_range, schemaview)
@@ -26,18 +27,18 @@ def iterate_element(input_dict: dict, element_type: ClassDefinition, schemaview:
     return ret_dict
 
 
-class YamlNumpyLoader(Loader):
+class YamlHdf5Loader(Loader):
 
     def load_any(self, source: str, **kwargs):
-        """ Return element formatted as a YAML string with paths to numpy files containing the ndarrays"""
+        """ Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets"""
         return self.load(source, **kwargs)
 
     def loads(self, source: str, **kwargs):
-        """ Return element formatted as a YAML string with paths to numpy files containing the ndarrays"""
+        """ Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets"""
         return self.load(source, **kwargs)
 
     def load(self, source: str, target_class: Type[Union[YAMLRoot, BaseModel]], schemaview: SchemaView, **kwargs):
-        """ Return element formatted as a YAML string with paths to numpy files containing the ndarrays"""
+        """ Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets"""
         input_dict = yaml.safe_load(source)
 
         element_type = schemaview.get_class(target_class.__name__)
