@@ -28,92 +28,54 @@ class ConfiguredBaseModel(WeakRefShimBaseModel,
     pass
 
 
-class TimestampSeries(ConfiguredBaseModel):
-    
-    None
-    
-    
-
-class IrregularlySampledTimestampSeries(TimestampSeries):
+class TemperatureDataset(ConfiguredBaseModel):
     
     name: str = Field(...)
-    values: Union[np.ndarray, NDArrayProxy] = Field(...)
+    latitude_in_deg: LatitudeSeries = Field(...)
+    longitude_in_deg: LongitudeSeries = Field(...)
+    time_in_d: DaySeries = Field(...)
+    temperatures_in_K: TemperatureMatrix = Field(...)
     
     
 
-class RegularlySampledTimestampSeries(TimestampSeries):
-    
-    name: str = Field(...)
-    sampling_rate: float = Field(...)
-    starting_time: float = Field(...)
-    length: Optional[int] = Field(None)
-    values: Optional[Union[np.ndarray, NDArrayProxy]] = Field(None)
-    
-    
-
-class Electrode(ConfiguredBaseModel):
-    
-    name: str = Field(...)
-    impedance: Optional[float] = Field(None)
-    
-    
-
-class ElectrodeSeries(ConfiguredBaseModel):
-    
-    values: Union[np.ndarray, NDArrayProxy] = Field(...)
-    
-    
-
-class ElectricalDataMatrix(ConfiguredBaseModel):
+class TemperatureMatrix(ConfiguredBaseModel):
     """
-    A 2D array of electrode voltage measurements over time. See ElectricalDataArray for its usage with axes labels.
+    A 3D array of temperatures
     """
-    values: Union[np.ndarray, NDArrayProxy] = Field(...)
+    values: np.ndarray = Field(None)
     
     
 
-class ElectricalDataArray(ConfiguredBaseModel):
-    
-    time: TimestampSeries = Field(...)
-    electrode: ElectrodeSeries = Field(...)
-    values: ElectricalDataMatrix = Field(...)
-    
-    
-
-class IrregularlySampledElectricalDataArray(ElectricalDataArray):
-    
-    time: IrregularlySampledTimestampSeries = Field(...)
-    electrode: ElectrodeSeries = Field(...)
-    values: ElectricalDataMatrix = Field(...)
+class LatitudeSeries(ConfiguredBaseModel):
+    """
+    A series whose values represent latitude
+    """
+    values: np.ndarray = Field(None)
     
     
 
-class RegularlySampledElectricalDataArray(ElectricalDataArray):
-    
-    time: Optional[str] = Field(None)
-    electrode: ElectrodeSeries = Field(...)
-    values: ElectricalDataMatrix = Field(...)
+class LongitudeSeries(ConfiguredBaseModel):
+    """
+    A series whose values represent longitude
+    """
+    values: np.ndarray = Field(None)
     
     
 
-class File(ConfiguredBaseModel):
-    
-    electrical_data_arrays: Optional[List[ElectricalDataArray]] = Field(default_factory=list)
-    electrodes: Optional[List[Electrode]] = Field(default_factory=list)
+class DaySeries(ConfiguredBaseModel):
+    """
+    A series whose values represent the days since the start of the measurement period
+    """
+    values: np.ndarray = Field(None)
     
     
 
 
 # Update forward refs
 # see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-TimestampSeries.update_forward_refs()
-IrregularlySampledTimestampSeries.update_forward_refs()
-RegularlySampledTimestampSeries.update_forward_refs()
-Electrode.update_forward_refs()
-ElectrodeSeries.update_forward_refs()
-ElectricalDataMatrix.update_forward_refs()
-ElectricalDataArray.update_forward_refs()
-IrregularlySampledElectricalDataArray.update_forward_refs()
-RegularlySampledElectricalDataArray.update_forward_refs()
-File.update_forward_refs()
+TemperatureDataset.update_forward_refs()
+TemperatureMatrix.update_forward_refs()
+LatitudeSeries.update_forward_refs()
+LongitudeSeries.update_forward_refs()
+DaySeries.update_forward_refs()
 
