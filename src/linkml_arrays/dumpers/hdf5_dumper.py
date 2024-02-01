@@ -1,17 +1,14 @@
 from typing import Union
 
 import h5py
-from pydantic import BaseModel
-
+from linkml_runtime import SchemaView
 from linkml_runtime.dumpers.dumper_root import Dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
-from linkml_runtime import SchemaView
+from pydantic import BaseModel
 
 
 def iterate_element(
-        element: Union[YAMLRoot, BaseModel],
-        schemaview: SchemaView,
-        group: h5py.Group = None
+    element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, group: h5py.Group = None
 ):
     # get the type of the element
     element_type = type(element).__name__
@@ -34,7 +31,7 @@ def iterate_element(
 class Hdf5Dumper(Dumper):
 
     def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs) -> str:
-        """ Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets"""
+        """Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets"""
         id_slot = schemaview.get_identifier_slot(element.__class__.__name__)
         if id_slot is None:
             raise ValueError("The class requires an identifier.")
@@ -42,6 +39,3 @@ class Hdf5Dumper(Dumper):
         output_file_path = f"{id_value}.h5"
         with h5py.File(output_file_path, "w") as f:
             iterate_element(element, schemaview, f)
-
-
-

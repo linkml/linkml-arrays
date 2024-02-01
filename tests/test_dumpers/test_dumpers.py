@@ -1,16 +1,24 @@
+import os
 import unittest
+from pathlib import Path
 
 import h5py
-from pathlib import Path
 import numpy as np
-import os
-from linkml_arrays.dumpers import YamlNumpyDumper, YamlHdf5Dumper, Hdf5Dumper, ZarrDirectoryStoreDumper
 from linkml_runtime import SchemaView
 
+from linkml_arrays.dumpers import (
+    Hdf5Dumper,
+    YamlHdf5Dumper,
+    YamlNumpyDumper,
+    ZarrDirectoryStoreDumper,
+)
 from tests.test_dumpers.array_classes import (
-    LatitudeSeries, LongitudeSeries, DaySeries,
-    TemperatureMatrix, TemperatureDataset
-  )
+    DaySeries,
+    LatitudeSeries,
+    LongitudeSeries,
+    TemperatureDataset,
+    TemperatureMatrix,
+)
 
 
 class YamlNumpyDumpersTestCase(unittest.TestCase):
@@ -135,5 +143,3 @@ class ZarrDirectoryStoreDumpersTestCase(unittest.TestCase):
         ZarrDirectoryStoreDumper().dumps(temperature, schemaview=schemaview)
 
         assert os.path.exists("my_temperature.zarr")
-
-

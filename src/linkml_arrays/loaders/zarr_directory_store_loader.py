@@ -1,21 +1,24 @@
 from typing import Type, Union
 
 import zarr
-from pydantic import BaseModel
-
-from linkml_runtime.loaders.loader_root import Loader
-from linkml_runtime.utils.yamlutils import YAMLRoot
 from linkml_runtime import SchemaView
 from linkml_runtime.linkml_model import ClassDefinition
+from linkml_runtime.loaders.loader_root import Loader
+from linkml_runtime.utils.yamlutils import YAMLRoot
+from pydantic import BaseModel
 
 
-def iterate_element(group: zarr.hierarchy.Group, element_type: ClassDefinition, schemaview: SchemaView) -> dict:
+def iterate_element(
+    group: zarr.hierarchy.Group, element_type: ClassDefinition, schemaview: SchemaView
+) -> dict:
     ret_dict = dict()
     for k, v in group.attrs.items():
         ret_dict[k] = v
 
     for k, v in group.items():
-        found_slot = schemaview.induced_slot(k, element_type.name)  # assumes the slot name has been written as the name which is OK for now.
+        found_slot = schemaview.induced_slot(
+            k, element_type.name
+        )  # assumes the slot name has been written as the name which is OK for now.
         if "linkml:elements" in found_slot.implements:
             assert isinstance(v, zarr.Array)
             v = v[()]  # read all the values into memory
@@ -31,20 +34,24 @@ def iterate_element(group: zarr.hierarchy.Group, element_type: ClassDefinition, 
 class ZarrDirectoryStoreLoader(Loader):
 
     def load_any(self, source: str, **kwargs):
-        """ Return element formatted as a YAML string with the path to a Zarr directory store"""
+        """Return element formatted as a YAML string with the path to a Zarr directory store"""
         return self.load(source, **kwargs)
 
     def loads(self, source: str, **kwargs):
-        """ Return element formatted as a YAML string with the path to a Zarr directory store"""
+        """Return element formatted as a YAML string with the path to a Zarr directory store"""
         return self.load(source, **kwargs)
 
-    def load(self, source: str, target_class: Type[Union[YAMLRoot, BaseModel]], schemaview: SchemaView, **kwargs):
-        """ Return element formatted as a YAML string with the path to a Zarr directory store"""
+    def load(
+        self,
+        source: str,
+        target_class: Type[Union[YAMLRoot, BaseModel]],
+        schemaview: SchemaView,
+        **kwargs,
+    ):
+        """Return element formatted as a YAML string with the path to a Zarr directory store"""
         element_type = schemaview.get_class(target_class.__name__)
         z = zarr.open(source, mode="r")
         element = iterate_element(z, element_type, schemaview)
         obj = target_class(**element)
 
         return obj
-
-

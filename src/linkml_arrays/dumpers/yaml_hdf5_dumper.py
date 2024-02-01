@@ -1,15 +1,16 @@
 from typing import Union
 
 import h5py
-from pydantic import BaseModel
 import yaml
-
+from linkml_runtime import SchemaView
 from linkml_runtime.dumpers.dumper_root import Dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
-from linkml_runtime import SchemaView
+from pydantic import BaseModel
 
 
-def iterate_element(element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, parent_identifier = None):
+def iterate_element(
+    element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, parent_identifier=None
+):
     # get the type of the element
     element_type = type(element).__name__
 
@@ -33,7 +34,9 @@ def iterate_element(element: Union[YAMLRoot, BaseModel], schemaview: SchemaView,
                 output_file_path = f"{parent_identifier}.{found_class.name}.{found_slot.name}.h5"
             else:
                 output_file_path = f"{found_class.name}.{found_slot.name}.h5"
-            with h5py.File(output_file_path, "w") as f:  # TODO do not assume that there is only one by this name
+            with h5py.File(
+                output_file_path, "w"
+            ) as f:  # TODO do not assume that there is only one by this name
                 f.create_dataset("data", data=v)
             ret_dict[k] = f"file:./{output_file_path}"  # TODO make this nicer
         else:
@@ -48,9 +51,7 @@ def iterate_element(element: Union[YAMLRoot, BaseModel], schemaview: SchemaView,
 class YamlHdf5Dumper(Dumper):
 
     def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs) -> str:
-        """ Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets"""
+        """Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets"""
         input = iterate_element(element, schemaview)
 
         return yaml.dump(input)
-
-
