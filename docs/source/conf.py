@@ -24,7 +24,7 @@ extensions = [
     "sphinx.ext.githubpages",
     "sphinx_rtd_theme",
     "sphinx_click",
-    "sphinx_autodoc_typehints",
+    # "sphinx_autodoc_typehints",
     "myst_parser"
 ]
 
