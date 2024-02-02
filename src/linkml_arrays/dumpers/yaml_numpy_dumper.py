@@ -1,15 +1,16 @@
 from typing import Union
 
 import numpy as np
-from pydantic import BaseModel
 import yaml
-
+from linkml_runtime import SchemaView
 from linkml_runtime.dumpers.dumper_root import Dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
-from linkml_runtime import SchemaView
+from pydantic import BaseModel
 
 
-def iterate_element(element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, parent_identifier = None):
+def iterate_element(
+    element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, parent_identifier=None
+):
     # get the type of the element
     element_type = type(element).__name__
 
@@ -47,9 +48,7 @@ def iterate_element(element: Union[YAMLRoot, BaseModel], schemaview: SchemaView,
 class YamlNumpyDumper(Dumper):
 
     def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs) -> str:
-        """ Return element formatted as a YAML string with paths to numpy files containing the ndarrays"""
+        """Return element formatted as a YAML string with paths to numpy files containing the ndarrays"""
         input = iterate_element(element, schemaview)
 
         return yaml.dump(input)
-
-
