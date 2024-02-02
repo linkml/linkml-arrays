@@ -1,0 +1,45 @@
+linkml\_arrays.dumpers package
+==============================
+
+Submodules
+----------
+
+linkml\_arrays.dumpers.hdf5\_dumper module
+------------------------------------------
+
+.. automodule:: linkml_arrays.dumpers.hdf5_dumper
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+linkml\_arrays.dumpers.yaml\_hdf5\_dumper module
+------------------------------------------------
+
+.. automodule:: linkml_arrays.dumpers.yaml_hdf5_dumper
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+linkml\_arrays.dumpers.yaml\_numpy\_dumper module
+-------------------------------------------------
+
+.. automodule:: linkml_arrays.dumpers.yaml_numpy_dumper
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+linkml\_arrays.dumpers.zarr\_directory\_store\_dumper module
+------------------------------------------------------------
+
+.. automodule:: linkml_arrays.dumpers.zarr_directory_store_dumper
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: linkml_arrays.dumpers
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+linkml_arrays
+=============
+
+.. toctree::
+   :maxdepth: 4
+
+   linkml_arrays

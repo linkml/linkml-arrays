@@ -1,0 +1,38 @@
+linkml\_arrays package
+======================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   linkml_arrays.dumpers
+   linkml_arrays.loaders
+
+Submodules
+----------
+
+linkml\_arrays.cli module
+-------------------------
+
+.. automodule:: linkml_arrays.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+linkml\_arrays.main module
+--------------------------
+
+.. automodule:: linkml_arrays.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: linkml_arrays
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,45 @@
+linkml\_arrays.loaders package
+==============================
+
+Submodules
+----------
+
+linkml\_arrays.loaders.hdf5\_loader module
+------------------------------------------
+
+.. automodule:: linkml_arrays.loaders.hdf5_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+linkml\_arrays.loaders.yaml\_hdf5\_loader module
+------------------------------------------------
+
+.. automodule:: linkml_arrays.loaders.yaml_hdf5_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+linkml\_arrays.loaders.yaml\_numpy\_loader module
+-------------------------------------------------
+
+.. automodule:: linkml_arrays.loaders.yaml_numpy_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+linkml\_arrays.loaders.zarr\_directory\_store\_loader module
+------------------------------------------------------------
+
+.. automodule:: linkml_arrays.loaders.zarr_directory_store_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: linkml_arrays.loaders
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example Usage &mdash; linkml-arrays 0.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to linkml-arrays’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            linkml-arrays
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#serialization">Serialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deserialization">Deserialization</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">linkml-arrays</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Example Usage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-usage">
+<span id="examples"></span><h1>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this heading"></a></h1>
+<p>Given a LinkML schema such as the following:
+<a class="reference external" href="https://github.com/linkml/linkml-arrays/blob/main/tests/input/temperature_dataset.yaml">https://github.com/linkml/linkml-arrays/blob/main/tests/input/temperature_dataset.yaml</a></p>
+<p>We can generate Pydantic classes for the schema:
+<a class="reference external" href="https://github.com/linkml/linkml-arrays/blob/main/tests/test_dumpers/array_classes.py">https://github.com/linkml/linkml-arrays/blob/main/tests/test_dumpers/array_classes.py</a></p>
+<p>We can then create instances of these classes to represent data:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">tests.test_dumpers.array_classes</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">LatitudeSeries</span><span class="p">,</span> <span class="n">LongitudeSeries</span><span class="p">,</span> <span class="n">DaySeries</span><span class="p">,</span>
+    <span class="n">TemperatureMatrix</span><span class="p">,</span> <span class="n">TemperatureDataset</span>
+<span class="p">)</span>
+
+<span class="n">latitude_in_deg</span> <span class="o">=</span> <span class="n">LatitudeSeries</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+<span class="n">longitude_in_deg</span> <span class="o">=</span> <span class="n">LongitudeSeries</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]))</span>
+<span class="n">time_in_d</span> <span class="o">=</span> <span class="n">DaySeries</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]))</span>
+<span class="n">temperatures_in_K</span> <span class="o">=</span> <span class="n">TemperatureMatrix</span><span class="p">(</span>
+    <span class="n">values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+<span class="p">)</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="n">TemperatureDataset</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_temperature&quot;</span><span class="p">,</span>
+    <span class="n">latitude_in_deg</span><span class="o">=</span><span class="n">latitude_in_deg</span><span class="p">,</span>
+    <span class="n">longitude_in_deg</span><span class="o">=</span><span class="n">longitude_in_deg</span><span class="p">,</span>
+    <span class="n">time_in_d</span><span class="o">=</span><span class="n">time_in_d</span><span class="p">,</span>
+    <span class="n">temperatures_in_K</span><span class="o">=</span><span class="n">temperatures_in_K</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<section id="serialization">
+<h2>Serialization<a class="headerlink" href="#serialization" title="Permalink to this heading"></a></h2>
+<p>We currently have four options for serializing (dumper) these arrays to disk:</p>
+<ol class="arabic simple">
+<li><p>a YAML file for the non-array data and a NumPy file for each of the arrays</p></li>
+<li><p>a YAML file for the non-array data and an HDF5 file with a single dataset for each of the arrays</p></li>
+<li><p>a single HDF5 file with a hierarchical structure that mirrors the structure of the data object and contains
+non-array data as attributes and array data as datasets</p></li>
+<li><p>a single Zarr (v2) directory store with a hierarchical structure that mirrors the structure of the data object and
+contains non-array data as attributes and array data as arrays</p></li>
+</ol>
+<p>For all dumpers, first get a <code class="docutils literal notranslate"><span class="pre">SchemaView</span></code> object for the LinkML schema:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_runtime</span> <span class="kn">import</span> <span class="n">SchemaView</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">schema_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;temperature_dataset.yaml&quot;</span><span class="p">)</span>
+<span class="n">schemaview</span> <span class="o">=</span> <span class="n">SchemaView</span><span class="p">(</span><span class="n">schema_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then use a dumper to serialize the <code class="docutils literal notranslate"><span class="pre">TemperatureDataset</span></code> data object that we created above:</p>
+<p>YAML + NumPy dumper:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_arrays.dumpers</span> <span class="kn">import</span> <span class="n">YamlNumpyDumper</span>
+<span class="n">YamlNumpyDumper</span><span class="p">()</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">schemaview</span><span class="o">=</span><span class="n">schemaview</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output YAML file with references to the NumPy files for each array:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">latitude_in_deg</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">file:./my_temperature.LatitudeSeries.values.npy</span>
+<span class="nt">longitude_in_deg</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">file:./my_temperature.LongitudeSeries.values.npy</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_temperature</span>
+<span class="nt">temperatures_in_K</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">file:./my_temperature.TemperatureMatrix.values.npy</span>
+<span class="nt">time_in_d</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">file:./my_temperature.DaySeries.values.npy</span>
+</pre></div>
+</div>
+<p>YAML + HDF5 dumper:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_arrays.dumpers</span> <span class="kn">import</span> <span class="n">YamlHdf5Dumper</span>
+<span class="n">YamlHdf5Dumper</span><span class="p">()</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">schemaview</span><span class="o">=</span><span class="n">schemaview</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output YAML file with references to the HDF5 files for each array:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">latitude_in_deg</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">file:./my_temperature.LatitudeSeries.values.h5</span>
+<span class="nt">longitude_in_deg</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">file:./my_temperature.LongitudeSeries.values.h5</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_temperature</span>
+<span class="nt">temperatures_in_K</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">file:./my_temperature.TemperatureMatrix.values.h5</span>
+<span class="nt">time_in_d</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">file:./my_temperature.DaySeries.values.h5</span>
+</pre></div>
+</div>
+<p>HDF5 dumper:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_arrays.dumpers</span> <span class="kn">import</span> <span class="n">Hdf5Dumper</span>
+<span class="n">Hdf5Dumper</span><span class="p">()</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">schemaview</span><span class="o">=</span><span class="n">schemaview</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">h5dump</span></code> output of the resulting HDF5 file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HDF5</span> <span class="s2">&quot;my_temperature.h5&quot;</span> <span class="p">{</span>
+<span class="n">GROUP</span> <span class="s2">&quot;/&quot;</span> <span class="p">{</span>
+  <span class="n">ATTRIBUTE</span> <span class="s2">&quot;name&quot;</span> <span class="p">{</span>
+      <span class="n">DATATYPE</span>  <span class="n">H5T_STRING</span> <span class="p">{</span>
+        <span class="n">STRSIZE</span> <span class="n">H5T_VARIABLE</span><span class="p">;</span>
+        <span class="n">STRPAD</span> <span class="n">H5T_STR_NULLTERM</span><span class="p">;</span>
+        <span class="n">CSET</span> <span class="n">H5T_CSET_UTF8</span><span class="p">;</span>
+        <span class="n">CTYPE</span> <span class="n">H5T_C_S1</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">DATASPACE</span>  <span class="n">SCALAR</span>
+      <span class="n">DATA</span> <span class="p">{</span>
+      <span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="s2">&quot;my_temperature&quot;</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">GROUP</span> <span class="s2">&quot;latitude_in_deg&quot;</span> <span class="p">{</span>
+      <span class="n">DATASET</span> <span class="s2">&quot;values&quot;</span> <span class="p">{</span>
+        <span class="n">DATATYPE</span>  <span class="n">H5T_STD_I64LE</span>
+        <span class="n">DATASPACE</span>  <span class="n">SIMPLE</span> <span class="p">{</span> <span class="p">(</span> <span class="mi">3</span> <span class="p">)</span> <span class="o">/</span> <span class="p">(</span> <span class="mi">3</span> <span class="p">)</span> <span class="p">}</span>
+        <span class="n">DATA</span> <span class="p">{</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">GROUP</span> <span class="s2">&quot;longitude_in_deg&quot;</span> <span class="p">{</span>
+      <span class="n">DATASET</span> <span class="s2">&quot;values&quot;</span> <span class="p">{</span>
+        <span class="n">DATATYPE</span>  <span class="n">H5T_STD_I64LE</span>
+        <span class="n">DATASPACE</span>  <span class="n">SIMPLE</span> <span class="p">{</span> <span class="p">(</span> <span class="mi">3</span> <span class="p">)</span> <span class="o">/</span> <span class="p">(</span> <span class="mi">3</span> <span class="p">)</span> <span class="p">}</span>
+        <span class="n">DATA</span> <span class="p">{</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">GROUP</span> <span class="s2">&quot;temperatures_in_K&quot;</span> <span class="p">{</span>
+      <span class="n">DATASET</span> <span class="s2">&quot;values&quot;</span> <span class="p">{</span>
+        <span class="n">DATATYPE</span>  <span class="n">H5T_IEEE_F64LE</span>
+        <span class="n">DATASPACE</span>  <span class="n">SIMPLE</span> <span class="p">{</span> <span class="p">(</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span> <span class="p">)</span> <span class="o">/</span> <span class="p">(</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span> <span class="p">)</span> <span class="p">}</span>
+        <span class="n">DATA</span> <span class="p">{</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">GROUP</span> <span class="s2">&quot;time_in_d&quot;</span> <span class="p">{</span>
+      <span class="n">DATASET</span> <span class="s2">&quot;values&quot;</span> <span class="p">{</span>
+        <span class="n">DATATYPE</span>  <span class="n">H5T_STD_I64LE</span>
+        <span class="n">DATASPACE</span>  <span class="n">SIMPLE</span> <span class="p">{</span> <span class="p">(</span> <span class="mi">3</span> <span class="p">)</span> <span class="o">/</span> <span class="p">(</span> <span class="mi">3</span> <span class="p">)</span> <span class="p">}</span>
+        <span class="n">DATA</span> <span class="p">{</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Zarr dumper:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_arrays.dumpers</span> <span class="kn">import</span> <span class="n">ZarrDumper</span>
+<span class="n">ZarrDumper</span><span class="p">()</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">temperature</span><span class="p">,</span> <span class="n">schemaview</span><span class="o">=</span><span class="n">schemaview</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">tree</span></code> output of the resulting Zarr directory store:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>my_temperature.zarr
+├── .zattrs
+├── .zgroup
+├── latitude_in_deg
+│   ├── .zgroup
+│   └── values
+│       ├── .zarray
+│       └── 0
+├── longitude_in_deg
+│   ├── .zgroup
+│   └── values
+│       ├── .zarray
+│       └── 0
+├── temperatures_in_K
+│   ├── .zgroup
+│   └── values
+│       ├── .zarray
+│       └── 0.0.0
+└── time_in_d
+    ├── .zgroup
+    └── values
+        ├── .zarray
+        └── 0
+</pre></div>
+</div>
+</section>
+<section id="deserialization">
+<h2>Deserialization<a class="headerlink" href="#deserialization" title="Permalink to this heading"></a></h2>
+<p>For deserializing (loading) the data, we can use the corresponding loader for each dumper:</p>
+<p>YAML + NumPy loader:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hbreader</span> <span class="kn">import</span> <span class="n">hbread</span>
+<span class="kn">from</span> <span class="nn">linkml_arrays.loaders</span> <span class="kn">import</span> <span class="n">YamlNumpyLoader</span>
+
+<span class="n">read_yaml</span> <span class="o">=</span> <span class="n">hbread</span><span class="p">(</span><span class="s2">&quot;my_temperature_yaml_numpy.yaml&quot;</span><span class="p">)</span>
+<span class="n">read_temperature</span> <span class="o">=</span> <span class="n">YamlNumpyLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">read_yaml</span><span class="p">,</span> <span class="n">target_class</span><span class="o">=</span><span class="n">TemperatureDataset</span><span class="p">,</span> <span class="n">schemaview</span><span class="o">=</span><span class="n">schemaview</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>YAML + HDF5 loader:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hbreader</span> <span class="kn">import</span> <span class="n">hbread</span>
+<span class="kn">from</span> <span class="nn">linkml_arrays.loaders</span> <span class="kn">import</span> <span class="n">YamlHdf5Loader</span>
+
+<span class="n">read_yaml</span> <span class="o">=</span> <span class="n">hbread</span><span class="p">(</span><span class="s2">&quot;my_temperature_yaml_hdf5.yaml&quot;</span><span class="p">)</span>
+<span class="n">read_temperature</span> <span class="o">=</span> <span class="n">YamlHdf5Loader</span><span class="p">()</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">read_yaml</span><span class="p">,</span> <span class="n">target_class</span><span class="o">=</span><span class="n">TemperatureDataset</span><span class="p">,</span> <span class="n">schemaview</span><span class="o">=</span><span class="n">schemaview</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>HDF5 loader:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_arrays.loaders</span> <span class="kn">import</span> <span class="n">Hdf5Loader</span>
+
+<span class="n">read_temperature</span> <span class="o">=</span> <span class="n">Hdf5Loader</span><span class="p">()</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;my_temperature.h5&quot;</span><span class="p">,</span> <span class="n">target_class</span><span class="o">=</span><span class="n">Temperature</span>
+</pre></div>
+</div>
+<p>Zarr loader:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linkml_arrays.loaders</span> <span class="kn">import</span> <span class="n">ZarrLoader</span>
+
+<span class="n">read_temperature</span> <span class="o">=</span> <span class="n">ZarrLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;my_temperature.zarr&quot;</span><span class="p">,</span> <span class="n">target_class</span><span class="o">=</span><span class="n">Temperature</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to linkml-arrays’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Ryan Ly &lt;rly@lbl.gov&gt;.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
