@@ -1,24 +1,32 @@
-import unittest
+"""Test dumping LinkML models in pydantic-style classes to various file formats."""
 
-import h5py
-from pathlib import Path
-import numpy as np
 import os
-from linkml_arrays.dumpers import YamlNumpyDumper, YamlHdf5Dumper, Hdf5Dumper, ZarrDirectoryStoreDumper
+import unittest
+from pathlib import Path
+
+import numpy as np
 from linkml_runtime import SchemaView
 
+from linkml_arrays.dumpers import (
+    Hdf5Dumper,
+    YamlHdf5Dumper,
+    YamlNumpyDumper,
+    ZarrDirectoryStoreDumper,
+)
 from tests.test_dumpers.array_classes import (
-    LatitudeSeries, LongitudeSeries, DaySeries,
-    TemperatureMatrix, TemperatureDataset
-  )
+    DaySeries,
+    LatitudeSeries,
+    LongitudeSeries,
+    TemperatureDataset,
+    TemperatureMatrix,
+)
 
 
 class YamlNumpyDumpersTestCase(unittest.TestCase):
-    """
-    Test dumping of pydantic-style classes from LinkML schemas into YAML + Numpy arrays
-    """
+    """Test dumping of pydantic-style classes from LinkML schemas into YAML + NumPy files."""
 
     def test_dump_pydantic_arrays(self):
+        """Test dumping pydantic classes with numpy arrays to a YAML + NumPy files."""
         latitude_in_deg = LatitudeSeries(values=np.array([1, 2, 3]))
         longitude_in_deg = LongitudeSeries(values=np.array([4, 5, 6]))
         time_in_d = DaySeries(values=np.array([7, 8, 9]))
@@ -50,11 +58,10 @@ time_in_d:
 
 
 class YamlHdf5DumpersTestCase(unittest.TestCase):
-    """
-    Test dumping of pydantic-style classes from LinkML schemas into YAML + HDF5 datasets
-    """
+    """Test dumping of pydantic-style classes from LinkML schemas into YAML + HDF5 datasets."""
 
     def test_dump_pydantic_arrays(self):
+        """Test dumping pydantic classes with numpy arrays to a YAML + HDF5 datasets."""
         latitude_in_deg = LatitudeSeries(values=np.array([1, 2, 3]))
         longitude_in_deg = LongitudeSeries(values=np.array([4, 5, 6]))
         time_in_d = DaySeries(values=np.array([7, 8, 9]))
@@ -86,11 +93,10 @@ time_in_d:
 
 
 class Hdf5DumpersTestCase(unittest.TestCase):
-    """
-    Test dumping of pydantic-style classes from LinkML schemas into a single HDF5 file
-    """
+    """Test dumping of pydantic-style classes from LinkML schemas into a single HDF5 file."""
 
     def test_dump_pydantic_arrays(self):
+        """Test dumping pydantic classes with numpy arrays to a signle HDF5 file."""
         latitude_in_deg = LatitudeSeries(values=np.array([1, 2, 3]))
         longitude_in_deg = LongitudeSeries(values=np.array([4, 5, 6]))
         time_in_d = DaySeries(values=np.array([7, 8, 9]))
@@ -112,11 +118,10 @@ class Hdf5DumpersTestCase(unittest.TestCase):
 
 
 class ZarrDirectoryStoreDumpersTestCase(unittest.TestCase):
-    """
-    Test dumping of pydantic-style classes from LinkML schemas into a single Zarr directory store
-    """
+    """Test dumping of pydantic-style classes from LinkML schemas into a Zarr directory store."""
 
     def test_dump_pydantic_arrays(self):
+        """Test dumping pydantic classes with numpy arrays to a Zarr directory store."""
         latitude_in_deg = LatitudeSeries(values=np.array([1, 2, 3]))
         longitude_in_deg = LongitudeSeries(values=np.array([4, 5, 6]))
         time_in_d = DaySeries(values=np.array([7, 8, 9]))
@@ -135,5 +140,3 @@ class ZarrDirectoryStoreDumpersTestCase(unittest.TestCase):
         ZarrDirectoryStoreDumper().dumps(temperature, schemaview=schemaview)
 
         assert os.path.exists("my_temperature.zarr")
-
-

@@ -1,26 +1,39 @@
+"""Test loading data from various file formats into LinkML models."""
+
 import unittest
-
-from hbreader import hbread
 from pathlib import Path
-import numpy as np
-from linkml_runtime import SchemaView
-from linkml_arrays.loaders import YamlNumpyLoader, YamlHdf5Loader, Hdf5Loader, ZarrDirectoryStoreLoader
 
+import numpy as np
+from hbreader import hbread
+from linkml_runtime import SchemaView
+
+from linkml_arrays.loaders import (
+    Hdf5Loader,
+    YamlHdf5Loader,
+    YamlNumpyLoader,
+    ZarrDirectoryStoreLoader,
+)
 from tests.test_dumpers.array_classes import (
-    LatitudeSeries, LongitudeSeries, DaySeries,
-    TemperatureMatrix, TemperatureDataset
+    DaySeries,
+    LatitudeSeries,
+    LongitudeSeries,
+    TemperatureDataset,
+    TemperatureMatrix,
 )
 
 
 class YamlNumpyLoadersTestCase(unittest.TestCase):
-    """
-    Test loading of pydantic-style classes from YAML + Numpy arrays into LinkML schemas
-    """
+    """Test loading of pydantic-style classes from YAML + Numpy arrays."""
 
     def test_load_pydantic_arrays(self):
-        read_yaml = hbread("temperature_dataset_npy_dumped.yaml", base_path=str(Path(__file__) / "../../input"))
+        """Test loading of pydantic-style classes from YAML + Numpy arrays."""
+        read_yaml = hbread(
+            "temperature_dataset_npy_dumped.yaml", base_path=str(Path(__file__) / "../../input")
+        )
         schemaview = SchemaView(Path(__file__) / "../../input/temperature_dataset.yaml")
-        ret = YamlNumpyLoader().loads(read_yaml, target_class=TemperatureDataset, schemaview=schemaview)
+        ret = YamlNumpyLoader().loads(
+            read_yaml, target_class=TemperatureDataset, schemaview=schemaview
+        )
 
         assert isinstance(ret, TemperatureDataset)
         assert ret.name == "my_temperature"
@@ -39,14 +52,17 @@ class YamlNumpyLoadersTestCase(unittest.TestCase):
 
 
 class YamlHdf5LoadersTestCase(unittest.TestCase):
-    """
-    Test loading of pydantic-style classes from YAML + HDF5 datasets into LinkML schemas
-    """
+    """Test loading of pydantic-style classes from YAML + HDF5 datasets."""
 
     def test_load_pydantic_arrays(self):
-        read_yaml = hbread("temperature_dataset_hdf5_dumped.yaml", base_path=str(Path(__file__) / "../../input"))
+        """Test loading of pydantic-style classes from YAML + HDF5 datasets."""
+        read_yaml = hbread(
+            "temperature_dataset_hdf5_dumped.yaml", base_path=str(Path(__file__) / "../../input")
+        )
         schemaview = SchemaView(Path(__file__) / "../../input/temperature_dataset.yaml")
-        ret = YamlHdf5Loader().loads(read_yaml, target_class=TemperatureDataset, schemaview=schemaview)
+        ret = YamlHdf5Loader().loads(
+            read_yaml, target_class=TemperatureDataset, schemaview=schemaview
+        )
 
         assert isinstance(ret, TemperatureDataset)
         assert ret.name == "my_temperature"
@@ -65,11 +81,10 @@ class YamlHdf5LoadersTestCase(unittest.TestCase):
 
 
 class Hdf5LoadersTestCase(unittest.TestCase):
-    """
-    Test loading of pydantic-style classes from an HDF5 file into LinkML schemas
-    """
+    """Test loading of pydantic-style classes from an HDF5 file."""
 
     def test_load_pydantic_arrays(self):
+        """Test loading of pydantic-style classes from an HDF5 file."""
         file_path = str(Path(__file__).parent.parent / "input" / "my_temperature.h5")
         schemaview = SchemaView(Path(__file__) / "../../input/temperature_dataset.yaml")
         ret = Hdf5Loader().loads(file_path, target_class=TemperatureDataset, schemaview=schemaview)
@@ -91,14 +106,15 @@ class Hdf5LoadersTestCase(unittest.TestCase):
 
 
 class ZarrDirectoryStoreLoadersTestCase(unittest.TestCase):
-    """
-    Test loading of pydantic-style classes from a Zarr directory store file into LinkML schemas
-    """
+    """Test loading of pydantic-style classes from a Zarr directory store."""
 
     def test_load_pydantic_arrays(self):
+        """Test loading of pydantic-style classes from a Zarr directory store."""
         file_path = str(Path(__file__).parent.parent / "input" / "my_temperature.zarr")
         schemaview = SchemaView(Path(__file__) / "../../input/temperature_dataset.yaml")
-        ret = ZarrDirectoryStoreLoader().loads(file_path, target_class=TemperatureDataset, schemaview=schemaview)
+        ret = ZarrDirectoryStoreLoader().loads(
+            file_path, target_class=TemperatureDataset, schemaview=schemaview
+        )
 
         assert isinstance(ret, TemperatureDataset)
         assert ret.name == "my_temperature"
@@ -114,4 +130,3 @@ class ZarrDirectoryStoreLoadersTestCase(unittest.TestCase):
 
         assert isinstance(ret.temperatures_in_K, TemperatureMatrix)
         np.testing.assert_array_equal(ret.temperatures_in_K.values, np.ones((3, 3, 3)))
-
