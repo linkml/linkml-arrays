@@ -34,13 +34,12 @@ def _iterate_element(
                 # create an attribute on the group
                 group.attrs[k] = v
 
-    return
-
 
 class Hdf5Dumper(Dumper):
     """Dumper class for LinkML models to HDF5 files."""
 
-    def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs) -> str:
+    # TODO is this the right method to overwrite? it does not dump a string
+    def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs):
         """Dump the element to an HDF5 file.
 
         Raises:

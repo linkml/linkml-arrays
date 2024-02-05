@@ -34,13 +34,12 @@ def _iterate_element(
                 # create an attribute on the group
                 group.attrs[k] = v
 
-    return
-
 
 class ZarrDirectoryStoreDumper(Dumper):
     """Dumper class for LinkML models to Zarr directory stores."""
 
-    def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs) -> str:
+    # TODO is this the right method to overwrite? it does not dump a string
+    def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs):
         """Dump the element to a Zarr directory store.
 
         Raises:
