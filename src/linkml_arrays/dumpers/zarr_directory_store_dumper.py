@@ -34,6 +34,8 @@ def _iterate_element(
                 # create an attribute on the group
                 group.attrs[k] = v
 
+    return
+
 
 class ZarrDirectoryStoreDumper(Dumper):
     """Dumper class for LinkML models to Zarr directory stores."""
