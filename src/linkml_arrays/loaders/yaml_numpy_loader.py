@@ -16,7 +16,8 @@ def _iterate_element(
 ) -> dict:
     """Recursively iterate through the elements of a LinkML model and load them into a dict.
 
-    Datasets are read into memory."""
+    Datasets are read into memory.
+    """
     ret_dict = dict()
     for k, v in input_dict.items():
         found_slot = schemaview.induced_slot(k, element_type.name)

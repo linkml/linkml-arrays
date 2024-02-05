@@ -39,7 +39,11 @@ class ZarrDirectoryStoreDumper(Dumper):
     """Dumper class for LinkML models to Zarr directory stores."""
 
     def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs) -> str:
-        """Dump the element to a Zarr directory store."""
+        """Dump the element to a Zarr directory store.
+
+        Raises:
+            ValueError: If the class requires an identifier and it is not provided.
+        """
         id_slot = schemaview.get_identifier_slot(element.__class__.__name__)
         if id_slot is None:
             raise ValueError("The class requires an identifier.")

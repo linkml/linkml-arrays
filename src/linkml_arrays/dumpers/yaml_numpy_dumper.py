@@ -19,6 +19,9 @@ def _iterate_element(
     that implement "linkml:elements" (arrays) are written to HDF5 files and the paths to these
     files are returned in the dictionary. Each array is written to an HDF5 dataset at path
     "/data" in a new HDF5 file.
+
+    Raises:
+        ValueError: If the class requires an identifier and it is not provided.
     """
     # get the type of the element
     element_type = type(element).__name__

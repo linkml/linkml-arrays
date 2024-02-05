@@ -39,7 +39,11 @@ class Hdf5Dumper(Dumper):
     """Dumper class for LinkML models to HDF5 files."""
 
     def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs) -> str:
-        """Dump the element to an HDF5 file."""
+        """Dump the element to an HDF5 file.
+
+        Raises:
+            ValueError: If the class requires an identifier and it is not provided.
+        """
         id_slot = schemaview.get_identifier_slot(element.__class__.__name__)
         if id_slot is None:
             raise ValueError("The class requires an identifier.")
