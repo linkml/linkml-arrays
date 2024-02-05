@@ -1,3 +1,5 @@
+"""Test loading data from various file formats into LinkML models."""
+
 import unittest
 from pathlib import Path
 
@@ -21,11 +23,10 @@ from tests.test_dumpers.array_classes import (
 
 
 class YamlNumpyLoadersTestCase(unittest.TestCase):
-    """
-    Test loading of pydantic-style classes from YAML + Numpy arrays into LinkML schemas
-    """
+    """Test loading of pydantic-style classes from YAML + Numpy arrays."""
 
     def test_load_pydantic_arrays(self):
+        """Test loading of pydantic-style classes from YAML + Numpy arrays."""
         read_yaml = hbread(
             "temperature_dataset_npy_dumped.yaml", base_path=str(Path(__file__) / "../../input")
         )
@@ -51,11 +52,10 @@ class YamlNumpyLoadersTestCase(unittest.TestCase):
 
 
 class YamlHdf5LoadersTestCase(unittest.TestCase):
-    """
-    Test loading of pydantic-style classes from YAML + HDF5 datasets into LinkML schemas
-    """
+    """Test loading of pydantic-style classes from YAML + HDF5 datasets."""
 
     def test_load_pydantic_arrays(self):
+        """Test loading of pydantic-style classes from YAML + HDF5 datasets."""
         read_yaml = hbread(
             "temperature_dataset_hdf5_dumped.yaml", base_path=str(Path(__file__) / "../../input")
         )
@@ -81,11 +81,10 @@ class YamlHdf5LoadersTestCase(unittest.TestCase):
 
 
 class Hdf5LoadersTestCase(unittest.TestCase):
-    """
-    Test loading of pydantic-style classes from an HDF5 file into LinkML schemas
-    """
+    """Test loading of pydantic-style classes from an HDF5 file."""
 
     def test_load_pydantic_arrays(self):
+        """Test loading of pydantic-style classes from an HDF5 file."""
         file_path = str(Path(__file__).parent.parent / "input" / "my_temperature.h5")
         schemaview = SchemaView(Path(__file__) / "../../input/temperature_dataset.yaml")
         ret = Hdf5Loader().loads(file_path, target_class=TemperatureDataset, schemaview=schemaview)
@@ -107,11 +106,10 @@ class Hdf5LoadersTestCase(unittest.TestCase):
 
 
 class ZarrDirectoryStoreLoadersTestCase(unittest.TestCase):
-    """
-    Test loading of pydantic-style classes from a Zarr directory store file into LinkML schemas
-    """
+    """Test loading of pydantic-style classes from a Zarr directory store."""
 
     def test_load_pydantic_arrays(self):
+        """Test loading of pydantic-style classes from a Zarr directory store."""
         file_path = str(Path(__file__).parent.parent / "input" / "my_temperature.zarr")
         schemaview = SchemaView(Path(__file__) / "../../input/temperature_dataset.yaml")
         ret = ZarrDirectoryStoreLoader().loads(

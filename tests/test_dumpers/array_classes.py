@@ -1,38 +1,20 @@
 from __future__ import annotations
-
-import re
-import sys
-from datetime import date, datetime
-from enum import Enum
-from typing import Any, Dict, List, Optional, Union
-
 import numpy as np
-from pydantic import BaseModel as BaseModel
-from pydantic import Field, validator
-
-if sys.version_info >= (3, 8):
-    from typing import Literal
-else:
-    from typing_extensions import Literal
+from pydantic import BaseModel as BaseModel, ConfigDict, Field
 
 
 metamodel_version = "None"
 version = "None"
 
 
-class WeakRefShimBaseModel(BaseModel):
-    __slots__ = "__weakref__"
-
-
-class ConfiguredBaseModel(
-    WeakRefShimBaseModel,
-    validate_assignment=True,
-    validate_all=True,
-    underscore_attrs_are_private=True,
-    extra="forbid",
-    arbitrary_types_allowed=True,
-    use_enum_values=True,
-):
+class ConfiguredBaseModel(BaseModel):
+    model_config = ConfigDict(
+        validate_assignment=True,
+        validate_default=True,
+        extra="forbid",
+        arbitrary_types_allowed=True,
+        use_enum_values=True,
+    )
     pass
 
 
@@ -77,10 +59,10 @@ class DaySeries(ConfiguredBaseModel):
     values: np.ndarray = Field(None)
 
 
-# Update forward refs
-# see https://pydantic-docs.helpmanual.io/usage/postponed_annotations/
-TemperatureDataset.update_forward_refs()
-TemperatureMatrix.update_forward_refs()
-LatitudeSeries.update_forward_refs()
-LongitudeSeries.update_forward_refs()
-DaySeries.update_forward_refs()
+# Model rebuild
+# see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
+TemperatureDataset.model_rebuild()
+TemperatureMatrix.model_rebuild()
+LatitudeSeries.model_rebuild()
+LongitudeSeries.model_rebuild()
+DaySeries.model_rebuild()

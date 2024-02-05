@@ -1,3 +1,5 @@
+"""Class for dumping a LinkML model to a YAML file with paths to HDF5 files."""
+
 from typing import Union
 
 import h5py
@@ -8,9 +10,19 @@ from linkml_runtime.utils.yamlutils import YAMLRoot
 from pydantic import BaseModel
 
 
-def iterate_element(
+def _iterate_element(
     element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, parent_identifier=None
 ):
+    """Recursively iterate through the elements of a LinkML model and save them.
+
+    Returns a dictionary with the same structure as the input element, but with the slots
+    that implement "linkml:elements" (arrays) are written to HDF5 files and the paths to these
+    files are returned in the dictionary. Each array is written to an HDF5 dataset at path
+    "/data" in a new HDF5 file.
+
+    Raises:
+        ValueError: If the class requires an identifier and it is not provided.
+    """
     # get the type of the element
     element_type = type(element).__name__
 
@@ -41,7 +53,7 @@ def iterate_element(
             ret_dict[k] = f"file:./{output_file_path}"  # TODO make this nicer
         else:
             if isinstance(v, BaseModel):
-                v2 = iterate_element(v, schemaview, id_value)
+                v2 = _iterate_element(v, schemaview, id_value)
                 ret_dict[k] = v2
             else:
                 ret_dict[k] = v
@@ -49,9 +61,10 @@ def iterate_element(
 
 
 class YamlHdf5Dumper(Dumper):
+    """Class for dumping a LinkML model to a YAML file with paths to HDF5 files."""
 
     def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs) -> str:
-        """Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets"""
-        input = iterate_element(element, schemaview)
+        """Return element formatted as a YAML string."""
+        input = _iterate_element(element, schemaview)
 
         return yaml.dump(input)

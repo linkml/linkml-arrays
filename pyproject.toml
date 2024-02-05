@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 #setuptools = "^65.5.0"
-#tox = "^3.25.1"
+tox = "^3.25.1"
 #click = "^8.1.3"
 #importlib-metadata = "^4.8.0"
 linkml-runtime = "^1.6.0"
