@@ -4,8 +4,6 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
-import re
-import sys
 from datetime import date
 from linkml_arrays import __version__
 # -- Project information -----------------------------------------------------

@@ -2,7 +2,6 @@ import os
 import unittest
 from pathlib import Path
 
-import h5py
 import numpy as np
 from linkml_runtime import SchemaView
 
