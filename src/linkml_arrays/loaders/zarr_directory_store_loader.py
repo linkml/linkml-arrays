@@ -1,4 +1,5 @@
 """Class for loading a LinkML model from a Zarr directory store."""
+
 from typing import Type, Union
 
 import zarr

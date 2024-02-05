@@ -1,4 +1,5 @@
 """Class for loading a LinkML model from a YAML file with HDF5 file paths."""
+
 from typing import Type, Union
 
 import h5py
