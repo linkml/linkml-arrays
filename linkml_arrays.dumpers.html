@@ -77,87 +77,173 @@
 </section>
 <section id="module-linkml_arrays.dumpers.hdf5_dumper">
 <span id="linkml-arrays-dumpers-hdf5-dumper-module"></span><h2>linkml_arrays.dumpers.hdf5_dumper module<a class="headerlink" href="#module-linkml_arrays.dumpers.hdf5_dumper" title="Permalink to this heading"></a></h2>
+<p>Class for dumping a LinkML model to an HDF5 file.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="linkml_arrays.dumpers.hdf5_dumper.Hdf5Dumper">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.hdf5_dumper.</span></span><span class="sig-name descname"><span class="pre">Hdf5Dumper</span></span><a class="headerlink" href="#linkml_arrays.dumpers.hdf5_dumper.Hdf5Dumper" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></p>
+<p>Dumper class for LinkML models to HDF5 files.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.dumpers.hdf5_dumper.Hdf5Dumper.dumps">
-<span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#linkml_arrays.dumpers.hdf5_dumper.Hdf5Dumper.dumps" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets</p>
+<span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.dumpers.hdf5_dumper.Hdf5Dumper.dumps" title="Permalink to this definition"></a></dt>
+<dd><p>Dump the element to an HDF5 file.</p>
+<dl class="simple">
+<dt>Raises:</dt><dd><p>ValueError: If the class requires an identifier and it is not provided.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="linkml_arrays.dumpers.hdf5_dumper.iterate_element">
-<span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.hdf5_dumper.</span></span><span class="sig-name descname"><span class="pre">iterate_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Group</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.dumpers.hdf5_dumper.iterate_element" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+</section>
+<section id="module-linkml_arrays.dumpers.yaml_dumper">
+<span id="linkml-arrays-dumpers-yaml-dumper-module"></span><h2>linkml_arrays.dumpers.yaml_dumper module<a class="headerlink" href="#module-linkml_arrays.dumpers.yaml_dumper" title="Permalink to this heading"></a></h2>
+<p>Class for dumpling a LinkML model to a YAML file.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.yaml_dumper.YamlDumper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.yaml_dumper.</span></span><span class="sig-name descname"><span class="pre">YamlDumper</span></span><a class="headerlink" href="#linkml_arrays.dumpers.yaml_dumper.YamlDumper" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></p>
+<p>Dumper class for LinkML models to YAML files.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.yaml_dumper.YamlDumper.dumps">
+<span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#linkml_arrays.dumpers.yaml_dumper.YamlDumper.dumps" title="Permalink to this definition"></a></dt>
+<dd><p>Return element formatted as a YAML string.</p>
+</dd></dl>
+
+</dd></dl>
 
 </section>
 <section id="module-linkml_arrays.dumpers.yaml_hdf5_dumper">
 <span id="linkml-arrays-dumpers-yaml-hdf5-dumper-module"></span><h2>linkml_arrays.dumpers.yaml_hdf5_dumper module<a class="headerlink" href="#module-linkml_arrays.dumpers.yaml_hdf5_dumper" title="Permalink to this heading"></a></h2>
+<p>Class for dumping a LinkML model to a YAML file with paths to HDF5 files.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="linkml_arrays.dumpers.yaml_hdf5_dumper.YamlHdf5Dumper">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.yaml_hdf5_dumper.</span></span><span class="sig-name descname"><span class="pre">YamlHdf5Dumper</span></span><a class="headerlink" href="#linkml_arrays.dumpers.yaml_hdf5_dumper.YamlHdf5Dumper" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></p>
+<p>Class for dumping a LinkML model to a YAML file with paths to HDF5 files.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.dumpers.yaml_hdf5_dumper.YamlHdf5Dumper.dumps">
 <span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#linkml_arrays.dumpers.yaml_hdf5_dumper.YamlHdf5Dumper.dumps" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets</p>
+<dd><p>Return element formatted as a YAML string.</p>
 </dd></dl>
 
 </dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="linkml_arrays.dumpers.yaml_hdf5_dumper.iterate_element">
-<span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.yaml_hdf5_dumper.</span></span><span class="sig-name descname"><span class="pre">iterate_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.dumpers.yaml_hdf5_dumper.iterate_element" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 </section>
 <section id="module-linkml_arrays.dumpers.yaml_numpy_dumper">
 <span id="linkml-arrays-dumpers-yaml-numpy-dumper-module"></span><h2>linkml_arrays.dumpers.yaml_numpy_dumper module<a class="headerlink" href="#module-linkml_arrays.dumpers.yaml_numpy_dumper" title="Permalink to this heading"></a></h2>
+<p>Class for dumpling a LinkML model to a YAML file with paths to NumPy files.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="linkml_arrays.dumpers.yaml_numpy_dumper.YamlNumpyDumper">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.yaml_numpy_dumper.</span></span><span class="sig-name descname"><span class="pre">YamlNumpyDumper</span></span><a class="headerlink" href="#linkml_arrays.dumpers.yaml_numpy_dumper.YamlNumpyDumper" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></p>
+<p>Dumper class for LinkML models to YAML files with paths to NumPy files.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.dumpers.yaml_numpy_dumper.YamlNumpyDumper.dumps">
 <span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#linkml_arrays.dumpers.yaml_numpy_dumper.YamlNumpyDumper.dumps" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with paths to numpy files containing the ndarrays</p>
+<dd><p>Return element formatted as a YAML string.</p>
 </dd></dl>
 
 </dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="linkml_arrays.dumpers.yaml_numpy_dumper.iterate_element">
-<span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.yaml_numpy_dumper.</span></span><span class="sig-name descname"><span class="pre">iterate_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.dumpers.yaml_numpy_dumper.iterate_element" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 </section>
 <section id="module-linkml_arrays.dumpers.zarr_directory_store_dumper">
 <span id="linkml-arrays-dumpers-zarr-directory-store-dumper-module"></span><h2>linkml_arrays.dumpers.zarr_directory_store_dumper module<a class="headerlink" href="#module-linkml_arrays.dumpers.zarr_directory_store_dumper" title="Permalink to this heading"></a></h2>
+<p>Class for dumping a LinkML model to a Zarr directory store.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="linkml_arrays.dumpers.zarr_directory_store_dumper.ZarrDirectoryStoreDumper">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.zarr_directory_store_dumper.</span></span><span class="sig-name descname"><span class="pre">ZarrDirectoryStoreDumper</span></span><a class="headerlink" href="#linkml_arrays.dumpers.zarr_directory_store_dumper.ZarrDirectoryStoreDumper" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></p>
+<p>Dumper class for LinkML models to Zarr directory stores.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.dumpers.zarr_directory_store_dumper.ZarrDirectoryStoreDumper.dumps">
-<span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#linkml_arrays.dumpers.zarr_directory_store_dumper.ZarrDirectoryStoreDumper.dumps" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets</p>
+<span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.dumpers.zarr_directory_store_dumper.ZarrDirectoryStoreDumper.dumps" title="Permalink to this definition"></a></dt>
+<dd><p>Dump the element to a Zarr directory store.</p>
+<dl class="simple">
+<dt>Raises:</dt><dd><p>ValueError: If the class requires an identifier and it is not provided.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="linkml_arrays.dumpers.zarr_directory_store_dumper.iterate_element">
-<span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.zarr_directory_store_dumper.</span></span><span class="sig-name descname"><span class="pre">iterate_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Group</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.dumpers.zarr_directory_store_dumper.iterate_element" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 </section>
 <section id="module-linkml_arrays.dumpers">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-linkml_arrays.dumpers" title="Permalink to this heading"></a></h2>
 <p>Dumper classes for linkml-arrays.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.Hdf5Dumper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.</span></span><span class="sig-name descname"><span class="pre">Hdf5Dumper</span></span><a class="headerlink" href="#linkml_arrays.dumpers.Hdf5Dumper" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></p>
+<p>Dumper class for LinkML models to HDF5 files.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.Hdf5Dumper.dumps">
+<span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.dumpers.Hdf5Dumper.dumps" title="Permalink to this definition"></a></dt>
+<dd><p>Dump the element to an HDF5 file.</p>
+<dl class="simple">
+<dt>Raises:</dt><dd><p>ValueError: If the class requires an identifier and it is not provided.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.YamlDumper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.</span></span><span class="sig-name descname"><span class="pre">YamlDumper</span></span><a class="headerlink" href="#linkml_arrays.dumpers.YamlDumper" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></p>
+<p>Dumper class for LinkML models to YAML files.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.YamlDumper.dumps">
+<span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#linkml_arrays.dumpers.YamlDumper.dumps" title="Permalink to this definition"></a></dt>
+<dd><p>Return element formatted as a YAML string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.YamlHdf5Dumper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.</span></span><span class="sig-name descname"><span class="pre">YamlHdf5Dumper</span></span><a class="headerlink" href="#linkml_arrays.dumpers.YamlHdf5Dumper" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></p>
+<p>Class for dumping a LinkML model to a YAML file with paths to HDF5 files.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.YamlHdf5Dumper.dumps">
+<span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#linkml_arrays.dumpers.YamlHdf5Dumper.dumps" title="Permalink to this definition"></a></dt>
+<dd><p>Return element formatted as a YAML string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.YamlNumpyDumper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.</span></span><span class="sig-name descname"><span class="pre">YamlNumpyDumper</span></span><a class="headerlink" href="#linkml_arrays.dumpers.YamlNumpyDumper" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></p>
+<p>Dumper class for LinkML models to YAML files with paths to NumPy files.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.YamlNumpyDumper.dumps">
+<span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#linkml_arrays.dumpers.YamlNumpyDumper.dumps" title="Permalink to this definition"></a></dt>
+<dd><p>Return element formatted as a YAML string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.ZarrDirectoryStoreDumper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.dumpers.</span></span><span class="sig-name descname"><span class="pre">ZarrDirectoryStoreDumper</span></span><a class="headerlink" href="#linkml_arrays.dumpers.ZarrDirectoryStoreDumper" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></p>
+<p>Dumper class for LinkML models to Zarr directory stores.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.dumpers.ZarrDirectoryStoreDumper.dumps">
+<span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.dumpers.ZarrDirectoryStoreDumper.dumps" title="Permalink to this definition"></a></dt>
+<dd><p>Dump the element to a Zarr directory store.</p>
+<dl class="simple">
+<dt>Raises:</dt><dd><p>ValueError: If the class requires an identifier and it is not provided.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 

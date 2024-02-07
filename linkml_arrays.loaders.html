@@ -77,135 +77,277 @@
 </section>
 <section id="module-linkml_arrays.loaders.hdf5_loader">
 <span id="linkml-arrays-loaders-hdf5-loader-module"></span><h2>linkml_arrays.loaders.hdf5_loader module<a class="headerlink" href="#module-linkml_arrays.loaders.hdf5_loader" title="Permalink to this heading"></a></h2>
+<p>Class for loading a LinkML model from an HDF5 file.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.hdf5_loader.Hdf5Loader">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.hdf5_loader.</span></span><span class="sig-name descname"><span class="pre">Hdf5Loader</span></span><a class="headerlink" href="#linkml_arrays.loaders.hdf5_loader.Hdf5Loader" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></p>
+<p>Class for loading a LinkML model from an HDF5 file.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.hdf5_loader.Hdf5Loader.load">
 <span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseModel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.hdf5_loader.Hdf5Loader.load" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with the path to an HDF5 file</p>
+<dd><p>Create an instance of the target class from an HDF5 file.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.hdf5_loader.Hdf5Loader.load_any">
 <span class="sig-name descname"><span class="pre">load_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.hdf5_loader.Hdf5Loader.load_any" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with the path to an HDF5 file</p>
+<dd><p>Create an instance of the target class from an HDF5 file.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.hdf5_loader.Hdf5Loader.loads">
 <span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.hdf5_loader.Hdf5Loader.loads" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with the path to an HDF5 file</p>
+<dd><p>Create an instance of the target class from an HDF5 file.</p>
 </dd></dl>
 
 </dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="linkml_arrays.loaders.hdf5_loader.iterate_element">
-<span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.hdf5_loader.</span></span><span class="sig-name descname"><span class="pre">iterate_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClassDefinition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#linkml_arrays.loaders.hdf5_loader.iterate_element" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 </section>
 <section id="module-linkml_arrays.loaders.yaml_hdf5_loader">
 <span id="linkml-arrays-loaders-yaml-hdf5-loader-module"></span><h2>linkml_arrays.loaders.yaml_hdf5_loader module<a class="headerlink" href="#module-linkml_arrays.loaders.yaml_hdf5_loader" title="Permalink to this heading"></a></h2>
+<p>Class for loading a LinkML model from a YAML file with HDF5 file paths.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_hdf5_loader.YamlHdf5Loader">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.yaml_hdf5_loader.</span></span><span class="sig-name descname"><span class="pre">YamlHdf5Loader</span></span><a class="headerlink" href="#linkml_arrays.loaders.yaml_hdf5_loader.YamlHdf5Loader" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></p>
+<p>Class for loading a LinkML model from a YAML file with HDF5 file paths.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_hdf5_loader.YamlHdf5Loader.load">
 <span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseModel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.yaml_hdf5_loader.YamlHdf5Loader.load" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets</p>
+<dd><p>Create an instance of the target class from a YAML file with HDF5 file paths.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_hdf5_loader.YamlHdf5Loader.load_any">
 <span class="sig-name descname"><span class="pre">load_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.yaml_hdf5_loader.YamlHdf5Loader.load_any" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets</p>
+<dd><p>Create an instance of the target class from a YAML file with HDF5 file paths.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_hdf5_loader.YamlHdf5Loader.loads">
 <span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.yaml_hdf5_loader.YamlHdf5Loader.loads" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with paths to HDF5 files containing the arrays as datasets</p>
+<dd><p>Create an instance of the target class from a YAML file with HDF5 file paths.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_hdf5_loader.iterate_element">
-<span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.yaml_hdf5_loader.</span></span><span class="sig-name descname"><span class="pre">iterate_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClassDefinition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#linkml_arrays.loaders.yaml_hdf5_loader.iterate_element" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+</section>
+<section id="module-linkml_arrays.loaders.yaml_loader">
+<span id="linkml-arrays-loaders-yaml-loader-module"></span><h2>linkml_arrays.loaders.yaml_loader module<a class="headerlink" href="#module-linkml_arrays.loaders.yaml_loader" title="Permalink to this heading"></a></h2>
+<p>Class for loading a LinkML model from a YAML file.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_loader.YamlLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.yaml_loader.</span></span><span class="sig-name descname"><span class="pre">YamlLoader</span></span><a class="headerlink" href="#linkml_arrays.loaders.yaml_loader.YamlLoader" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></p>
+<p>Class for loading a LinkML model from a YAML file.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_loader.YamlLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseModel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.yaml_loader.YamlLoader.load" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_loader.YamlLoader.load_any">
+<span class="sig-name descname"><span class="pre">load_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.yaml_loader.YamlLoader.load_any" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_loader.YamlLoader.loads">
+<span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.yaml_loader.YamlLoader.loads" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file.</p>
+</dd></dl>
+
+</dd></dl>
 
 </section>
 <section id="module-linkml_arrays.loaders.yaml_numpy_loader">
 <span id="linkml-arrays-loaders-yaml-numpy-loader-module"></span><h2>linkml_arrays.loaders.yaml_numpy_loader module<a class="headerlink" href="#module-linkml_arrays.loaders.yaml_numpy_loader" title="Permalink to this heading"></a></h2>
+<p>Class for loading a LinkML model from a YAML file with NumPy file paths.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_numpy_loader.YamlNumpyLoader">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.yaml_numpy_loader.</span></span><span class="sig-name descname"><span class="pre">YamlNumpyLoader</span></span><a class="headerlink" href="#linkml_arrays.loaders.yaml_numpy_loader.YamlNumpyLoader" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></p>
+<p>Class for loading a LinkML model from a YAML file with NumPy file paths.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_numpy_loader.YamlNumpyLoader.load">
 <span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseModel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.yaml_numpy_loader.YamlNumpyLoader.load" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with paths to numpy files containing the ndarrays</p>
+<dd><p>Create an instance of the target class from a YAML file with NumPy file paths.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_numpy_loader.YamlNumpyLoader.load_any">
 <span class="sig-name descname"><span class="pre">load_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.yaml_numpy_loader.YamlNumpyLoader.load_any" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with paths to numpy files containing the ndarrays</p>
+<dd><p>Create an instance of the target class from a YAML file with NumPy file paths.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_numpy_loader.YamlNumpyLoader.loads">
 <span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.yaml_numpy_loader.YamlNumpyLoader.loads" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with paths to numpy files containing the ndarrays</p>
+<dd><p>Create an instance of the target class from a YAML file with NumPy file paths.</p>
 </dd></dl>
 
 </dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="linkml_arrays.loaders.yaml_numpy_loader.iterate_element">
-<span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.yaml_numpy_loader.</span></span><span class="sig-name descname"><span class="pre">iterate_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClassDefinition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#linkml_arrays.loaders.yaml_numpy_loader.iterate_element" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 </section>
 <section id="module-linkml_arrays.loaders.zarr_directory_store_loader">
 <span id="linkml-arrays-loaders-zarr-directory-store-loader-module"></span><h2>linkml_arrays.loaders.zarr_directory_store_loader module<a class="headerlink" href="#module-linkml_arrays.loaders.zarr_directory_store_loader" title="Permalink to this heading"></a></h2>
+<p>Class for loading a LinkML model from a Zarr directory store.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.zarr_directory_store_loader.ZarrDirectoryStoreLoader">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.zarr_directory_store_loader.</span></span><span class="sig-name descname"><span class="pre">ZarrDirectoryStoreLoader</span></span><a class="headerlink" href="#linkml_arrays.loaders.zarr_directory_store_loader.ZarrDirectoryStoreLoader" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></p>
+<p>Class for loading a LinkML model from a Zarr directory store.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.zarr_directory_store_loader.ZarrDirectoryStoreLoader.load">
 <span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseModel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.zarr_directory_store_loader.ZarrDirectoryStoreLoader.load" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with the path to a Zarr directory store</p>
+<dd><p>Create an instance of the target class from a Zarr directory store.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.zarr_directory_store_loader.ZarrDirectoryStoreLoader.load_any">
 <span class="sig-name descname"><span class="pre">load_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.zarr_directory_store_loader.ZarrDirectoryStoreLoader.load_any" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with the path to a Zarr directory store</p>
+<dd><p>Create an instance of the target class from a Zarr directory store.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="linkml_arrays.loaders.zarr_directory_store_loader.ZarrDirectoryStoreLoader.loads">
 <span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.zarr_directory_store_loader.ZarrDirectoryStoreLoader.loads" title="Permalink to this definition"></a></dt>
-<dd><p>Return element formatted as a YAML string with the path to a Zarr directory store</p>
+<dd><p>Create an instance of the target class from a Zarr directory store.</p>
 </dd></dl>
 
 </dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="linkml_arrays.loaders.zarr_directory_store_loader.iterate_element">
-<span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.zarr_directory_store_loader.</span></span><span class="sig-name descname"><span class="pre">iterate_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClassDefinition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#linkml_arrays.loaders.zarr_directory_store_loader.iterate_element" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 </section>
 <section id="module-linkml_arrays.loaders">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-linkml_arrays.loaders" title="Permalink to this heading"></a></h2>
 <p>Dumper classes for linkml-arrays.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.Hdf5Loader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.</span></span><span class="sig-name descname"><span class="pre">Hdf5Loader</span></span><a class="headerlink" href="#linkml_arrays.loaders.Hdf5Loader" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></p>
+<p>Class for loading a LinkML model from an HDF5 file.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.Hdf5Loader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseModel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.Hdf5Loader.load" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from an HDF5 file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.Hdf5Loader.load_any">
+<span class="sig-name descname"><span class="pre">load_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.Hdf5Loader.load_any" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from an HDF5 file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.Hdf5Loader.loads">
+<span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.Hdf5Loader.loads" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from an HDF5 file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlHdf5Loader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.</span></span><span class="sig-name descname"><span class="pre">YamlHdf5Loader</span></span><a class="headerlink" href="#linkml_arrays.loaders.YamlHdf5Loader" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></p>
+<p>Class for loading a LinkML model from a YAML file with HDF5 file paths.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlHdf5Loader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseModel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.YamlHdf5Loader.load" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file with HDF5 file paths.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlHdf5Loader.load_any">
+<span class="sig-name descname"><span class="pre">load_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.YamlHdf5Loader.load_any" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file with HDF5 file paths.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlHdf5Loader.loads">
+<span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.YamlHdf5Loader.loads" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file with HDF5 file paths.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.</span></span><span class="sig-name descname"><span class="pre">YamlLoader</span></span><a class="headerlink" href="#linkml_arrays.loaders.YamlLoader" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></p>
+<p>Class for loading a LinkML model from a YAML file.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseModel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.YamlLoader.load" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlLoader.load_any">
+<span class="sig-name descname"><span class="pre">load_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.YamlLoader.load_any" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlLoader.loads">
+<span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.YamlLoader.loads" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlNumpyLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.</span></span><span class="sig-name descname"><span class="pre">YamlNumpyLoader</span></span><a class="headerlink" href="#linkml_arrays.loaders.YamlNumpyLoader" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></p>
+<p>Class for loading a LinkML model from a YAML file with NumPy file paths.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlNumpyLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseModel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.YamlNumpyLoader.load" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file with NumPy file paths.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlNumpyLoader.load_any">
+<span class="sig-name descname"><span class="pre">load_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.YamlNumpyLoader.load_any" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file with NumPy file paths.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.YamlNumpyLoader.loads">
+<span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.YamlNumpyLoader.loads" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a YAML file with NumPy file paths.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.ZarrDirectoryStoreLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">linkml_arrays.loaders.</span></span><span class="sig-name descname"><span class="pre">ZarrDirectoryStoreLoader</span></span><a class="headerlink" href="#linkml_arrays.loaders.ZarrDirectoryStoreLoader" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></p>
+<p>Class for loading a LinkML model from a Zarr directory store.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.ZarrDirectoryStoreLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseModel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">YAMLRoot</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemaview</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaView</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.ZarrDirectoryStoreLoader.load" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a Zarr directory store.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.ZarrDirectoryStoreLoader.load_any">
+<span class="sig-name descname"><span class="pre">load_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.ZarrDirectoryStoreLoader.load_any" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a Zarr directory store.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="linkml_arrays.loaders.ZarrDirectoryStoreLoader.loads">
+<span class="sig-name descname"><span class="pre">loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#linkml_arrays.loaders.ZarrDirectoryStoreLoader.loads" title="Permalink to this definition"></a></dt>
+<dd><p>Create an instance of the target class from a Zarr directory store.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 

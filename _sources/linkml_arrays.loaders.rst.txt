@@ -20,6 +20,14 @@ linkml\_arrays.loaders.yaml\_hdf5\_loader module
    :undoc-members:
    :show-inheritance:
 
+linkml\_arrays.loaders.yaml\_loader module
+------------------------------------------
+
+.. automodule:: linkml_arrays.loaders.yaml_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 linkml\_arrays.loaders.yaml\_numpy\_loader module
 -------------------------------------------------
 

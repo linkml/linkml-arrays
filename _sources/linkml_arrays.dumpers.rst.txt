@@ -12,6 +12,14 @@ linkml\_arrays.dumpers.hdf5\_dumper module
    :undoc-members:
    :show-inheritance:
 
+linkml\_arrays.dumpers.yaml\_dumper module
+------------------------------------------
+
+.. automodule:: linkml_arrays.dumpers.yaml_dumper
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 linkml\_arrays.dumpers.yaml\_hdf5\_dumper module
 ------------------------------------------------
 
