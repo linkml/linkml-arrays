@@ -32,9 +32,7 @@ class YamlLoadersTestCase(unittest.TestCase):
             "temperature_dataset_yaml.yaml", base_path=str(Path(__file__) / "../../input")
         )
         schemaview = SchemaView(Path(__file__) / "../../input/temperature_dataset.yaml")
-        ret = YamlLoader().loads(
-            read_yaml, target_class=TemperatureDataset, schemaview=schemaview
-        )
+        ret = YamlLoader().loads(read_yaml, target_class=TemperatureDataset, schemaview=schemaview)
 
         assert isinstance(ret, TemperatureDataset)
         assert ret.name == "my_temperature"
