@@ -6,11 +6,14 @@
 Welcome to linkml-arrays's documentation!
 =========================================================
 
+linkml-arrays is a Python package for working with arrays in LinkML models.
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   modules
+   examples
 
 Indices and tables
 ==================

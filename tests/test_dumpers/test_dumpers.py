@@ -166,6 +166,8 @@ class Hdf5DumpersTestCase(unittest.TestCase):
 
         assert os.path.exists("my_temperature.h5")
 
+        # TODO use h5py to assert that the data is correct
+
 
 class ZarrDirectoryStoreDumpersTestCase(unittest.TestCase):
     """Test dumping of pydantic-style classes from LinkML schemas into a Zarr directory store."""
@@ -190,3 +192,5 @@ class ZarrDirectoryStoreDumpersTestCase(unittest.TestCase):
         ZarrDirectoryStoreDumper().dumps(temperature, schemaview=schemaview)
 
         assert os.path.exists("my_temperature.zarr")
+
+        # TODO use Zarr to assert that the data is correct
