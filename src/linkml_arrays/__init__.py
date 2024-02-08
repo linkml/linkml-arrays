@@ -1,4 +1,5 @@
 """linkml-arrays package."""
+
 import importlib_metadata
 
 try:

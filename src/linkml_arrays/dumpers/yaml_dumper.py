@@ -1,8 +1,7 @@
-"""Class for dumping a LinkML model to a YAML file with paths to HDF5 files."""
+"""Class for dumpling a LinkML model to a YAML file."""
 
 from typing import Union
 
-import h5py
 import yaml
 from linkml_runtime import SchemaView
 from linkml_runtime.dumpers.dumper_root import Dumper
@@ -16,9 +15,7 @@ def _iterate_element(
     """Recursively iterate through the elements of a LinkML model and save them.
 
     Returns a dictionary with the same structure as the input element, but with the slots
-    that implement "linkml:elements" (arrays) are written to HDF5 files and the paths to these
-    files are returned in the dictionary. Each array is written to an HDF5 dataset at path
-    "/data" in a new HDF5 file.
+    that implement "linkml:elements" (arrays) are written as lists or lists of lists.
 
     Raises:
         ValueError: If the class requires an identifier and it is not provided.
@@ -41,16 +38,7 @@ def _iterate_element(
         if "linkml:elements" in found_slot.implements:
             if id_slot is None and parent_identifier is None:
                 raise ValueError("The class requires an identifier.")
-            # save the numpy array to file
-            if parent_identifier is not None:
-                output_file_path = f"{parent_identifier}.{found_class.name}.{found_slot.name}.h5"
-            else:
-                output_file_path = f"{found_class.name}.{found_slot.name}.h5"
-            with h5py.File(
-                output_file_path, "w"
-            ) as f:  # TODO do not assume that there is only one by this name
-                f.create_dataset("data", data=v)
-            ret_dict[k] = f"file:./{output_file_path}"  # TODO make this nicer
+            ret_dict[k] = v.tolist()
         else:
             if isinstance(v, BaseModel):
                 v2 = _iterate_element(v, schemaview, id_value)
@@ -60,8 +48,8 @@ def _iterate_element(
     return ret_dict
 
 
-class YamlHdf5Dumper(Dumper):
-    """Class for dumping a LinkML model to a YAML file with paths to HDF5 files."""
+class YamlDumper(Dumper):
+    """Dumper class for LinkML models to YAML files."""
 
     def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs) -> str:
         """Return element formatted as a YAML string."""

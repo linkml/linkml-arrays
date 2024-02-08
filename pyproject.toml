@@ -14,15 +14,15 @@ h5py = ">=3.9.0"
 zarr = ">=2.16.1"
 nptyping = ">=2.5.0"
 xarray = "^2024.1.1"
-
+tox = "^3.25.1"  # TODO move out of main deps
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
-#sphinx = {version = "^5.3.0", extras = ["docs"]}
-#sphinx-rtd-theme = {version = "^1.0.0", extras = ["docs"]}
-#sphinx-autodoc-typehints = {version = "^1.19.4", extras = ["docs"]}
-#sphinx-click = {version = "^4.3.0", extras = ["docs"]}
-#myst-parser = {version = "^0.18.1", extras = ["docs"]}
+sphinx = {version = "^5.3.0", extras = ["docs"]}
+sphinx-rtd-theme = {version = "^1.0.0", extras = ["docs"]}
+# sphinx-autodoc-typehints = {version = "^1.19.4", extras = ["docs"]}
+sphinx-click = {version = "^4.3.0", extras = ["docs"]}
+myst-parser = {version = "^0.18.1", extras = ["docs"]}
 jupyter = {version = "*", extras = ["jupyter"]}
 
 [tool.poetry.scripts]
@@ -32,14 +32,18 @@ linkml-arrays = "linkml_arrays.cli:main"
 docs = [
     "sphinx",
     "sphinx-rtd-theme",
-    "sphinx-autodoc-typehints",
+    # "sphinx-autodoc-typehints",
     "sphinx-click",
     "myst-parser"
-    ]
-
+]
 jupyter = [
     "jupyter"
 ]
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.1.1"
+pytest = "^7.1.2"
+mypy = "^1.8.0"
 
 [tool.poetry-dynamic-versioning]
 enable = true

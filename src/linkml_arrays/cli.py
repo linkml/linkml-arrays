@@ -1,6 +1,8 @@
 """Command line interface for linkml-arrays."""
-import click
+
 import logging
+
+import click
 
 from linkml_arrays import __version__
 from linkml_arrays.main import demo
@@ -10,6 +12,7 @@ __all__ = [
 ]
 
 logger = logging.getLogger(__name__)
+
 
 @click.group()
 @click.option("-v", "--verbose", count=True)
@@ -30,11 +33,11 @@ def main(verbose: int, quiet: bool):
     if quiet:
         logger.setLevel(level=logging.ERROR)
 
+
 @main.command()
 def run():
     """Run the linkml-arrays's demo command."""
     demo()
-     
 
 
 if __name__ == "__main__":
