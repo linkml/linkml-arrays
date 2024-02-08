@@ -8,14 +8,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-#setuptools = "^65.5.0"
-#tox = "^3.25.1"
-#click = "^8.1.3"
-#importlib-metadata = "^4.8.0"
-linkml-runtime = "^1.6.0"
-numpy = "^1.24.3"
-h5py = "^3.9.0"
-zarr = "^2.16.1"
+linkml-runtime = ">=1.7.0"
+numpy = ">=1.24.3"
+h5py = ">=3.9.0"
+zarr = ">=2.16.1"
+nptyping = ">=2.5.0"
+xarray = "^2024.1.1"
 
 
 [tool.poetry.dev-dependencies]
@@ -25,6 +23,7 @@ pytest = "^7.1.2"
 #sphinx-autodoc-typehints = {version = "^1.19.4", extras = ["docs"]}
 #sphinx-click = {version = "^4.3.0", extras = ["docs"]}
 #myst-parser = {version = "^0.18.1", extras = ["docs"]}
+jupyter = {version = "*", extras = ["jupyter"]}
 
 [tool.poetry.scripts]
 linkml-arrays = "linkml_arrays.cli:main"
@@ -37,6 +36,10 @@ docs = [
     "sphinx-click",
     "myst-parser"
     ]
+
+jupyter = [
+    "jupyter"
+]
 
 [tool.poetry-dynamic-versioning]
 enable = true
