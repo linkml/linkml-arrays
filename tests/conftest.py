@@ -1,3 +1,5 @@
+"""Pytest fixture and helper functions to create a SpatialData object during test time."""
+
 from typing import Union
 
 import numpy as np
@@ -29,6 +31,7 @@ RNG = default_rng()
 
 @pytest.fixture()
 def full_sdata() -> SpatialData:
+    """Create SpatialData object."""
     return SpatialData(
         images=_get_images(),
         labels=_get_labels(),
@@ -211,9 +214,6 @@ def _get_points() -> dict[str, pa.Table]:
         if i == 0:
             genes = RNG.choice(["a", "b"], size=arr.shape[0])
         else:
-            # we need to test the case in which we have a categorical column with more than 127 categories, see full
-            # explanation in write_points() (the parser will convert this column to a categorical since
-            # feature_key="genes")
             genes = np.tile(np.array(list(map(str, range(280)))), 2)[:300]
         annotation = pd.DataFrame(
             {
