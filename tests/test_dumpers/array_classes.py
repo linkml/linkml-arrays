@@ -1,7 +1,8 @@
 from __future__ import annotations
-import numpy as np
-from pydantic import BaseModel as BaseModel, ConfigDict, Field
 
+import numpy as np
+from pydantic import BaseModel as BaseModel
+from pydantic import ConfigDict, Field
 
 metamodel_version = "None"
 version = "None"
