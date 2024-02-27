@@ -23,8 +23,8 @@ extensions = [
     "sphinx.ext.githubpages",
     "sphinx_rtd_theme",
     "sphinx_click",
-    "sphinx_autodoc_typehints",
-    "myst_parser",
+    # "sphinx_autodoc_typehints",
+    "myst_parser"
 ]
 
 # generate autosummary pages

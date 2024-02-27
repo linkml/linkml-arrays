@@ -1,0 +1,23 @@
+latitude_in_deg:
+  values:
+  - 1
+  - 2
+longitude_in_deg:
+  values:
+  - 4
+  - 5
+name: my_temperature
+temperatures_in_K:
+  values:
+  - - - 0
+      - 1
+    - - 2
+      - 3
+  - - - 4
+      - 5
+    - - 6
+      - 7
+time_in_d:
+  values:
+  - 7
+  - 8
