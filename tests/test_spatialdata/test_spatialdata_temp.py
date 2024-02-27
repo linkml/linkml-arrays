@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from spatialdata import SpatialData
 
 
@@ -11,4 +12,3 @@ class TestWriteRead:
         tmpdir = Path(tmp_path) / "tmp.zarr"
         full_sdata.write(tmpdir)
         SpatialData.read(tmpdir)
-

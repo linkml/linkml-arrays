@@ -1,20 +1,26 @@
+from typing import Union
+
+import numpy as np
 import pandas as pd
+import pyarrow as pa
 import pytest
 from anndata import AnnData
 from geopandas import GeoDataFrame
-from numpy.random import default_rng
-from typing import TYPE_CHECKING, Optional, Union
 from multiscale_spatial_image import MultiscaleSpatialImage
-from shapely.geometry import MultiPolygon, Polygon, Point
+from numpy.random import default_rng
+from shapely.geometry import MultiPolygon, Point, Polygon
 from spatial_image import SpatialImage
-from spatialdata.models import Image2DModel, Image3DModel, Labels2DModel, Labels3DModel, ShapesModel, PointsModel, \
-    TableModel
-from xarray import DataArray
-import numpy as np
-import pyarrow as pa
-import pytest
 from spatialdata import SpatialData
-
+from spatialdata.models import (
+    Image2DModel,
+    Image3DModel,
+    Labels2DModel,
+    Labels3DModel,
+    PointsModel,
+    ShapesModel,
+    TableModel,
+)
+from xarray import DataArray
 
 # Added from https://github.com/scverse/spatialdata-plot
 
@@ -36,11 +42,15 @@ def _get_images() -> dict[str, Union[SpatialImage, MultiscaleSpatialImage]]:
     out = {}
     dims_2d = ("c", "y", "x")
     dims_3d = ("z", "y", "x", "c")
-    out["image2d"] = Image2DModel.parse(RNG.normal(size=(3, 64, 64)), dims=dims_2d, c_coords=["r", "g", "b"])
+    out["image2d"] = Image2DModel.parse(
+        RNG.normal(size=(3, 64, 64)), dims=dims_2d, c_coords=["r", "g", "b"]
+    )
     out["image2d_multiscale"] = Image2DModel.parse(
         RNG.normal(size=(3, 64, 64)), scale_factors=[2, 2], dims=dims_2d, c_coords=["r", "g", "b"]
     )
-    out["image2d_xarray"] = Image2DModel.parse(DataArray(RNG.normal(size=(3, 64, 64)), dims=dims_2d), dims=None)
+    out["image2d_xarray"] = Image2DModel.parse(
+        DataArray(RNG.normal(size=(3, 64, 64)), dims=dims_2d), dims=None
+    )
     out["image2d_multiscale_xarray"] = Image2DModel.parse(
         DataArray(RNG.normal(size=(3, 64, 64)), dims=dims_2d),
         scale_factors=[2, 4],
@@ -50,7 +60,9 @@ def _get_images() -> dict[str, Union[SpatialImage, MultiscaleSpatialImage]]:
     out["image3d_multiscale_numpy"] = Image3DModel.parse(
         RNG.normal(size=(2, 64, 64, 3)), scale_factors=[2], dims=dims_3d
     )
-    out["image3d_xarray"] = Image3DModel.parse(DataArray(RNG.normal(size=(2, 64, 64, 3)), dims=dims_3d), dims=None)
+    out["image3d_xarray"] = Image3DModel.parse(
+        DataArray(RNG.normal(size=(2, 64, 64, 3)), dims=dims_3d), dims=None
+    )
     out["image3d_multiscale_xarray"] = Image3DModel.parse(
         DataArray(RNG.normal(size=(2, 64, 64, 3)), dims=dims_3d),
         scale_factors=[2],
@@ -76,7 +88,9 @@ def _get_labels() -> dict[str, Union[SpatialImage, MultiscaleSpatialImage]]:
         scale_factors=[2, 4],
         dims=None,
     )
-    out["labels3d_numpy"] = Labels3DModel.parse(RNG.integers(0, 100, size=(10, 64, 64)), dims=dims_3d)
+    out["labels3d_numpy"] = Labels3DModel.parse(
+        RNG.integers(0, 100, size=(10, 64, 64)), dims=dims_3d
+    )
     out["labels3d_multiscale_numpy"] = Labels3DModel.parse(
         RNG.integers(0, 100, size=(10, 64, 64)), scale_factors=[2, 4], dims=dims_3d
     )
@@ -207,16 +221,21 @@ def _get_points() -> dict[str, pa.Table]:
                 "instance_id": points_assignment0,
             },
         )
-        out[name] = PointsModel.parse(arr, annotation=annotation, feature_key="genes", instance_key="instance_id")
+        out[name] = PointsModel.parse(
+            arr, annotation=annotation, feature_key="genes", instance_key="instance_id"
+        )
     return out
 
 
 def _get_table(
-        region: None | str | list[str] = "sample1",
-        region_key: None | str = "region",
-        instance_key: None | str = "instance_id",
+    region: None | str | list[str] = "sample1",
+    region_key: None | str = "region",
+    instance_key: None | str = "instance_id",
 ) -> AnnData:
-    adata = AnnData(RNG.normal(size=(100, 10)), obs=pd.DataFrame(RNG.normal(size=(100, 3)), columns=["a", "b", "c"]))
+    adata = AnnData(
+        RNG.normal(size=(100, 10)),
+        obs=pd.DataFrame(RNG.normal(size=(100, 3)), columns=["a", "b", "c"]),
+    )
     if not all(var for var in (region, region_key, instance_key)):
         return TableModel.parse(adata=adata)
     adata.obs[instance_key] = np.arange(adata.n_obs)
@@ -224,4 +243,6 @@ def _get_table(
         adata.obs[region_key] = region
     elif isinstance(region, list):
         adata.obs[region_key] = RNG.choice(region, size=adata.n_obs)
-    return TableModel.parse(adata=adata, region=region, region_key=region_key, instance_key=instance_key)
+    return TableModel.parse(
+        adata=adata, region=region, region_key=region_key, instance_key=instance_key
+    )
