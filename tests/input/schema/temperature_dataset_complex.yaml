@@ -43,7 +43,7 @@ classes:
         # In most cases, a 1D array is a coordinate for a single dimension in the
         # data array, but it is possible to have an N-dimensional array that is a
         # coordinate for N dimensions in the data array. The format is:
-        # <name of array attribute>: <list of dimension names from dims>
+        # <name of array attribute>: <dimension name or list of dimension names from dims>
         # The number of dimensions of a coordinate must equal the length of the
         # list specified here.
         coords:
