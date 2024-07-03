@@ -71,19 +71,22 @@ classes:
           # it does not make sense to put `labeled_by` on `TemperatureMatrix` because the index slots are only
           # accessible from this DataArray class.
           # TODO uncomment this once it is supported by the metamodel
-          # labeled_by:
-          #   - alias: lat
-          #     label_slot: latitude_in_deg
-          #     labeled_dimensions: [0, 1]
-          #   - alias: lon
-          #     label_slot: longitude_in_deg
-          #     labeled_dimensions: [0, 1]
-          #   - alias: date
-          #     label_slot: date
-          #     labeled_dimensions: [2]
-          #   - alias: day
-          #     label_slot: day_in_d
-          #     labeled_dimensions: [2]
+          annotations:
+            labeled_by:
+              "
+              - alias: lat
+                label_slot: latitude_in_deg
+                labeled_dimensions: [0, 1]
+              - alias: lon
+                label_slot: longitude_in_deg
+                labeled_dimensions: [0, 1]
+              - alias: date
+                label_slot: date
+                labeled_dimensions: [2]
+              - alias: day
+                label_slot: day_in_d
+                labeled_dimensions: [2]
+              "
 
   LatitudeInDegSeries:
     description: A 2D array whose values represent latitude
