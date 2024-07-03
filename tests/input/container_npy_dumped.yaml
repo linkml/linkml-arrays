@@ -1,0 +1,32 @@
+name: my_container
+temperature_dataset:
+  name: my_temperature
+  latitude_in_deg: my_latitude
+  longitude_in_deg: my_longitude
+  temperatures_in_K:
+    conversion_factor: 1000
+    # TODO revisit this
+    values: file:./tests/input/my_container.my_temperature.temperatures_in_K.values.npy
+  date:
+    values:
+      - "2020-01-01"
+      - "2020-01-02"
+  day_in_d:
+    values:
+      - 0
+      - 1
+    reference_date: "2020-01-01"
+latitude_series:
+  name: my_latitude
+  values:
+    - - 1
+      - 2
+    - - 3
+      - 4
+longitude_series:
+  name: my_longitude
+  values:
+    - - 5
+      - 6
+    - - 7
+      - 8

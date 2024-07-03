@@ -1,0 +1,39 @@
+name: my_container
+temperature_dataset:
+  name: my_temperature
+  latitude_in_deg: my_latitude
+  longitude_in_deg: my_longitude
+  temperatures_in_K:
+    conversion_factor: 1000
+    values:
+      - - - 0
+          - 1
+        - - 2
+          - 3
+      - - - 4
+          - 5
+        - - 6
+          - 7
+  date:
+    values:
+      - "2020-01-01"
+      - "2020-01-02"
+  day_in_d:
+    values:
+      - 0
+      - 1
+    reference_date: "2020-01-01"
+latitude_series:
+  name: my_latitude
+  values:
+    - - 1
+      - 2
+    - - 3
+      - 4
+longitude_series:
+  name: my_longitude
+  values:
+    - - 5
+      - 6
+    - - 7
+      - 8
