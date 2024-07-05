@@ -1,23 +1,33 @@
 latitude_in_deg:
-  values:
-  - 1
-  - 2
+  # name: my_latitude
+  latitude:
+    - 1
+    - 2
 longitude_in_deg:
-  values:
-  - 4
-  - 5
+  # name: my_longitude
+  longitude_in_deg:
+    - 4
+    - 5
 name: my_temperature
 temperatures_in_K:
+  # name: my_temperature
   values:
-  - - - 0
-      - 1
-    - - 2
-      - 3
-  - - - 4
-      - 5
-    - - 6
-      - 7
-time_in_d:
-  values:
-  - 7
-  - 8
+    - - - 0
+        - 1
+      - - 2
+        - 3
+    - - - 4
+        - 5
+      - - 6
+        - 7
+date:
+  # name: my_date
+  date:
+    - "2020-01-01"
+    - "2020-01-02"
+day_in_d:
+  # name: my_day_in_d
+  day_in_d:
+    - 0
+    - 1
+  reference_date: "2020-01-01"

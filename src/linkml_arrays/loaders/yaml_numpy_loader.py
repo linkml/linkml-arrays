@@ -11,9 +11,7 @@ from linkml_runtime.utils.yamlutils import YAMLRoot
 from pydantic import BaseModel
 
 
-def _iterate_element(
-    input_dict: dict, element_type: ClassDefinition, schemaview: SchemaView
-) -> dict:
+def _iterate_element(input_dict: dict, element_type: ClassDefinition, schemaview: SchemaView) -> dict:
     """Recursively iterate through the elements of a LinkML model and load them into a dict.
 
     Datasets are read into memory.
@@ -21,8 +19,8 @@ def _iterate_element(
     ret_dict = dict()
     for k, v in input_dict.items():
         found_slot = schemaview.induced_slot(k, element_type.name)
-        if "linkml:elements" in found_slot.implements:
-            array_file_path = v.replace("file:./", "")
+        if found_slot.array:
+            array_file_path = v.replace("file:", "")
             v = np.load(array_file_path)  # TODO: support lazy loading
         elif isinstance(v, dict):
             found_slot_range = schemaview.get_class(found_slot.range)

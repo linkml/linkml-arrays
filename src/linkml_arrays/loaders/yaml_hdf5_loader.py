@@ -21,8 +21,8 @@ def _iterate_element(
     ret_dict = dict()
     for k, v in input_dict.items():
         found_slot = schemaview.induced_slot(k, element_type.name)
-        if "linkml:elements" in found_slot.implements:
-            array_file_path = v.replace("file:./", "")
+        if found_slot.array:
+            array_file_path = v.replace("file:", "")
             with h5py.File(array_file_path, "r") as f:
                 v = f["data"][()]  # read all the values into memory TODO: support lazy loading
         elif isinstance(v, dict):

@@ -21,9 +21,7 @@ def _iterate_element(
     ret_dict = dict()
     for k, v in input_dict.items():
         found_slot = schemaview.induced_slot(k, element_type.name)
-        if "linkml:elements" in found_slot.implements:
-            v = np.asarray(v)
-        elif isinstance(v, dict):
+        if isinstance(v, dict):
             found_slot_range = schemaview.get_class(found_slot.range)
             v = _iterate_element(v, found_slot_range, schemaview)
         # else: do not transform v
