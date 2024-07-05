@@ -11,7 +11,9 @@ from linkml_runtime.utils.yamlutils import YAMLRoot
 from pydantic import BaseModel
 
 
-def _iterate_element(input_dict: dict, element_type: ClassDefinition, schemaview: SchemaView) -> dict:
+def _iterate_element(
+    input_dict: dict, element_type: ClassDefinition, schemaview: SchemaView
+) -> dict:
     """Recursively iterate through the elements of a LinkML model and load them into a dict.
 
     Datasets are read into memory.

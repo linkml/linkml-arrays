@@ -84,6 +84,24 @@ def test_yaml_hdf5_loader():
     check_container(container)
 
 
+def test_hdf5_loader():
+    """Test loading of pydantic-style classes from HDF5 datasets."""
+    file_path = str(Path(__file__).parent.parent / "input" / "my_container.h5")
+    schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
+    container = Hdf5Loader().loads(file_path, target_class=Container, schemaview=schemaview)
+    check_container(container)
+
+
+def test_zarr_directory_store_loader():
+    """Test loading of pydantic-style classes from Zarr arrays."""
+    file_path = str(Path(__file__).parent.parent / "input" / "my_container.zarr")
+    schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
+    container = ZarrDirectoryStoreLoader().loads(
+        file_path, target_class=Container, schemaview=schemaview
+    )
+    check_container(container)
+
+
 # class Hdf5LoadersTestCase(unittest.TestCase):
 #     """Test loading of pydantic-style classes from an HDF5 file."""
 

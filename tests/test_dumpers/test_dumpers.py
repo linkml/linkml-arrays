@@ -2,6 +2,8 @@
 
 import os
 import unittest
+import h5py
+import zarr
 from ruamel.yaml import YAML
 from pathlib import Path
 
@@ -103,55 +105,66 @@ def test_yaml_hdf5_dumper():
         assert actual == expected
 
 
-# class Hdf5DumpersTestCase(unittest.TestCase):
-#     """Test dumping of pydantic-style classes from LinkML schemas into a single HDF5 file."""
+def test_hdf5_dumper():
+    """Test Hdf5Dumper dumping to an HDF5 file."""
+    container = create_container()
 
-#     def test_dump_pydantic_arrays(self):
-#         """Test dumping pydantic classes with numpy arrays to a signle HDF5 file."""
-#         latitude_in_deg = LatitudeSeries(values=np.array([1, 2, 3]))
-#         longitude_in_deg = LongitudeSeries(values=np.array([4, 5, 6]))
-#         time_in_d = DaySeries(values=np.array([7, 8, 9]))
-#         temperatures_in_K = TemperatureMatrix(
-#             values=np.ones((3, 3, 3)),
-#         )
-#         temperature = TemperatureDataset(
-#             name="my_temperature",
-#             latitude_in_deg=latitude_in_deg,
-#             longitude_in_deg=longitude_in_deg,
-#             time_in_d=time_in_d,
-#             temperatures_in_K=temperatures_in_K,
-#         )
+    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    output_file_path = "my_container.h5"
+    Hdf5Dumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
 
-#         schemaview = SchemaView(Path(__file__) / "../../input/temperature_dataset.yaml")
-#         Hdf5Dumper().dumps(temperature, schemaview=schemaview)
+    assert os.path.exists(output_file_path)
+    with h5py.File(output_file_path, "r") as f:
+        assert f.attrs["name"] == "my_container"
+        assert set(f["latitude_series"].keys()) == set(["values"])
+        np.testing.assert_array_equal(f["latitude_series/values"][:], [[1, 2], [3, 4]])
+        assert set(f["longitude_series"].keys()) == set(["values"])
+        np.testing.assert_array_equal(f["longitude_series/values"][:], [[5, 6], [7, 8]])
+        assert set(f["temperature_dataset"]) == set(["date", "day_in_d", "temperatures_in_K"])
+        assert set(f["temperature_dataset/date"].keys()) == set(["values"])
+        np.testing.assert_array_equal(
+            f["temperature_dataset/date/values"].asstr()[:], np.array(["2020-01-01", "2020-01-02"])
+        )
+        assert set(f["temperature_dataset/day_in_d"].keys()) == set(["values"])
+        assert f["temperature_dataset/day_in_d"].attrs["reference_date"] == "2020-01-01"
+        np.testing.assert_array_equal(f["temperature_dataset/day_in_d/values"][:], [0, 1])
+        assert set(f["temperature_dataset/temperatures_in_K"].keys()) == set(["values"])
+        np.testing.assert_array_equal(
+            f["temperature_dataset/temperatures_in_K/values"][:],
+            [[[0, 1], [2, 3]], [[4, 5], [6, 7]]],
+        )
 
-#         assert os.path.exists("my_temperature.h5")
 
-#         # TODO use h5py to assert that the data is correct
+def test_zarr_directory_store_dumper():
+    """Test ZarrDumper dumping to an HDF5 file."""
+    container = create_container()
 
+    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    output_file_path = "my_container.zarr"
+    ZarrDirectoryStoreDumper().dumps(
+        container, schemaview=schemaview, output_file_path=output_file_path
+    )
 
-# class ZarrDirectoryStoreDumpersTestCase(unittest.TestCase):
-#     """Test dumping of pydantic-style classes from LinkML schemas into a Zarr directory store."""
+    file_path = "my_container.zarr"
+    assert os.path.exists(file_path)
 
-#     def test_dump_pydantic_arrays(self):
-#         """Test dumping pydantic classes with numpy arrays to a Zarr directory store."""
-#         latitude_in_deg = LatitudeSeries(values=np.array([1, 2, 3]))
-#         longitude_in_deg = LongitudeSeries(values=np.array([4, 5, 6]))
-#         time_in_d = DaySeries(values=np.array([7, 8, 9]))
-#         temperatures_in_K = TemperatureMatrix(
-#             values=np.ones((3, 3, 3)),
-#         )
-#         temperature = TemperatureDataset(
-#             name="my_temperature",
-#             latitude_in_deg=latitude_in_deg,
-#             longitude_in_deg=longitude_in_deg,
-#             time_in_d=time_in_d,
-#             temperatures_in_K=temperatures_in_K,
-#         )
-
-#         schemaview = SchemaView(Path(__file__) / "../../input/temperature_dataset.yaml")
-#         ZarrDirectoryStoreDumper().dumps(temperature, schemaview=schemaview)
-
-#         assert os.path.exists("my_temperature.zarr")
-
-#         # TODO use Zarr to assert that the data is correct
+    root = zarr.group(store=file_path)
+    # NOTE this is pretty much the same code as test_hdf5_dumper
+    assert root.attrs["name"] == "my_container"
+    assert set(root["latitude_series"].keys()) == set(["values"])
+    np.testing.assert_array_equal(root["latitude_series/values"][:], [[1, 2], [3, 4]])
+    assert set(root["longitude_series"].keys()) == set(["values"])
+    np.testing.assert_array_equal(root["longitude_series/values"][:], [[5, 6], [7, 8]])
+    assert set(root["temperature_dataset"]) == set(["date", "day_in_d", "temperatures_in_K"])
+    assert set(root["temperature_dataset/date"].keys()) == set(["values"])
+    np.testing.assert_array_equal(
+        root["temperature_dataset/date/values"][:], np.array(["2020-01-01", "2020-01-02"])
+    )
+    assert set(root["temperature_dataset/day_in_d"].keys()) == set(["values"])
+    assert root["temperature_dataset/day_in_d"].attrs["reference_date"] == "2020-01-01"
+    np.testing.assert_array_equal(root["temperature_dataset/day_in_d/values"][:], [0, 1])
+    assert set(root["temperature_dataset/temperatures_in_K"].keys()) == set(["values"])
+    np.testing.assert_array_equal(
+        root["temperature_dataset/temperatures_in_K/values"][:],
+        [[[0, 1], [2, 3]], [[4, 5], [6, 7]]],
+    )

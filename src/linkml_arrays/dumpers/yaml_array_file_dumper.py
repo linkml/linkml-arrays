@@ -15,8 +15,12 @@ from pydantic import BaseModel
 
 
 def _iterate_element(
-    element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, output_dir: Path,
-    write_array: Callable, parent_identifier=None, inlined_name=None
+    element: Union[YAMLRoot, BaseModel],
+    schemaview: SchemaView,
+    output_dir: Path,
+    write_array: Callable,
+    parent_identifier=None,
+    inlined_name=None,
 ):
     """Recursively iterate through the elements of a LinkML model and save them.
 
@@ -69,7 +73,9 @@ def _iterate_element(
             ret_dict[k] = f"file:./{output_file_path}"
         else:
             if isinstance(v, BaseModel):
-                v2 = _iterate_element(v, schemaview, output_dir, write_array, id_value, inlined_name=found_slot.name)
+                v2 = _iterate_element(
+                    v, schemaview, output_dir, write_array, id_value, inlined_name=found_slot.name
+                )
                 ret_dict[k] = v2
             else:
                 ret_dict[k] = v
@@ -79,7 +85,13 @@ def _iterate_element(
 class YamlArrayFileDumper(Dumper, metaclass=ABCMeta):
     """Base dumper class for LinkML models to YAML files with paths to array files."""
 
-    def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, output_dir: Union[str, Path] = None, **kwargs) -> str:
+    def dumps(
+        self,
+        element: Union[YAMLRoot, BaseModel],
+        schemaview: SchemaView,
+        output_dir: Union[str, Path] = None,
+        **kwargs,
+    ) -> str:
         """Return element formatted as a YAML string."""
         if output_dir is None:
             output_dir = "."

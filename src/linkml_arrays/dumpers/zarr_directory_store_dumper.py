@@ -1,5 +1,6 @@
 """Class for dumping a LinkML model to a Zarr directory store."""
 
+from pathlib import Path
 from typing import Union
 
 import zarr
@@ -22,7 +23,7 @@ def _iterate_element(
 
     for k, v in vars(element).items():
         found_slot = schemaview.induced_slot(k, element_type)
-        if "linkml:elements" in found_slot.implements:
+        if found_slot.array:
             # save the numpy array to an hdf5 dataset
             group.create_dataset(found_slot.name, data=v)
         else:
@@ -39,17 +40,14 @@ class ZarrDirectoryStoreDumper(Dumper):
     """Dumper class for LinkML models to Zarr directory stores."""
 
     # TODO is this the right method to overwrite? it does not dump a string
-    def dumps(self, element: Union[YAMLRoot, BaseModel], schemaview: SchemaView, **kwargs):
-        """Dump the element to a Zarr directory store.
-
-        Raises:
-            ValueError: If the class requires an identifier and it is not provided.
-        """
-        id_slot = schemaview.get_identifier_slot(element.__class__.__name__)
-        if id_slot is None:
-            raise ValueError("The class requires an identifier.")
-        id_value = getattr(element, id_slot.name)
-        output_file_path = f"{id_value}.zarr"
+    def dumps(
+        self,
+        element: Union[YAMLRoot, BaseModel],
+        schemaview: SchemaView,
+        output_file_path: Union[str, Path],
+        **kwargs,
+    ):
+        """Dump the element to a Zarr directory store."""
         store = zarr.DirectoryStore(output_file_path)
         root = zarr.group(store=store, overwrite=True)
         _iterate_element(element, schemaview, root)
