@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 
 .DS_Store
-out
-my_container.h5
-my_container.zarr
+/out/*
+/my_container.h5
+/my_container.zarr
