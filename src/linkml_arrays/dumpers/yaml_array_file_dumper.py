@@ -1,10 +1,10 @@
 """Base class for dumpling a LinkML model to a YAML file with paths to NumPy files."""
 
-from typing import Union, List
-from pathlib import Path
 import os
 from abc import ABCMeta, abstractmethod
 from collections.abc import Callable
+from pathlib import Path
+from typing import List, Union
 
 import numpy as np
 import yaml

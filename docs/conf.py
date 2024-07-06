@@ -5,6 +5,7 @@
 
 import os
 from datetime import date
+
 from linkml_arrays import __version__
 
 # -- Project information -----------------------------------------------------

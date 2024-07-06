@@ -2,13 +2,13 @@
 
 import os
 import unittest
-import h5py
-import zarr
-from ruamel.yaml import YAML
 from pathlib import Path
 
+import h5py
 import numpy as np
+import zarr
 from linkml_runtime import SchemaView
+from ruamel.yaml import YAML
 
 from linkml_arrays.dumpers import (
     Hdf5Dumper,
@@ -105,12 +105,12 @@ def test_yaml_hdf5_dumper():
         assert actual == expected
 
 
-def test_hdf5_dumper():
+def test_hdf5_dumper(tmp_path):
     """Test Hdf5Dumper dumping to an HDF5 file."""
     container = create_container()
 
     schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
-    output_file_path = "my_container.h5"
+    output_file_path = tmp_path / "my_container.h5"
     Hdf5Dumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
 
     assert os.path.exists(output_file_path)
@@ -135,20 +135,19 @@ def test_hdf5_dumper():
         )
 
 
-def test_zarr_directory_store_dumper():
+def test_zarr_directory_store_dumper(tmp_path):
     """Test ZarrDumper dumping to an HDF5 file."""
     container = create_container()
 
     schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
-    output_file_path = "my_container.zarr"
+    output_file_path = tmp_path / "my_container.zarr"
     ZarrDirectoryStoreDumper().dumps(
         container, schemaview=schemaview, output_file_path=output_file_path
     )
 
-    file_path = "my_container.zarr"
-    assert os.path.exists(file_path)
+    assert os.path.exists(output_file_path)
 
-    root = zarr.group(store=file_path)
+    root = zarr.group(store=output_file_path)
     # NOTE this is pretty much the same code as test_hdf5_dumper
     assert root.attrs["name"] == "my_container"
     assert set(root["latitude_series"].keys()) == set(["values"])

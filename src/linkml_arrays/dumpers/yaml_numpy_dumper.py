@@ -1,8 +1,9 @@
 """Class for dumpling a LinkML model to a YAML file with paths to NumPy files."""
 
-import numpy as np
 from pathlib import Path
-from typing import Union, List
+from typing import List, Union
+
+import numpy as np
 
 from .yaml_array_file_dumper import YamlArrayFileDumper
 

@@ -1,9 +1,10 @@
 """Class for dumping a LinkML model to a YAML file with paths to HDF5 files."""
 
+from pathlib import Path
+from typing import List, Union
+
 import h5py
 import numpy as np
-from pathlib import Path
-from typing import Union, List
 
 from .yaml_array_file_dumper import YamlArrayFileDumper
 
