@@ -4,7 +4,7 @@ import os
 from abc import ABCMeta, abstractmethod
 from collections.abc import Callable
 from pathlib import Path
-from typing import List, Union
+from typing import List, Optional, Union
 
 import numpy as np
 import yaml
@@ -88,7 +88,7 @@ class YamlArrayFileDumper(Dumper, metaclass=ABCMeta):
         self,
         element: Union[YAMLRoot, BaseModel],
         schemaview: SchemaView,
-        output_dir: Union[str, Path] = None,
+        output_dir: Optional[Union[str, Path]] = None,
         **kwargs,
     ) -> str:
         """Return element formatted as a YAML string."""

@@ -23,6 +23,8 @@ class YamlNumpyDumper(YamlArrayFileDumper):
         """Write an array to a NumPy file."""
         # TODO do not assume that there is only one by this name
         # add suffix to the file name
+        if isinstance(output_file_path_no_suffix, str):
+            output_file_path_no_suffix = Path(output_file_path_no_suffix)
         output_file_path = output_file_path_no_suffix.parent / (
             output_file_path_no_suffix.name + cls.FILE_SUFFIX
         )
