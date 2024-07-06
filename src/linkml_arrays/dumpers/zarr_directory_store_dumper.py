@@ -15,8 +15,8 @@ def _iterate_element(
 ):
     """Recursively iterate through the elements of a LinkML model and save them.
 
-    Writes Pydantic BaseModel objects as groups, slots that implement "linkml:elements"
-    as datasets, and other slots as attributes.
+    Write Pydantic BaseModel objects as groups, slots with the "array" element
+    as arrays, and other slots as attributes.
     """
     # get the type of the element
     element_type = type(element).__name__
@@ -24,7 +24,7 @@ def _iterate_element(
     for k, v in vars(element).items():
         found_slot = schemaview.induced_slot(k, element_type)
         if found_slot.array:
-            # save the numpy array to an hdf5 dataset
+            # save the numpy array to a zarr array
             group.create_dataset(found_slot.name, data=v)
         else:
             if isinstance(v, BaseModel):

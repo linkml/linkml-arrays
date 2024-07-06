@@ -10,7 +10,10 @@ from .yaml_array_file_dumper import YamlArrayFileDumper
 
 
 class YamlHdf5Dumper(YamlArrayFileDumper):
-    """Dumper class for LinkML models to YAML files with paths to NumPy files."""
+    """Dumper class for LinkML models to YAML files with paths to HDF5 files, one for each array.
+
+    Each array is written to an HDF5 dataset at path "/data" in a new HDF5 file.
+    """
 
     FILE_SUFFIX = ".h5"  # used in parent class
 
@@ -18,7 +21,7 @@ class YamlHdf5Dumper(YamlArrayFileDumper):
     def write_array(
         cls, array: Union[List, np.ndarray], output_file_path_no_suffix: Union[str, Path]
     ):
-        """Write an array to a file."""
+        """Write an array to an HDF5 file."""
         # TODO do not assume that there is only one by this name
         # add suffix to the file name
         output_file_path = output_file_path_no_suffix.parent / (

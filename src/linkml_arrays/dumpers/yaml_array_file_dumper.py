@@ -1,4 +1,4 @@
-"""Base class for dumpling a LinkML model to a YAML file with paths to NumPy files."""
+"""Base class for dumping a LinkML model to a YAML file with paths to files containing individual arrays."""
 
 import os
 from abc import ABCMeta, abstractmethod
@@ -24,10 +24,9 @@ def _iterate_element(
 ):
     """Recursively iterate through the elements of a LinkML model and save them.
 
-    Returns a dictionary with the same structure as the input element, but with the slots
-    that implement "linkml:elements" (arrays) are written to HDF5 files and the paths to these
-    files are returned in the dictionary. Each array is written to an HDF5 dataset at path
-    "/data" in a new HDF5 file.
+    Return a dictionary with the same structure as the input element, but where the slots
+    with the "array" element are written to an array file and the paths to these
+    files are returned in the dictionary. The paths are relative to the output directory.
 
     Raises:
         ValueError: If the class requires an identifier and it is not provided.

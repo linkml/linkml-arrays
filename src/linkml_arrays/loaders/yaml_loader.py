@@ -14,10 +14,7 @@ from pydantic import BaseModel
 def _iterate_element(
     input_dict: dict, element_type: ClassDefinition, schemaview: SchemaView
 ) -> dict:
-    """Recursively iterate through the elements of a LinkML model and load them into a dict.
-
-    Datasets are loaded into NumPy arrays.
-    """
+    """Recursively iterate through the elements of a LinkML model and load them into a dict."""
     ret_dict = dict()
     for k, v in input_dict.items():
         found_slot = schemaview.induced_slot(k, element_type.name)

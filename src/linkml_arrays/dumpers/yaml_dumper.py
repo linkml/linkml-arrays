@@ -1,4 +1,4 @@
-"""Class for dumpling a LinkML model to a YAML file."""
+"""Class for dumping a LinkML model to a YAML file."""
 
 from typing import Union
 
@@ -14,8 +14,8 @@ def _iterate_element(
 ):
     """Recursively iterate through the elements of a LinkML model and save them.
 
-    Returns a dictionary with the same structure as the input element, but with the slots
-    that implement "linkml:elements" (arrays) are written as lists or lists of lists.
+    Returns a dictionary with the same structure as the input element, but where the slots
+    with the "array" element are written as lists of lists in YAML.
 
     Raises:
         ValueError: If the class requires an identifier and it is not provided.
@@ -35,10 +35,11 @@ def _iterate_element(
     ret_dict = dict()
     for k, v in vars(element).items():
         found_slot = schemaview.induced_slot(k, element_type)
-        if "linkml:elements" in found_slot.implements:
+        if found_slot.array:
             if id_slot is None and parent_identifier is None:
                 raise ValueError("The class requires an identifier.")
-            ret_dict[k] = v.tolist()
+            assert isinstance(v, list)
+            ret_dict[k] = v
         else:
             if isinstance(v, BaseModel):
                 v2 = _iterate_element(v, schemaview, id_value)

@@ -15,7 +15,7 @@ def _iterate_element(
 ):
     """Recursively iterate through the elements of a LinkML model and save them.
 
-    Writes Pydantic BaseModel objects as groups, slots that implement "linkml:elements"
+    Write Pydantic BaseModel objects as groups, slots with the "array" element
     as datasets, and other slots as attributes.
     """
     # get the type of the element
