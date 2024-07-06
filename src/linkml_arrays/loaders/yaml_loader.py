@@ -2,7 +2,6 @@
 
 from typing import Type, Union
 
-import numpy as np
 import yaml
 from linkml_runtime import SchemaView
 from linkml_runtime.linkml_model import ClassDefinition

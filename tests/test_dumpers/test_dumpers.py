@@ -1,7 +1,6 @@
 """Test dumping LinkML pydantic models with arrays as lists-of-lists to various file formats."""
 
 import os
-import unittest
 from pathlib import Path
 
 import h5py
@@ -30,7 +29,7 @@ from tests.array_classes_lol import (
 INPUT_DIR = Path(__file__).parent.parent / "input"
 
 
-def create_container() -> Container:
+def _create_container() -> Container:
     latitude_in_deg = LatitudeInDegSeries(name="my_latitude", values=[[1, 2], [3, 4]])
     longitude_in_deg = LongitudeInDegSeries(name="my_longitude", values=[[5, 6], [7, 8]])
     date = DateSeries(values=["2020-01-01", "2020-01-02"])
@@ -39,9 +38,10 @@ def create_container() -> Container:
         conversion_factor=1000.0,
         values=[[[0, 1], [2, 3]], [[4, 5], [6, 7]]],
     )
+    # NOTE: currently no way to pass in the actual LatitudeInDegSeries object
     temperature_dataset = TemperatureDataset(
         name="my_temperature",
-        latitude_in_deg="my_latitude",  # currently no way to pass in the actual LatitudeInDegSeries object
+        latitude_in_deg="my_latitude",
         longitude_in_deg="my_longitude",
         date=date,
         day_in_d=days_in_d_since,
@@ -59,7 +59,7 @@ def create_container() -> Container:
 
 def test_yaml_dumper():
     """Test YamlDumper dumping to a YAML file."""
-    container = create_container()
+    container = _create_container()
 
     schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
     ret = YamlDumper().dumps(container, schemaview=schemaview)
@@ -75,7 +75,7 @@ def test_yaml_dumper():
 
 def test_yaml_numpy_dumper():
     """Test YamlNumpyDumper dumping to a YAML file and NumPy .npy files in a directory."""
-    container = create_container()
+    container = _create_container()
 
     schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
     ret = YamlNumpyDumper().dumps(container, schemaview=schemaview, output_dir="./out")
@@ -91,7 +91,7 @@ def test_yaml_numpy_dumper():
 
 def test_yaml_hdf5_dumper():
     """Test YamlNumpyDumper dumping to a YAML file and HDF5 datasets in a directory."""
-    container = create_container()
+    container = _create_container()
 
     schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
     ret = YamlHdf5Dumper().dumps(container, schemaview=schemaview, output_dir="./out")
@@ -107,7 +107,7 @@ def test_yaml_hdf5_dumper():
 
 def test_hdf5_dumper(tmp_path):
     """Test Hdf5Dumper dumping to an HDF5 file."""
-    container = create_container()
+    container = _create_container()
 
     schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
     output_file_path = tmp_path / "my_container.h5"
@@ -137,7 +137,7 @@ def test_hdf5_dumper(tmp_path):
 
 def test_zarr_directory_store_dumper(tmp_path):
     """Test ZarrDumper dumping to an HDF5 file."""
-    container = create_container()
+    container = _create_container()
 
     schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
     output_file_path = tmp_path / "my_container.zarr"

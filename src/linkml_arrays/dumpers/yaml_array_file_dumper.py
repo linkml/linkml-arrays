@@ -1,4 +1,4 @@
-"""Base class for dumping a LinkML model to a YAML file with paths to files containing individual arrays."""
+"""Base class for dumping a LinkML model to YAML with paths to files containing arrays."""
 
 import os
 from abc import ABCMeta, abstractmethod

@@ -1,4 +1,4 @@
-"""Class for dumping a LinkML model to a YAML file with paths to NumPy files."""
+"""Class for dumping a LinkML model to YAML with paths to NumPy files."""
 
 from pathlib import Path
 from typing import List, Union
@@ -9,7 +9,7 @@ from .yaml_array_file_dumper import YamlArrayFileDumper
 
 
 class YamlNumpyDumper(YamlArrayFileDumper):
-    """Dumper class for LinkML models to YAML files with paths to NumPy .npy files, one for each array.
+    """Dumper class for LinkML models to YAML with paths to .npy files, one per array.
 
     Each array is written to an HDF5 dataset at path "/data" in a new HDF5 file.
     """

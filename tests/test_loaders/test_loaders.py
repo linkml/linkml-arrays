@@ -1,9 +1,7 @@
-"""Test loading data from various file formats into LinkML pydantic models with arrays as lists-of-lists."""
+"""Test loading data from various file formats into pydantic models with arrays as LoLs."""
 
-import unittest
 from pathlib import Path
 
-import numpy as np
 from hbreader import hbread
 from linkml_runtime import SchemaView
 
@@ -25,7 +23,7 @@ from tests.array_classes_lol import (
 )
 
 
-def check_container(container: Container):
+def _check_container(container: Container):
     assert isinstance(container, Container)
     assert container.name == "my_container"
 
@@ -40,8 +38,9 @@ def check_container(container: Container):
     assert isinstance(container.temperature_dataset, TemperatureDataset)
     assert container.temperature_dataset.name == "my_temperature"
     assert container.temperature_dataset.latitude_in_deg == "my_latitude"
-    # currently no way to get the actual LatitudeInDegSeries object from the TemperatureDataset object
-    # because the TemperatureDataset Pydantic object expects a string for the latitude_in_deg field
+    # currently no way to get the actual LatitudeInDegSeries object from the
+    # TemperatureDataset object because the TemperatureDataset Pydantic object
+    # expects a string for the latitude_in_deg field
     # to be isomorphic with the json schema / yaml representation
 
     assert container.temperature_dataset.longitude_in_deg == "my_longitude"
@@ -65,7 +64,7 @@ def test_yaml_loader():
     data_yaml = hbread("container_yaml.yaml", base_path=str(Path(__file__) / "../../input"))
     schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
     container = YamlLoader().loads(data_yaml, target_class=Container, schemaview=schemaview)
-    check_container(container)
+    _check_container(container)
 
 
 def test_yaml_numpy_loader():
@@ -73,7 +72,7 @@ def test_yaml_numpy_loader():
     read_yaml = hbread("container_yaml_numpy.yaml", base_path=str(Path(__file__) / "../../input"))
     schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
     container = YamlNumpyLoader().loads(read_yaml, target_class=Container, schemaview=schemaview)
-    check_container(container)
+    _check_container(container)
 
 
 def test_yaml_hdf5_loader():
@@ -81,7 +80,7 @@ def test_yaml_hdf5_loader():
     read_yaml = hbread("container_yaml_hdf5.yaml", base_path=str(Path(__file__) / "../../input"))
     schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
     container = YamlHdf5Loader().loads(read_yaml, target_class=Container, schemaview=schemaview)
-    check_container(container)
+    _check_container(container)
 
 
 def test_hdf5_loader():
@@ -89,7 +88,7 @@ def test_hdf5_loader():
     file_path = str(Path(__file__).parent.parent / "input" / "my_container.h5")
     schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
     container = Hdf5Loader().loads(file_path, target_class=Container, schemaview=schemaview)
-    check_container(container)
+    _check_container(container)
 
 
 def test_zarr_directory_store_loader():
@@ -99,5 +98,4 @@ def test_zarr_directory_store_loader():
     container = ZarrDirectoryStoreLoader().loads(
         file_path, target_class=Container, schemaview=schemaview
     )
-    check_container(container)
-
+    _check_container(container)

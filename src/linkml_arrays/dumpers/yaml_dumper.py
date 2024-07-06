@@ -1,4 +1,4 @@
-"""Class for dumping a LinkML model to a YAML file."""
+"""Class for dumping a LinkML model to YAML."""
 
 from typing import Union
 
