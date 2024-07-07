@@ -2,7 +2,6 @@
 
 from typing import Type, Union
 
-import numpy as np
 import yaml
 from linkml_runtime import SchemaView
 from linkml_runtime.linkml_model import ClassDefinition
@@ -14,16 +13,11 @@ from pydantic import BaseModel
 def _iterate_element(
     input_dict: dict, element_type: ClassDefinition, schemaview: SchemaView
 ) -> dict:
-    """Recursively iterate through the elements of a LinkML model and load them into a dict.
-
-    Datasets are loaded into NumPy arrays.
-    """
+    """Recursively iterate through the elements of a LinkML model and load them into a dict."""
     ret_dict = dict()
     for k, v in input_dict.items():
         found_slot = schemaview.induced_slot(k, element_type.name)
-        if "linkml:elements" in found_slot.implements:
-            v = np.asarray(v)
-        elif isinstance(v, dict):
+        if isinstance(v, dict):
             found_slot_range = schemaview.get_class(found_slot.range)
             v = _iterate_element(v, found_slot_range, schemaview)
         # else: do not transform v

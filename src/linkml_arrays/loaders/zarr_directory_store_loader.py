@@ -25,7 +25,7 @@ def _iterate_element(
         found_slot = schemaview.induced_slot(
             k, element_type.name
         )  # assumes the slot name has been written as the name which is OK for now.
-        if "linkml:elements" in found_slot.implements:
+        if found_slot.array:
             assert isinstance(v, zarr.Array)
             v = v[()]  # read all the values into memory  # TODO support lazy loading
         elif isinstance(v, zarr.hierarchy.Group):  # it's a subgroup

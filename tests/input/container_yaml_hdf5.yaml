@@ -1,0 +1,34 @@
+name: my_container
+latitude_series:
+  name: my_latitude
+  values:
+    source:
+      - file: ./out/my_latitude.values.h5
+        format: hdf5
+longitude_series:
+  name: my_longitude
+  values:
+    source:
+      - file: ./out/my_longitude.values.h5
+        format: hdf5
+temperature_dataset:
+  date:
+    values:
+      source:
+        - file: ./out/my_temperature.date.values.h5
+          format: hdf5
+  day_in_d:
+    reference_date: '2020-01-01'
+    values:
+      source:
+        - file: ./out/my_temperature.day_in_d.values.h5
+          format: hdf5
+  latitude_in_deg: my_latitude
+  longitude_in_deg: my_longitude
+  name: my_temperature
+  temperatures_in_K:
+    conversion_factor: 1000.0
+    values:
+      source:
+        - file: ./out/my_temperature.temperatures_in_K.values.h5
+          format: hdf5

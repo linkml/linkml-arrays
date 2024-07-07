@@ -5,9 +5,7 @@ Support for N-dimensional arrays in LinkML.
 # Quick reference for common commands
 
 ```bash
-cd linkml-model
-poetry run gen-json-schema tests/input/examples/schema_definition-array-2.yaml
-poetry run gen-pydantic tests/input/examples/schema_definition-array-2.yaml
+poetry run gen-pydantic tests/input/temperature_schema.yaml > tests/array_classes_lol.py
 ```
 
 # Acknowledgements

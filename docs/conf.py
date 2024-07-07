@@ -5,6 +5,7 @@
 
 import os
 from datetime import date
+
 from linkml_arrays import __version__
 
 # -- Project information -----------------------------------------------------
@@ -24,7 +25,7 @@ extensions = [
     "sphinx_rtd_theme",
     "sphinx_click",
     # "sphinx_autodoc_typehints",
-    "myst_parser"
+    "myst_parser",
 ]
 
 # generate autosummary pages
