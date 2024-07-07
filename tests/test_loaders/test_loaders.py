@@ -7,9 +7,8 @@ from linkml_runtime import SchemaView
 
 from linkml_arrays.loaders import (
     Hdf5Loader,
-    YamlHdf5Loader,
+    YamlArrayFileLoader,
     YamlLoader,
-    YamlNumpyLoader,
     ZarrDirectoryStoreLoader,
 )
 from tests.array_classes_lol import (
@@ -67,19 +66,23 @@ def test_yaml_loader():
     _check_container(container)
 
 
-def test_yaml_numpy_loader():
+def test_yaml_array_file_loader_numpy():
     """Test loading of pydantic-style classes from YAML + Numpy arrays."""
     read_yaml = hbread("container_yaml_numpy.yaml", base_path=str(Path(__file__) / "../../input"))
     schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
-    container = YamlNumpyLoader().loads(read_yaml, target_class=Container, schemaview=schemaview)
+    container = YamlArrayFileLoader().loads(
+        read_yaml, target_class=Container, schemaview=schemaview
+    )
     _check_container(container)
 
 
-def test_yaml_hdf5_loader():
-    """Test loading of pydantic-style classes from YAML + Numpy arrays."""
+def test_yaml_array_file_loader_hdf5():
+    """Test loading of pydantic-style classes from YAML + HDF5 arrays."""
     read_yaml = hbread("container_yaml_hdf5.yaml", base_path=str(Path(__file__) / "../../input"))
     schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
-    container = YamlHdf5Loader().loads(read_yaml, target_class=Container, schemaview=schemaview)
+    container = YamlArrayFileLoader().loads(
+        read_yaml, target_class=Container, schemaview=schemaview
+    )
     _check_container(container)
 
 

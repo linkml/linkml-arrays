@@ -19,6 +19,7 @@ def _iterate_element(
     schemaview: SchemaView,
     output_dir: Path,
     write_array: Callable,
+    format: str,
     parent_identifier=None,
     inlined_name=None,
 ):
@@ -69,11 +70,24 @@ def _iterate_element(
 
             # save the numpy array to file and write the file path to the dictionary
             output_file_path = write_array(v, output_file_path_no_suffix)
-            ret_dict[k] = f"file:./{output_file_path}"
+            ret_dict[k] = {
+                "source": [
+                    {
+                        "file": f"./{output_file_path}",
+                        "format": format,
+                    }
+                ]
+            }
         else:
             if isinstance(v, BaseModel):
                 v2 = _iterate_element(
-                    v, schemaview, output_dir, write_array, id_value, inlined_name=found_slot.name
+                    v,
+                    schemaview,
+                    output_dir,
+                    write_array,
+                    format,
+                    id_value,
+                    inlined_name=found_slot.name,
                 )
                 ret_dict[k] = v2
             else:
@@ -83,6 +97,8 @@ def _iterate_element(
 
 class YamlArrayFileDumper(Dumper, metaclass=ABCMeta):
     """Base dumper class for LinkML models to YAML files with paths to array files."""
+
+    # FORMAT is a class attribute that must be set by subclasses
 
     def dumps(
         self,
@@ -94,7 +110,9 @@ class YamlArrayFileDumper(Dumper, metaclass=ABCMeta):
         """Return element formatted as a YAML string."""
         if output_dir is None:
             output_dir = "."
-        input = _iterate_element(element, schemaview, Path(output_dir), self.write_array)
+        input = _iterate_element(
+            element, schemaview, Path(output_dir), self.write_array, self.FORMAT
+        )
 
         return yaml.dump(input)
 

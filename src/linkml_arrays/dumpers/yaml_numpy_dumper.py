@@ -15,6 +15,7 @@ class YamlNumpyDumper(YamlArrayFileDumper):
     """
 
     FILE_SUFFIX = ".npy"  # used in parent class
+    FORMAT = "numpy"
 
     @classmethod
     def write_array(

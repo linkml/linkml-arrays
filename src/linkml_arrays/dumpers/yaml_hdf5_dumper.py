@@ -16,6 +16,7 @@ class YamlHdf5Dumper(YamlArrayFileDumper):
     """
 
     FILE_SUFFIX = ".h5"  # used in parent class
+    FORMAT = "hdf5"
 
     @classmethod
     def write_array(
