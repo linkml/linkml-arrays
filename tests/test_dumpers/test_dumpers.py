@@ -70,7 +70,9 @@ def test_yaml_dumper():
     with open(expected_yaml_file) as f:
         expected = yaml.load(f)  # load yaml into dictionary
         actual = yaml.load(ret)
-        assert actual == expected
+        assert expected.keys() == actual.keys()
+        for key in expected.keys():
+            assert actual[key] == expected[key]
 
 
 def test_yaml_numpy_dumper():
