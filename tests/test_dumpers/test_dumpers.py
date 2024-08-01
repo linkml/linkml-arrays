@@ -17,7 +17,7 @@ from linkml_arrays.dumpers import (
     YamlHdf5Dumper,
     YamlNumpyDumper,
     ZarrDirectoryStoreDumper,
-    YamlXarrayNetCDFDumper
+    YamlXarrayNetCDFDumper, XarrayZarrDumper
 )
 from tests.array_classes_lol import (
     Container,
@@ -110,6 +110,38 @@ def test_yaml_hdf5_dumper():
         assert actual == expected
 
 
+def test_xarray_zarr_dumper(tmp_path):
+    container = _create_container()
+    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    output_file_path = tmp_path / "my_container.zarr"
+    XarrayZarrDumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
+
+    assert os.path.exists(output_file_path)
+    root = zarr.group(store=output_file_path)
+    assert root.attrs["name"] == "my_container"
+    np.testing.assert_array_equal(root["latitude_series"][:], [[1, 2], [3, 4]])
+
+    np.testing.assert_array_equal(root["longitude_series"][:], [[5, 6], [7, 8]])
+    assert set(root["temperature_dataset"]) == set(["date", "day_in_d", "temperatures_in_K"])
+
+    # Below reference date seems to be added automatically when using pd.to_datetime
+    np.testing.assert_array_equal(
+        root["temperature_dataset/date"][:], np.array([0, 1])
+    )
+    assert root["temperature_dataset/date"].attrs['units'] == "days since 2020-01-01 00:00:00"
+    np.testing.assert_array_equal(root["temperature_dataset/day_in_d"][:], [0, 1])
+    np.testing.assert_array_equal(
+        root["temperature_dataset/temperatures_in_K"][:],
+        [[[0, 1], [2, 3]], [[4, 5], [6, 7]]],
+    )
+    assert root["temperature_dataset"].attrs["name"] == "my_temperature"
+    assert root["temperature_dataset"].attrs["conversion_factor"] == 1000
+    # Check possibility of reference date being another coords with dims set to date.
+    assert root["temperature_dataset"].attrs["reference_date"] == "2020-01-01"
+    assert root["temperature_dataset"].attrs["latitude_in_deg"] == "my_latitude"
+    assert root["temperature_dataset"].attrs["longitude_in_deg"] == "my_longitude"
+
+
 def test_xarray_netcdf_dumper(tmp_path):
     container = _create_container()
     schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
@@ -138,6 +170,7 @@ def test_xarray_netcdf_dumper(tmp_path):
     assert datatree["temperature_dataset"].attrs["reference_date"] == "2020-01-01"
     assert datatree["temperature_dataset"].attrs["latitude_in_deg"] == "my_latitude"
     assert datatree["temperature_dataset"].attrs["longitude_in_deg"] == "my_longitude"
+
 
 def test_hdf5_dumper(tmp_path):
     """Test Hdf5Dumper dumping to an HDF5 file."""
