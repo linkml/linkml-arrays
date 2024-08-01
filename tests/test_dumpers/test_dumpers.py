@@ -6,15 +6,18 @@ from pathlib import Path
 import h5py
 import numpy as np
 import zarr
+from xarray.backends.api import open_datatree
 from linkml_runtime import SchemaView
 from ruamel.yaml import YAML
 
 from linkml_arrays.dumpers import (
     Hdf5Dumper,
+    XarrayNetCDFDumper,
     YamlDumper,
     YamlHdf5Dumper,
     YamlNumpyDumper,
     ZarrDirectoryStoreDumper,
+    YamlXarrayNetCDFDumper
 )
 from tests.array_classes_lol import (
     Container,
@@ -106,6 +109,35 @@ def test_yaml_hdf5_dumper():
         actual = yaml.load(ret)
         assert actual == expected
 
+
+def test_xarray_netcdf_dumper(tmp_path):
+    container = _create_container()
+    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    output_file_path = tmp_path / "my_container.nc"
+    XarrayNetCDFDumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
+
+    assert os.path.exists(output_file_path)
+    datatree = open_datatree(output_file_path, engine='h5netcdf')
+
+    assert datatree.attrs['name'] == 'my_container'
+    np.testing.assert_array_equal(datatree["latitude_series"].data, [[1, 2], [3, 4]])
+    np.testing.assert_array_equal(datatree["longitude_series"].data, [[5, 6], [7, 8]])
+    assert list(datatree["temperature_dataset"].coords.keys()) == ['date', 'day_in_d']
+
+    dates = np.datetime_as_string(datatree["temperature_dataset"].coords["date"].values, unit="D")
+    np.testing.assert_array_equal(
+        dates, np.array(["2020-01-01", "2020-01-02"])
+    )
+    np.testing.assert_array_equal(datatree["temperature_dataset"]["day_in_d"].values, [0, 1])
+    np.testing.assert_array_equal(datatree["temperature_dataset"]["temperatures_in_K"].values,
+                                  [[[0, 1], [2, 3]], [[4, 5], [6, 7]]])
+
+    assert datatree["temperature_dataset"].attrs["name"] == "my_temperature"
+    assert datatree["temperature_dataset"].attrs["conversion_factor"] == 1000
+    # Check possibility of reference date being another coords with dims set to date.
+    assert datatree["temperature_dataset"].attrs["reference_date"] == "2020-01-01"
+    assert datatree["temperature_dataset"].attrs["latitude_in_deg"] == "my_latitude"
+    assert datatree["temperature_dataset"].attrs["longitude_in_deg"] == "my_longitude"
 
 def test_hdf5_dumper(tmp_path):
     """Test Hdf5Dumper dumping to an HDF5 file."""
