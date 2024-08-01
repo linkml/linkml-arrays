@@ -10,6 +10,7 @@ from linkml_runtime.linkml_model import ClassDefinition
 from linkml_runtime.loaders.loader_root import Loader
 from linkml_runtime.utils.yamlutils import YAMLRoot
 from pydantic import BaseModel
+from pathlib import Path
 
 
 def _iterate_element(
@@ -39,7 +40,7 @@ def _iterate_element(
                         raise ValueError(
                             f"Array slot {k}, source {source}, format {format} has no file."
                         )
-                    array_file_path = file
+                    array_file_path = Path(file)
                     with h5py.File(array_file_path, "r") as f:
                         # read all the values into memory TODO: support lazy loading
                         v = f["data"][()]
