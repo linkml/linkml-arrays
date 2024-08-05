@@ -86,6 +86,7 @@ def _iterate_element(
                 data_dict = vars(v)
                 data_dict["data"] = np.array(data_dict.pop("values"))
                 data_dict["dims"] = [dims[i] for i in range(data_dict["data"].shape[0])]
+                data_dict["attrs"] = {"name": v.name}
                 dataarray = xr.DataArray.from_dict(d=data_dict)
                 datatree[k] = dataarray
             else:
