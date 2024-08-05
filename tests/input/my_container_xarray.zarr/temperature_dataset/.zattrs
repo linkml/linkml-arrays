@@ -1,7 +1,0 @@
-{
-    "conversion_factor": 1000.0,
-    "latitude_in_deg": "my_latitude",
-    "longitude_in_deg": "my_longitude",
-    "name": "my_temperature",
-    "reference_date": "2020-01-01"
-}
