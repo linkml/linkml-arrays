@@ -77,3 +77,31 @@ class XarrayZarrLoader(Loader):
         obj = target_class(**element)
 
         return obj
+
+
+class XarrayNetCDFLoader(Loader):
+    """Class for loading a LinkML model from a xarray netcdf store."""
+
+    def load_any(self, source: str, **kwargs):
+        """Create an instance of the target class from a netcdf store."""
+        return self.load(source, **kwargs)
+
+    def loads(self, source: str, **kwargs):
+        """Create an instance of the target class from a netcdf store."""
+        return self.load(source, **kwargs)
+
+    def load(
+        self,
+        source: str,
+        target_class: Type[Union[YAMLRoot, BaseModel]],
+        schemaview: SchemaView,
+        **kwargs,
+    ):
+        """Create an instance of the target class from a netcdf store."""
+        element_type = schemaview.get_class(target_class.__name__)
+        # opening with this engine gives problems with permissions at least on windows.
+        z = open_datatree(Path(source), engine='h5netcdf')
+        element = _iterate_element(z, element_type, schemaview)
+        obj = target_class(**element)
+
+        return obj
