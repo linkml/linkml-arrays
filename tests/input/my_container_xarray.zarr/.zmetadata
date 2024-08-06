@@ -83,7 +83,7 @@
                 "id": "blosc",
                 "shuffle": 1
             },
-            "dtype": "<i8",
+            "dtype": "<U10",
             "fill_value": null,
             "filters": null,
             "order": "C",
@@ -95,9 +95,7 @@
         "temperature_dataset/date/.zattrs": {
             "_ARRAY_DIMENSIONS": [
                 "date"
-            ],
-            "calendar": "proleptic_gregorian",
-            "units": "days since 2020-01-01 00:00:00"
+            ]
         },
         "temperature_dataset/day_in_d/.zarray": {
             "chunks": [

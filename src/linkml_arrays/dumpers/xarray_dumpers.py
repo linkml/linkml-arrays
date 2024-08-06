@@ -32,7 +32,7 @@ def _create_node(model, schemaview):
         elif isinstance(v, BaseModel):
             if len(var_dict := vars(v)) == 1:
                 # If values are length 1 we are dealing with coords like date
-                v = pd.to_datetime(v.values)
+                v = v.values
                 try:
                     node_dict["coords"][k] = v
                 except KeyError:

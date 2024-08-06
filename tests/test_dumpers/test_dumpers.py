@@ -158,9 +158,9 @@ def test_xarray_zarr_dumper(tmp_path):
 
     # Below reference date seems to be added automatically when using pd.to_datetime
     np.testing.assert_array_equal(
-        root["temperature_dataset/date"][:], np.array([0, 1])
+        root["temperature_dataset/date"][:], np.array(['2020-01-01', '2020-01-02'])
     )
-    assert root["temperature_dataset/date"].attrs['units'] == "days since 2020-01-01 00:00:00"
+
     assert root["temperature_dataset/day_in_d"].attrs["reference_date"] == '2020-01-01'
     np.testing.assert_array_equal(root["temperature_dataset/day_in_d"][:], [0, 1])
     np.testing.assert_array_equal(
@@ -189,9 +189,8 @@ def test_xarray_netcdf_dumper(tmp_path):
     np.testing.assert_array_equal(datatree["longitude_series"].data, [[5, 6], [7, 8]])
     assert list(datatree["temperature_dataset"].coords.keys()) == ['date', 'day_in_d']
 
-    dates = np.datetime_as_string(datatree["temperature_dataset"].coords["date"].values, unit="D")
     np.testing.assert_array_equal(
-        dates, np.array(["2020-01-01", "2020-01-02"])
+        datatree["temperature_dataset"].coords["date"].values, np.array(["2020-01-01", "2020-01-02"])
     )
     np.testing.assert_array_equal(datatree["temperature_dataset"]["day_in_d"].values, [0, 1])
     assert datatree["temperature_dataset"]["day_in_d"].attrs["reference_date"] == '2020-01-01'
