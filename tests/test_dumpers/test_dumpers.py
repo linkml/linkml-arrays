@@ -6,15 +6,18 @@ from pathlib import Path
 import h5py
 import numpy as np
 import zarr
+from xarray.backends.api import open_datatree
 from linkml_runtime import SchemaView
 from ruamel.yaml import YAML
 
 from linkml_arrays.dumpers import (
     Hdf5Dumper,
+    XarrayNetCDFDumper,
     YamlDumper,
     YamlHdf5Dumper,
     YamlNumpyDumper,
     ZarrDirectoryStoreDumper,
+    YamlXarrayNetCDFDumper, XarrayZarrDumper, YamlXarrayZarrDumper
 )
 from tests.array_classes_lol import (
     Container,
@@ -70,7 +73,9 @@ def test_yaml_dumper():
     with open(expected_yaml_file) as f:
         expected = yaml.load(f)  # load yaml into dictionary
         actual = yaml.load(ret)
-        assert actual == expected
+        assert expected.keys() == actual.keys()
+        for key in expected.keys():
+            assert actual[key] == expected[key]
 
 
 def test_yaml_numpy_dumper():
@@ -103,6 +108,100 @@ def test_yaml_hdf5_dumper():
         expected = yaml.load(f)  # load yaml into dictionary
         actual = yaml.load(ret)
         assert actual == expected
+
+
+def test_yaml_xarray_zarr_dumper():
+    """Test YamlXarrayDumper dumping to a YAML file and zarr datasets in a directory."""
+    container = _create_container()
+
+    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    ret = YamlXarrayZarrDumper().dumps(container, schemaview=schemaview, output_dir="./out")
+
+    # read and compare with the expected YAML file ignoring order of keys
+    expected_yaml_file = INPUT_DIR / "container_yaml_xarray_zarr.yaml"
+    yaml = YAML(typ="safe")
+    with open(expected_yaml_file) as f:
+        expected = yaml.load(f)  # load yaml into dictionary
+        actual = yaml.load(ret)
+        assert actual == expected
+
+
+def test_yaml_xarray_netcdf_dumper():
+    """Test YamlXarrayNetCDFDumper dumping to a YAML file and netcdf datasets in a directory."""
+    container = _create_container()
+
+    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    ret = YamlXarrayNetCDFDumper().dumps(container, schemaview=schemaview, output_dir="./out")
+
+    # read and compare with the expected YAML file ignoring order of keys
+    expected_yaml_file = INPUT_DIR / "container_yaml_xarray_netcdf.yaml"
+    yaml = YAML(typ="safe")
+    with open(expected_yaml_file) as f:
+        expected = yaml.load(f)  # load yaml into dictionary
+        actual = yaml.load(ret)
+        assert actual == expected
+
+
+def test_xarray_zarr_dumper(tmp_path):
+    container = _create_container()
+    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    output_file_path = tmp_path / "my_container_xarray.zarr"
+    XarrayZarrDumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
+
+    assert os.path.exists(output_file_path)
+    root = zarr.group(store=output_file_path)
+    assert root.attrs["name"] == "my_container"
+    np.testing.assert_array_equal(root["latitude_series"][:], [[1, 2], [3, 4]])
+
+    np.testing.assert_array_equal(root["longitude_series"][:], [[5, 6], [7, 8]])
+    assert set(root["temperature_dataset"]) == set(["date", "day_in_d", "temperatures_in_K"])
+
+    # Below reference date seems to be added automatically when using pd.to_datetime
+    np.testing.assert_array_equal(
+        root["temperature_dataset/date"][:], np.array(['2020-01-01', '2020-01-02'])
+    )
+
+    assert root["temperature_dataset/day_in_d"].attrs["reference_date"] == '2020-01-01'
+    np.testing.assert_array_equal(root["temperature_dataset/day_in_d"][:], [0, 1])
+    np.testing.assert_array_equal(
+        root["temperature_dataset/temperatures_in_K"][:],
+        [[[0, 1], [2, 3]], [[4, 5], [6, 7]]],
+    )
+    assert root["temperature_dataset/temperatures_in_K"].attrs["conversion_factor"] == 1000
+
+    assert root["temperature_dataset"].attrs["name"] == "my_temperature"
+    # Check possibility of reference date being another coords with dims set to date.
+    assert root["temperature_dataset"].attrs["latitude_in_deg"] == "my_latitude"
+    assert root["temperature_dataset"].attrs["longitude_in_deg"] == "my_longitude"
+
+
+def test_xarray_netcdf_dumper(tmp_path):
+    container = _create_container()
+    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    output_file_path = tmp_path / "my_container.nc"
+    XarrayNetCDFDumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
+
+    assert os.path.exists(output_file_path)
+    datatree = open_datatree(output_file_path, engine='h5netcdf')
+
+    assert datatree.attrs['name'] == 'my_container'
+    np.testing.assert_array_equal(datatree["latitude_series"].data, [[1, 2], [3, 4]])
+    np.testing.assert_array_equal(datatree["longitude_series"].data, [[5, 6], [7, 8]])
+    assert list(datatree["temperature_dataset"].coords.keys()) == ['date', 'day_in_d']
+
+    np.testing.assert_array_equal(
+        datatree["temperature_dataset"].coords["date"].values, np.array(["2020-01-01", "2020-01-02"])
+    )
+    np.testing.assert_array_equal(datatree["temperature_dataset"]["day_in_d"].values, [0, 1])
+    assert datatree["temperature_dataset"]["day_in_d"].attrs["reference_date"] == '2020-01-01'
+    np.testing.assert_array_equal(datatree["temperature_dataset"]["temperatures_in_K"].values,
+                                  [[[0, 1], [2, 3]], [[4, 5], [6, 7]]])
+    assert datatree["temperature_dataset"].data_vars["temperatures_in_K"].attrs["conversion_factor"] == 1000
+
+    assert datatree["temperature_dataset"].attrs["name"] == "my_temperature"
+    # Check possibility of reference date being another coords with dims set to date.
+    assert datatree["temperature_dataset"].attrs["latitude_in_deg"] == "my_latitude"
+    assert datatree["temperature_dataset"].attrs["longitude_in_deg"] == "my_longitude"
 
 
 def test_hdf5_dumper(tmp_path):
