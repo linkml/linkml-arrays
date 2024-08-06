@@ -9,6 +9,7 @@ from linkml_arrays.loaders import (
     Hdf5Loader,
     YamlArrayFileLoader,
     YamlLoader,
+    XarrayZarrLoader,
     ZarrDirectoryStoreLoader,
 )
 from tests.array_classes_lol import (
@@ -93,6 +94,13 @@ def test_hdf5_loader():
     container = Hdf5Loader().loads(file_path, target_class=Container, schemaview=schemaview)
     _check_container(container)
 
+
+def test_xarray_zarr_loader():
+    """Test loading of pydantic-style classes from xarray zarr datasets."""
+    file_path = str(Path(__file__).parent.parent / "input" / "my_container_xarray.zarr")
+    schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
+    container = XarrayZarrLoader().loads(file_path, target_class=Container, schemaview=schemaview)
+    _check_container(container)
 
 def test_zarr_directory_store_loader():
     """Test loading of pydantic-style classes from Zarr arrays."""
