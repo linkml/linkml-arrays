@@ -56,10 +56,7 @@ def _create_node(model, schemaview):
                     else:
                         if isinstance(value, str):
                             # can't use timestamp here as it does not serialize, potentially add with 'data' dims as coord
-                            try:
-                                node_dict["attrs"][key] = value
-                            except KeyError:
-                                node_dict["attrs"] = {key: value}
+                            node_dict["coords"][k].update({"attrs": {key: value}})
                         else:
                             # conversion factor
                             node_dict["attrs"][key] = value
