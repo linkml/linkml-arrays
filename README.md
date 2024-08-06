@@ -1,6 +1,6 @@
 # linkml-arrays
 
-Support for N-dimensional arrays in LinkML.
+Support for loading and dumping N-dimensional arrays in LinkML.
 
 # Quick reference for common commands
 
