@@ -110,7 +110,7 @@ def test_yaml_hdf5_dumper():
         assert actual == expected
 
 
-def test_yaml_xarray_dumper():
+def test_yaml_xarray_netcdf_dumper():
     """Test YamlNumpyDumper dumping to a YAML file and HDF5 datasets in a directory."""
     container = _create_container()
 
@@ -129,7 +129,7 @@ def test_yaml_xarray_dumper():
 def test_xarray_zarr_dumper(tmp_path):
     container = _create_container()
     schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
-    output_file_path = INPUT_DIR / "my_container_xarray.zarr"
+    output_file_path = tmp_path / "my_container_xarray.zarr"
     XarrayZarrDumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
 
     assert os.path.exists(output_file_path)
@@ -151,8 +151,9 @@ def test_xarray_zarr_dumper(tmp_path):
         root["temperature_dataset/temperatures_in_K"][:],
         [[[0, 1], [2, 3]], [[4, 5], [6, 7]]],
     )
+    assert root["temperature_dataset/temperatures_in_K"].attrs["conversion_factor"] == 1000
+
     assert root["temperature_dataset"].attrs["name"] == "my_temperature"
-    assert root["temperature_dataset"].attrs["conversion_factor"] == 1000
     # Check possibility of reference date being another coords with dims set to date.
     assert root["temperature_dataset"].attrs["latitude_in_deg"] == "my_latitude"
     assert root["temperature_dataset"].attrs["longitude_in_deg"] == "my_longitude"
@@ -161,7 +162,7 @@ def test_xarray_zarr_dumper(tmp_path):
 def test_xarray_netcdf_dumper(tmp_path):
     container = _create_container()
     schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
-    output_file_path = INPUT_DIR / "my_container.nc"
+    output_file_path = tmp_path / "my_container.nc"
     XarrayNetCDFDumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
 
     assert os.path.exists(output_file_path)
@@ -180,9 +181,9 @@ def test_xarray_netcdf_dumper(tmp_path):
     assert datatree["temperature_dataset"]["day_in_d"].attrs["reference_date"] == '2020-01-01'
     np.testing.assert_array_equal(datatree["temperature_dataset"]["temperatures_in_K"].values,
                                   [[[0, 1], [2, 3]], [[4, 5], [6, 7]]])
+    assert datatree["temperature_dataset"].data_vars["temperatures_in_K"].attrs["conversion_factor"] == 1000
 
     assert datatree["temperature_dataset"].attrs["name"] == "my_temperature"
-    assert datatree["temperature_dataset"].attrs["conversion_factor"] == 1000
     # Check possibility of reference date being another coords with dims set to date.
     assert datatree["temperature_dataset"].attrs["latitude_in_deg"] == "my_latitude"
     assert datatree["temperature_dataset"].attrs["longitude_in_deg"] == "my_longitude"

@@ -52,14 +52,14 @@ def _create_node(model, schemaview):
                             dims = [dim.alias for dim in dimensions_expressions]
                             array = np.array(value)
                             node_dict["dims"] = {dim: array.shape[i] for i, dim in enumerate(dims)}
-                            node_dict["data_vars"] = {k: {"data": array, "dims": list(node_dict["dims"].keys())}}
+                            node_dict["data_vars"][k].update({"data": array, "dims": list(node_dict["dims"].keys())})
                     else:
                         if isinstance(value, str):
                             # can't use timestamp here as it does not serialize, potentially add with 'data' dims as coord
                             node_dict["coords"][k].update({"attrs": {key: value}})
                         else:
                             # conversion factor
-                            node_dict["attrs"][key] = value
+                            node_dict["data_vars"] = {k: {"attrs": {key: value}}}
     return xr.Dataset.from_dict(node_dict)
 
 
