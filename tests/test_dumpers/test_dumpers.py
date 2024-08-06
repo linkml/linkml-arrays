@@ -17,7 +17,7 @@ from linkml_arrays.dumpers import (
     YamlHdf5Dumper,
     YamlNumpyDumper,
     ZarrDirectoryStoreDumper,
-    YamlXarrayNetCDFDumper, XarrayZarrDumper
+    YamlXarrayNetCDFDumper, XarrayZarrDumper, YamlXarrayZarrDumper
 )
 from tests.array_classes_lol import (
     Container,
@@ -110,8 +110,24 @@ def test_yaml_hdf5_dumper():
         assert actual == expected
 
 
+def test_yaml_xarray_zarr_dumper():
+    """Test YamlXarrayDumper dumping to a YAML file and zarr datasets in a directory."""
+    container = _create_container()
+
+    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    ret = YamlXarrayZarrDumper().dumps(container, schemaview=schemaview, output_dir="./out")
+
+    # read and compare with the expected YAML file ignoring order of keys
+    expected_yaml_file = INPUT_DIR / "container_yaml_xarray_zarr.yaml"
+    yaml = YAML(typ="safe")
+    with open(expected_yaml_file) as f:
+        expected = yaml.load(f)  # load yaml into dictionary
+        actual = yaml.load(ret)
+        assert actual == expected
+
+
 def test_yaml_xarray_netcdf_dumper():
-    """Test YamlNumpyDumper dumping to a YAML file and HDF5 datasets in a directory."""
+    """Test YamlXarrayNetCDFDumper dumping to a YAML file and netcdf datasets in a directory."""
     container = _create_container()
 
     schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
