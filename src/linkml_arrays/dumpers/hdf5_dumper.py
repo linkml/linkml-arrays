@@ -39,14 +39,16 @@ def _iterate_element(
 class Hdf5Dumper(Dumper):
     """Dumper class for LinkML models to HDF5 files."""
 
-    # TODO is this the right method to overwrite? it does not dump a string
-    def dumps(
+    def dump(
         self,
         element: Union[YAMLRoot, BaseModel],
+        to_file: str,
         schemaview: SchemaView,
-        output_file_path: Union[str, Path],
         **kwargs,
     ):
         """Dump the element to an HDF5 file."""
-        with h5py.File(output_file_path, "w") as f:
+        with h5py.File(to_file, "w") as f:
             _iterate_element(element, schemaview, f)
+
+    def dumps(self, element: Union[YAMLRoot, BaseModel], **kwargs):
+        raise NotImplementedError("This method is not sensible for this dumper.")

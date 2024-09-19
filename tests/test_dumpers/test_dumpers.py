@@ -155,7 +155,7 @@ def test_xarray_zarr_dumper(tmp_path):
     container = _create_container()
     schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
     output_file_path = tmp_path / "my_container_xarray.zarr"
-    XarrayZarrDumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
+    XarrayZarrDumper().dump(container, to_file=output_file_path, schemaview=schemaview)
 
     assert os.path.exists(output_file_path)
     root = zarr.group(store=output_file_path)
@@ -188,7 +188,7 @@ def test_xarray_netcdf_dumper(tmp_path):
     container = _create_container()
     schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
     output_file_path = tmp_path / "my_container.nc"
-    XarrayNetCDFDumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
+    XarrayNetCDFDumper().dump(container, to_file=output_file_path, schemaview=schemaview)
 
     assert os.path.exists(output_file_path)
     datatree = open_datatree(output_file_path, engine='h5netcdf')
@@ -219,7 +219,7 @@ def test_hdf5_dumper(tmp_path):
 
     schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
     output_file_path = tmp_path / "my_container.h5"
-    Hdf5Dumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
+    Hdf5Dumper().dump(container, to_file=output_file_path, schemaview=schemaview)
 
     assert os.path.exists(output_file_path)
     with h5py.File(output_file_path, "r") as f:
@@ -249,9 +249,7 @@ def test_zarr_directory_store_dumper(tmp_path):
 
     schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
     output_file_path = tmp_path / "my_container.zarr"
-    ZarrDirectoryStoreDumper().dumps(
-        container, schemaview=schemaview, output_file_path=output_file_path
-    )
+    ZarrDirectoryStoreDumper().dump(container, to_file=output_file_path, schemaview=schemaview)
 
     assert os.path.exists(output_file_path)
 
