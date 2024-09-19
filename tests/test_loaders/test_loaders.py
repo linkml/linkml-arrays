@@ -1,5 +1,8 @@
 """Test loading data from various file formats into pydantic models with arrays as LoLs."""
 
+# NOTE: These tests rely on the input files in the input/ directory. If the loaders or these tests change,
+# the input files may need to be updated as well.
+
 from pathlib import Path
 
 from hbreader import hbread
@@ -9,6 +12,8 @@ from linkml_arrays.loaders import (
     Hdf5Loader,
     YamlArrayFileLoader,
     YamlLoader,
+    XarrayNetCDFLoader,
+    XarrayZarrLoader,
     ZarrDirectoryStoreLoader,
 )
 from tests.array_classes_lol import (
@@ -60,16 +65,16 @@ def _check_container(container: Container):
 
 def test_yaml_loader():
     """Test YamlLoader loading pydantic classes from YAML arrays."""
-    data_yaml = hbread("container_yaml.yaml", base_path=str(Path(__file__) / "../../input"))
-    schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
+    data_yaml = hbread("container_yaml.yaml", base_path=str(Path(__file__).parent / "input"))
+    schemaview = SchemaView(Path(__file__).parent / "input/temperature_schema.yaml")
     container = YamlLoader().loads(data_yaml, target_class=Container, schemaview=schemaview)
     _check_container(container)
 
 
 def test_yaml_array_file_loader_numpy():
     """Test loading of pydantic-style classes from YAML + Numpy arrays."""
-    read_yaml = hbread("container_yaml_numpy.yaml", base_path=str(Path(__file__) / "../../input"))
-    schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
+    read_yaml = hbread("container_yaml_numpy.yaml", base_path=str(Path(__file__).parent / "input"))
+    schemaview = SchemaView(Path(__file__).parent / "input/temperature_schema.yaml")
     container = YamlArrayFileLoader().loads(
         read_yaml, target_class=Container, schemaview=schemaview
     )
@@ -78,8 +83,28 @@ def test_yaml_array_file_loader_numpy():
 
 def test_yaml_array_file_loader_hdf5():
     """Test loading of pydantic-style classes from YAML + HDF5 arrays."""
-    read_yaml = hbread("container_yaml_hdf5.yaml", base_path=str(Path(__file__) / "../../input"))
-    schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
+    read_yaml = hbread("container_yaml_hdf5.yaml", base_path=str(Path(__file__).parent / "input"))
+    schemaview = SchemaView(Path(__file__).parent / "input/temperature_schema.yaml")
+    container = YamlArrayFileLoader().loads(
+        read_yaml, target_class=Container, schemaview=schemaview
+    )
+    _check_container(container)
+
+
+def test_yaml_array_file_loader_xarray_zarr():
+    """Test loading of pydantic-style classes from YAML + xarrays stored as .zarr."""
+    read_yaml = hbread("container_yaml_xarray_zarr.yaml", base_path=str(Path(__file__).parent / "input"))
+    schemaview = SchemaView(Path(__file__).parent / "input/temperature_schema.yaml")
+    container = YamlArrayFileLoader().loads(
+        read_yaml, target_class=Container, schemaview=schemaview
+    )
+    _check_container(container)
+
+
+def test_yaml_array_file_loader_xarray_netcdf():
+    """Test loading of pydantic-style classes from YAML + xarrays stored as .nc."""
+    read_yaml = hbread("container_yaml_xarray_netcdf.yaml", base_path=str(Path(__file__).parent / "input"))
+    schemaview = SchemaView(Path(__file__).parent / "input/temperature_schema.yaml")
     container = YamlArrayFileLoader().loads(
         read_yaml, target_class=Container, schemaview=schemaview
     )
@@ -88,16 +113,32 @@ def test_yaml_array_file_loader_hdf5():
 
 def test_hdf5_loader():
     """Test loading of pydantic-style classes from HDF5 datasets."""
-    file_path = str(Path(__file__).parent.parent / "input" / "my_container.h5")
-    schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
+    file_path = str(Path(__file__).parent / "input" / "my_container.h5")
+    schemaview = SchemaView(Path(__file__).parent / "input/temperature_schema.yaml")
     container = Hdf5Loader().loads(file_path, target_class=Container, schemaview=schemaview)
+    _check_container(container)
+
+
+def test_xarray_zarr_loader():
+    """Test loading of pydantic-style classes from xarray zarr datasets."""
+    file_path = str(Path(__file__).parent / "input" / "my_container_xarray.zarr")
+    schemaview = SchemaView(Path(__file__).parent / "input/temperature_schema.yaml")
+    container = XarrayZarrLoader().loads(file_path, target_class=Container, schemaview=schemaview)
+    _check_container(container)
+
+
+def test_xarray_netcdf_loader():
+    """Test loading of pydantic-style classes from xarray zarr datasets."""
+    file_path = str(Path(__file__).parent / "input" / "my_container.nc")
+    schemaview = SchemaView(Path(__file__).parent / "input/temperature_schema.yaml")
+    container = XarrayNetCDFLoader().loads(file_path, target_class=Container, schemaview=schemaview)
     _check_container(container)
 
 
 def test_zarr_directory_store_loader():
     """Test loading of pydantic-style classes from Zarr arrays."""
-    file_path = str(Path(__file__).parent.parent / "input" / "my_container.zarr")
-    schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
+    file_path = str(Path(__file__).parent / "input" / "my_container.zarr")
+    schemaview = SchemaView(Path(__file__).parent / "input/temperature_schema.yaml")
     container = ZarrDirectoryStoreLoader().loads(
         file_path, target_class=Container, schemaview=schemaview
     )

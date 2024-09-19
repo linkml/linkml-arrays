@@ -1,0 +1,34 @@
+name: my_container
+latitude_series:
+  name: my_latitude
+  values:
+    source:
+      - file: my_latitude.values.nc
+        format: netcdf
+longitude_series:
+  name: my_longitude
+  values:
+    source:
+      - file: my_longitude.values.nc
+        format: netcdf
+temperature_dataset:
+  date:
+    values:
+      source:
+        - file: my_temperature.date.values.nc
+          format: netcdf
+  day_in_d:
+    reference_date: '2020-01-01'
+    values:
+      source:
+        - file: my_temperature.day_in_d.values.nc
+          format: netcdf
+  latitude_in_deg: my_latitude
+  longitude_in_deg: my_longitude
+  name: my_temperature
+  temperatures_in_K:
+    conversion_factor: 1000.0
+    values:
+      source:
+        - file: my_temperature.temperatures_in_K.values.nc
+          format: netcdf

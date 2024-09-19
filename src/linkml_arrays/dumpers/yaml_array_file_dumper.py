@@ -61,19 +61,17 @@ def _iterate_element(
             else:
                 output_file_name = f"{found_slot.name}"
 
-            # if output_dir is absolute, make it relative to current working directory
-            # and create the directory if it does not exist
-            if output_dir.is_absolute():
-                output_dir = Path(os.path.relpath(output_dir, start=os.getcwd()))
-            output_dir.mkdir(exist_ok=True)
-            output_file_path_no_suffix = output_dir / output_file_name
+            output_file_path_no_suffix = (output_dir / output_file_name)
 
             # save the numpy array to file and write the file path to the dictionary
             output_file_path = write_array(v, output_file_path_no_suffix)
+
+            # write the path to the array file relative to the output directory where the yaml is written
+            relative_output_file_path = os.path.relpath(output_file_path, start=output_dir)
             ret_dict[k] = {
                 "source": [
                     {
-                        "file": f"./{output_file_path}",
+                        "file": f"{relative_output_file_path}",
                         "format": format,
                     }
                 ]
@@ -99,6 +97,21 @@ class YamlArrayFileDumper(Dumper, metaclass=ABCMeta):
     """Base dumper class for LinkML models to YAML files with paths to array files."""
 
     # FORMAT is a class attribute that must be set by subclasses
+
+    def dump(
+        self,
+        element: Union[YAMLRoot, BaseModel],
+        to_file: str,
+        schemaview: SchemaView,
+        **kwargs,
+    ):
+        """Dump the element to a YAML file with paths to array files."""
+        output_dir = Path(to_file).parent
+        input = _iterate_element(
+            element, schemaview, Path(output_dir), self.write_array, self.FORMAT
+        )
+        with open(to_file, "w") as f:
+            yaml.dump(input, f)
 
     def dumps(
         self,

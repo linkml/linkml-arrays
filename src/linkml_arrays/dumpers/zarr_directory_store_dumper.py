@@ -39,15 +39,17 @@ def _iterate_element(
 class ZarrDirectoryStoreDumper(Dumper):
     """Dumper class for LinkML models to Zarr directory stores."""
 
-    # TODO is this the right method to overwrite? it does not dump a string
-    def dumps(
+    def dump(
         self,
         element: Union[YAMLRoot, BaseModel],
+        to_file: str,
         schemaview: SchemaView,
-        output_file_path: Union[str, Path],
         **kwargs,
     ):
         """Dump the element to a Zarr directory store."""
-        store = zarr.DirectoryStore(output_file_path)
+        store = zarr.DirectoryStore(to_file)
         root = zarr.group(store=store, overwrite=True)
         _iterate_element(element, schemaview, root)
+
+    def dumps(self, element: Union[YAMLRoot, BaseModel], **kwargs):
+        raise NotImplementedError("This method is not sensible for this dumper.")
