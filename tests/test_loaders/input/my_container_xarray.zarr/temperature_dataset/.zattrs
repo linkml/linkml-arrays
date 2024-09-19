@@ -1,0 +1,5 @@
+{
+    "latitude_in_deg": "my_latitude",
+    "longitude_in_deg": "my_longitude",
+    "name": "my_temperature"
+}

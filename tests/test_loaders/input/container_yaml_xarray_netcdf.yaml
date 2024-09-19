@@ -3,25 +3,25 @@ latitude_series:
   name: my_latitude
   values:
     source:
-      - file: "./out/my_latitude.values.nc"
+      - file: "./tests/test_loaders/input/yaml_xarray_ncs/my_latitude.values.nc"
         format: netcdf
 longitude_series:
   name: my_longitude
   values:
     source:
-      - file: "./out/my_longitude.values.nc"
+      - file: "./tests/test_loaders/input/yaml_xarray_ncs/my_longitude.values.nc"
         format: netcdf
 temperature_dataset:
   date:
     values:
       source:
-        - file: "./out/my_temperature.date.values.nc"
+        - file: "./tests/test_loaders/input/yaml_xarray_ncs/my_temperature.date.values.nc"
           format: netcdf
   day_in_d:
     reference_date: '2020-01-01'
     values:
       source:
-        - file: "./out/my_temperature.day_in_d.values.nc"
+        - file: "./tests/test_loaders/input/yaml_xarray_ncs/my_temperature.day_in_d.values.nc"
           format: netcdf
   latitude_in_deg: my_latitude
   longitude_in_deg: my_longitude
@@ -30,5 +30,5 @@ temperature_dataset:
     conversion_factor: 1000.0
     values:
       source:
-        - file: "./out/my_temperature.temperatures_in_K.values.nc"
+        - file: "./tests/test_loaders/input/yaml_xarray_ncs/my_temperature.temperatures_in_K.values.nc"
           format: netcdf

@@ -3,25 +3,25 @@ latitude_series:
   name: my_latitude
   values:
     source:
-      - file: "./out/my_latitude.values.zarr"
+      - file: "./tests/test_loaders/input/yaml_xarray_zarrs/my_latitude.values.zarr"
         format: zarr
 longitude_series:
   name: my_longitude
   values:
     source:
-      - file: "./out/my_longitude.values.zarr"
+      - file: "./tests/test_loaders/input/yaml_xarray_zarrs/my_longitude.values.zarr"
         format: zarr
 temperature_dataset:
   date:
     values:
       source:
-        - file: "./out/my_temperature.date.values.zarr"
+        - file: "./tests/test_loaders/input/yaml_xarray_zarrs/my_temperature.date.values.zarr"
           format: zarr
   day_in_d:
     reference_date: '2020-01-01'
     values:
       source:
-        - file: "./out/my_temperature.day_in_d.values.zarr"
+        - file: "./tests/test_loaders/input/yaml_xarray_zarrs/my_temperature.day_in_d.values.zarr"
           format: zarr
   latitude_in_deg: my_latitude
   longitude_in_deg: my_longitude
@@ -30,5 +30,5 @@ temperature_dataset:
     conversion_factor: 1000.0
     values:
       source:
-        - file: "./out/my_temperature.temperatures_in_K.values.zarr"
+        - file: "./tests/test_loaders/input/yaml_xarray_zarrs/my_temperature.temperatures_in_K.values.zarr"
           format: zarr

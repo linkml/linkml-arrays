@@ -29,7 +29,7 @@ from tests.array_classes_lol import (
     TemperaturesInKMatrix,
 )
 
-INPUT_DIR = Path(__file__).parent.parent / "input"
+GROUND_TRUTH_DIR = Path(__file__).parent / "ground_truth"
 
 
 def _create_container() -> Container:
@@ -62,13 +62,14 @@ def _create_container() -> Container:
 
 def test_yaml_dumper():
     """Test YamlDumper dumping to a YAML file."""
+    # NOTE: YamlDumper dumps to a YAML string/stream, not a file
     container = _create_container()
 
-    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
     ret = YamlDumper().dumps(container, schemaview=schemaview)
 
     # read and compare with the expected YAML file ignoring order of keys
-    expected_yaml_file = INPUT_DIR / "container_yaml.yaml"
+    expected_yaml_file = GROUND_TRUTH_DIR / "container_yaml.yaml"
     yaml = YAML(typ="safe")
     with open(expected_yaml_file) as f:
         expected = yaml.load(f)  # load yaml into dictionary
@@ -78,73 +79,81 @@ def test_yaml_dumper():
             assert actual[key] == expected[key]
 
 
-def test_yaml_numpy_dumper():
+def test_yaml_numpy_dumper(tmp_path):
     """Test YamlNumpyDumper dumping to a YAML file and NumPy .npy files in a directory."""
     container = _create_container()
 
-    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
-    ret = YamlNumpyDumper().dumps(container, schemaview=schemaview, output_dir="./out")
+    output_yaml = tmp_path / "container_yaml_numpy.yaml"
+    schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
+    YamlNumpyDumper().dump(container, to_file=output_yaml, schemaview=schemaview)
 
     # read and compare with the expected YAML file ignoring order of keys
-    expected_yaml_file = INPUT_DIR / "container_yaml_numpy.yaml"
+    expected_yaml_file = GROUND_TRUTH_DIR / "container_yaml_numpy.yaml"
     yaml = YAML(typ="safe")
-    with open(expected_yaml_file) as f:
-        expected = yaml.load(f)  # load yaml into dictionary
-        actual = yaml.load(ret)
-        assert actual == expected
+    with open(output_yaml) as f_actual:
+        with open(expected_yaml_file) as f_expected:
+            actual = yaml.load(f_actual)
+            expected = yaml.load(f_expected)
+            assert actual == expected
 
 
-def test_yaml_hdf5_dumper():
+def test_yaml_hdf5_dumper(tmp_path):
     """Test YamlNumpyDumper dumping to a YAML file and HDF5 datasets in a directory."""
     container = _create_container()
 
-    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
-    ret = YamlHdf5Dumper().dumps(container, schemaview=schemaview, output_dir="./out")
+    output_yaml = tmp_path / "container_yaml_hdf5.yaml"
+    schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
+    YamlHdf5Dumper().dump(container, to_file=output_yaml, schemaview=schemaview)
 
     # read and compare with the expected YAML file ignoring order of keys
-    expected_yaml_file = INPUT_DIR / "container_yaml_hdf5.yaml"
+    expected_yaml_file = GROUND_TRUTH_DIR / "container_yaml_hdf5.yaml"
     yaml = YAML(typ="safe")
-    with open(expected_yaml_file) as f:
-        expected = yaml.load(f)  # load yaml into dictionary
-        actual = yaml.load(ret)
-        assert actual == expected
+    with open(output_yaml) as f_actual:
+        with open(expected_yaml_file) as f_expected:
+            actual = yaml.load(f_actual)
+            expected = yaml.load(f_expected)
+            assert actual == expected
 
 
-def test_yaml_xarray_zarr_dumper():
+def test_yaml_xarray_zarr_dumper(tmp_path):
     """Test YamlXarrayDumper dumping to a YAML file and zarr datasets in a directory."""
     container = _create_container()
 
-    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
-    ret = YamlXarrayZarrDumper().dumps(container, schemaview=schemaview, output_dir="./out")
+    output_yaml = tmp_path / "container_yaml_xarray_zarr.yaml"
+    schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
+    YamlXarrayZarrDumper().dump(container, to_file=output_yaml, schemaview=schemaview)
 
     # read and compare with the expected YAML file ignoring order of keys
-    expected_yaml_file = INPUT_DIR / "container_yaml_xarray_zarr.yaml"
+    expected_yaml_file = GROUND_TRUTH_DIR / "container_yaml_xarray_zarr.yaml"
     yaml = YAML(typ="safe")
-    with open(expected_yaml_file) as f:
-        expected = yaml.load(f)  # load yaml into dictionary
-        actual = yaml.load(ret)
-        assert actual == expected
+    with open(output_yaml) as f_actual:
+        with open(expected_yaml_file) as f_expected:
+            actual = yaml.load(f_actual)
+            expected = yaml.load(f_expected)
+            assert actual == expected
 
 
-def test_yaml_xarray_netcdf_dumper():
+def test_yaml_xarray_netcdf_dumper(tmp_path):
     """Test YamlXarrayNetCDFDumper dumping to a YAML file and netcdf datasets in a directory."""
     container = _create_container()
 
-    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
-    ret = YamlXarrayNetCDFDumper().dumps(container, schemaview=schemaview, output_dir="./out")
+    output_yaml = tmp_path / "container_yaml_xarray_netcdf.yaml"
+    schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
+    YamlXarrayNetCDFDumper().dump(container, to_file=output_yaml, schemaview=schemaview)
 
     # read and compare with the expected YAML file ignoring order of keys
-    expected_yaml_file = INPUT_DIR / "container_yaml_xarray_netcdf.yaml"
+    expected_yaml_file = GROUND_TRUTH_DIR / "container_yaml_xarray_netcdf.yaml"
     yaml = YAML(typ="safe")
-    with open(expected_yaml_file) as f:
-        expected = yaml.load(f)  # load yaml into dictionary
-        actual = yaml.load(ret)
-        assert actual == expected
+    with open(output_yaml) as f_actual:
+        with open(expected_yaml_file) as f_expected:
+            actual = yaml.load(f_actual)
+            expected = yaml.load(f_expected)
+            assert actual == expected
 
 
 def test_xarray_zarr_dumper(tmp_path):
     container = _create_container()
-    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
     output_file_path = tmp_path / "my_container_xarray.zarr"
     XarrayZarrDumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
 
@@ -177,7 +186,7 @@ def test_xarray_zarr_dumper(tmp_path):
 
 def test_xarray_netcdf_dumper(tmp_path):
     container = _create_container()
-    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
     output_file_path = tmp_path / "my_container.nc"
     XarrayNetCDFDumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
 
@@ -208,7 +217,7 @@ def test_hdf5_dumper(tmp_path):
     """Test Hdf5Dumper dumping to an HDF5 file."""
     container = _create_container()
 
-    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
     output_file_path = tmp_path / "my_container.h5"
     Hdf5Dumper().dumps(container, schemaview=schemaview, output_file_path=output_file_path)
 
@@ -238,7 +247,7 @@ def test_zarr_directory_store_dumper(tmp_path):
     """Test ZarrDumper dumping to an HDF5 file."""
     container = _create_container()
 
-    schemaview = SchemaView(INPUT_DIR / "temperature_schema.yaml")
+    schemaview = SchemaView(GROUND_TRUTH_DIR / "temperature_schema.yaml")
     output_file_path = tmp_path / "my_container.zarr"
     ZarrDirectoryStoreDumper().dumps(
         container, schemaview=schemaview, output_file_path=output_file_path
