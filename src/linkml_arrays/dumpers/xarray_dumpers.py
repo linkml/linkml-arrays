@@ -88,7 +88,7 @@ def _iterate_element(
                 datatree[k] = dataarray
             else:
                 dataset = _create_node(v, schemaview)
-                datatree[k] = DataTree(data=dataset)
+                datatree[k] = DataTree(dataset)
         elif isinstance(v, str):
             datatree.attrs["name"] = v
     return datatree
