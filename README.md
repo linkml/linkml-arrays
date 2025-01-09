@@ -1,6 +1,21 @@
 # linkml-arrays
 
-Support for loading and dumping N-dimensional arrays in LinkML.
+This repository serves as an example repository showcasing the support for loading and dumping
+N-dimensional arrays, including labeled arrays in LinkML. The examples are a work in progress,
+which are used at the same time to develop the metadata model for arrays in LinkML.
+
+## Dumpers and loaders
+The repository currently includes dumpers and loaders examples
+for `yaml`, `hdf5`, `numpy` and `zarr`.
+
+## Data
+
+<ins>Temperature dataset</ins>
+
+The schema defining the labeled array according to the linkml array metamodel can 
+be found here `tests/input/temperature_schema.yaml`. The schema defines a `DataArray`
+similar to an `xarray.DataArray`. The schema includes an array of values `TemperaturesInKMatrix`, 
+and labeled dimensions which correspond to the concept of `coordinates` in `xarray`.
 
 # Quick reference for common commands
 
