@@ -10,6 +10,21 @@ from linkml_runtime.linkml_model import ClassDefinition
 from linkml_runtime.loaders.loader_root import Loader
 from linkml_runtime.utils.yamlutils import YAMLRoot
 from pydantic import BaseModel
+from pathlib import Path
+import xarray as xr
+
+def _parse_xarray_dataset(source, k, format):
+    file_path = source.get("file", None)
+    if file_path is None:
+        raise ValueError(
+            f"Array slot {k}, source {source}, format {format} has no file."
+        )
+    if format == "zarr":
+        data_set = xr.open_zarr(file_path)
+    else:
+        data_set = xr.open_dataset(file_path, engine='h5netcdf')
+    array_key = list(data_set.data_vars.keys())[0]
+    return data_set[array_key].values
 
 
 def _iterate_element(
@@ -39,7 +54,7 @@ def _iterate_element(
                         raise ValueError(
                             f"Array slot {k}, source {source}, format {format} has no file."
                         )
-                    array_file_path = file
+                    array_file_path = Path(file)
                     with h5py.File(array_file_path, "r") as f:
                         # read all the values into memory TODO: support lazy loading
                         v = f["data"][()]
@@ -52,6 +67,9 @@ def _iterate_element(
                     array_file_path = file
                     # read all the values into memory TODO: support lazy loading
                     v = np.load(array_file_path)
+                elif format in ["zarr", "netcdf"]:
+                    v = _parse_xarray_dataset(source, k, format)
+
         elif isinstance(v, dict):
             found_slot_range = schemaview.get_class(found_slot.range)
             v = _iterate_element(v, found_slot_range, schemaview)
