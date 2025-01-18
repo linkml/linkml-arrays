@@ -75,16 +75,16 @@ classes:
           labeled_by:
             value:
               - alias: lat
-                label_slot: latitude_in_deg
+                labeling_slot: latitude_in_deg
                 labeled_dimensions: [0, 1]
               - alias: lon
-                label_slot: longitude_in_deg
+                labeling_slot: longitude_in_deg
                 labeled_dimensions: [0, 1]
               - alias: date
-                label_slot: date
+                labeling_slot: date
                 labeled_dimensions: [2]
               - alias: day
-                label_slot: day_in_d
+                labeling_slot: day_in_d
                 labeled_dimensions: [2]
 
   LatitudeInDegSeries:
