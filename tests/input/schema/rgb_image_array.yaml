@@ -1,0 +1,50 @@
+id: https://example.org/arrays
+name: arrays-temperature-example
+title: Array Temperature Example
+description: |-
+  Example LinkML schema to demonstrate a 3D DataArray of temperature values with labeled axes
+license: MIT
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  wgs84: http://www.w3.org/2003/01/geo/wgs84_pos#
+  example: https://example.org/
+
+default_prefix: example
+
+imports:
+  - linkml:types
+
+classes:
+
+  # concept is also useful for dates - splitting year, month, day
+  # like a compound type / structured array
+  RGBTuple:
+    description: A tuple of red, green, and blue values
+    attributes:
+      red:
+        range: float
+      green:
+        range: float
+      blue:
+        range: float
+
+  RGBImage:
+    attributes:
+      rgb:
+        range: float
+        array:
+          # NPtyping: NDArray[Shape["* x, * y, 3 rgb"]
+          exact_number_dimensions: 3
+          dimensions:
+            - alias: x
+            - alias: y
+            - alias: rgb
+              exact_cardinality: 3
+              description: r, g, b values
+              # annotations:
+              #   binds: RGBTuple
+              #   coords:
+              #   - red: 0
+              #   - green: 1
+              #   - blue: 2
