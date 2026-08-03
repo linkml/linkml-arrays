@@ -1,0 +1,171 @@
+id: https://example.org/arrays
+name: arrays-temperature-example-2
+title: Array Temperature Example Using NDArray Classes
+description: |-
+  Example LinkML schema to demonstrate a 3D DataArray of temperature values with labeled axes
+  using classes containing arrays for the axes and data instead of using array slots/attributes.
+  Creating separate types for the array slots enables reuse and extension.
+license: MIT
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  wgs84: http://www.w3.org/2003/01/geo/wgs84_pos#
+  example: https://example.org/
+
+default_prefix: example
+
+imports:
+  - linkml:types
+
+classes:
+
+  Container:
+    tree_root: true
+    description: A container for a temperature dataset
+    attributes:
+      name:
+        identifier: true
+        range: string
+      temperature_dataset:
+        range: TemperatureDataset
+        required: true
+        inlined: true
+      latitude_series:
+        range: LatitudeInDegSeries
+        required: true
+        inlined: true
+      longitude_series:
+        range: LongitudeInDegSeries
+        required: true
+        inlined: true
+
+  TemperatureDataset:
+    tree_root: true
+    implements:
+      - linkml:DataArray
+      # Maps to Xarray's DataArray https://docs.xarray.dev/en/stable/user-guide/data-structures.html#dataarray
+    attributes:
+      name:
+        identifier: true
+        range: string
+      latitude_in_deg:
+        range: LatitudeInDegSeries  # schema requires this data not to be inlined
+        # RULE: Any referenced class used as a coordinate must have exactly one attribute containing the `array` key.
+        required: true
+      longitude_in_deg:
+        range: LongitudeInDegSeries
+        required: true
+      date:
+        range: DateSeries
+        required: true
+        inlined: true  # this could also be not inlined but for example sake it is inlined
+      day_in_d:
+        range: DaysInDSinceSeries
+        inlined: true
+      # In the Xarray example (https://docs.xarray.dev/en/stable/user-guide/data-structures.html#coordinates),
+      # for coordinates of a DataArray, there is a non-dimension (constant) coordinate called `reference_time` 
+      # that serves as the reference time for the dimension coordinate called `time`. This reference time seems
+      # more appropriate as an attribute on the `time` array, which can be done in LinkML, but not in Xarray where
+      # `time` is just an array. Xarray states that it does not make any direct use of the values associated with
+      # non-dimension coordinates, and this example of `reference_time` is better served in a different way
+      # in LinkML. Therefore, we omit support for non-dimension coordinates in the LinkML DataArray spec.
+      temperatures_in_K:
+        range: TemperaturesInKMatrix
+        required: true
+        inlined: true
+        # Place the `coordinates` key into the `temperatures_in_K` attribute instead of on the `TemperatureMatrix`
+        # class because the labeling is specific to the attribute within this `TemperatureDataset` class.
+        # RULE: Exactly one attribute within a DataArray class must contain the `coordinates` key.
+        # After merging, the `coordinates` key will be at the same level as `inlined`.
+        annotations:
+          coordinates:  # OR indexed_by or labeled_by or array_labeled_by
+            - alias: lat
+              coordinate_slot: latitude_in_deg  # RULE: The value must match the name of an attribute within the parent class
+              coordinate_dimensions: [0, 1]  # Dimension (axis) indices can be used
+            - alias: lon
+              coordinate_slot: longitude_in_deg
+              coordinate_dimensions: ["x", "y"]  # Dimension aliases can be used
+            - alias: date
+              coordinate_slot: date
+              coordinate_dimensions: [2]
+            - alias: day
+              coordinate_slot: day_in_d
+              coordinate_dimensions: [2]
+
+  LatitudeInDegSeries:
+    description: A 2D array whose values represent latitude
+    attributes:
+      name:
+        identifier: true  # an identifier is required for referencing in other classes
+        range: string
+      values:
+        required: true
+        multivalued: true
+        range: float
+        unit:
+          ucum_code: deg
+        array:  # exactly one attribute within this class must be an array
+          exact_number_dimensions: 2
+
+  LongitudeInDegSeries:
+    description: A 2D array whose values represent longitude
+    attributes:
+      name:
+        identifier: true
+        range: string
+      values:
+        required: true
+        multivalued: true
+        range: float
+        unit:
+          ucum_code: deg
+        array:
+          exact_number_dimensions: 2
+
+  DateSeries:
+    description: A 1D series of dates
+    attributes:
+      values:
+        required: true
+        multivalued: true
+        range: string   # In this example, we use a string to represent the date, e.g., "2020-01-01"
+        array:
+          exact_number_dimensions: 1
+
+  DaysInDSinceSeries:
+    description: A 1D series whose values represent the number of days since a reference date
+    attributes:
+      values:
+        required: true
+        multivalued: true
+        range: integer
+        unit:
+          ucum_code: d
+        array:
+          exact_number_dimensions: 1
+      reference_date:
+        description: The reference date for the `day_in_d` values
+        required: true
+        range: string   # for now, we are using a string to represent a date
+
+  TemperaturesInKMatrix:
+    description: A 3D array of temperatures
+    attributes:
+      # no name because this should not be directly referenced
+      conversion_factor:
+        description: A conversion factor to apply to the temperature values
+        range: float
+        unit:
+          ucum_code: K
+      values:
+        required: true
+        multivalued: true
+        range: float
+        unit:
+          ucum_code: K
+        array:
+          exact_number_dimensions: 3
+          dimensions:
+            - alias: "x"
+            - alias: "y"
+            - alias: "date"
