@@ -64,7 +64,6 @@ class YamlDumper(Dumper):
 
         serializer = YamlGraphSerializer(
             graph,
-            schemaview,
         )
 
         return yaml.dump(serializer.serialize())

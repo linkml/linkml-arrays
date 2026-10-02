@@ -34,7 +34,6 @@ class YamlArrayFileDumper(Dumper, metaclass=ABCMeta):
 
         serializer = YAMLGraphArraySerializer(
             graph=graph,
-            schemaview=schemaview,
             output_dir=output_dir,
             write_array=self.write_array,
             array_format=self.FORMAT,

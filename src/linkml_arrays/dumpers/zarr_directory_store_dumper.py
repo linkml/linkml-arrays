@@ -33,7 +33,6 @@ class ZarrDirectoryStoreDumper(Dumper):
 
         serializer = ZarrGraphSerializer(
             graph=graph,
-            schemaview=schemaview,
             root=root,
         )
         serializer.serialize()

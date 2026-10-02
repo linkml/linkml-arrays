@@ -10,6 +10,7 @@ from linkml_arrays.loaders import (
     YamlLoader,
     ZarrDirectoryStoreLoader,
 )
+from linkml_arrays.loaders.xarray_loaders import XarrayNetCDFLoader, XarrayZarrLoader
 from tests.array_classes_lol import (
     Container,
     DateSeries,
@@ -101,5 +102,46 @@ def test_zarr_directory_store_loader():
     schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
     container = ZarrDirectoryStoreLoader().loads(
         file_path, target_class=Container, schemaview=schemaview
+    )
+    _check_container(container)
+
+
+def test_xarray_zarr_loader():
+    """Test loading of pydantic-style classes from xarray zarr datasets."""
+    file_path = str(Path(__file__).parent.parent / "input" / "my_container_xarray.zarr")
+    schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
+    container = XarrayZarrLoader().loads(file_path, target_class=Container, schemaview=schemaview)
+    _check_container(container)
+
+
+def test_xarray_netcdf_loader():
+    """Test loading of pydantic-style classes from xarray zarr datasets."""
+    file_path = str(Path(__file__).parent.parent / "input" / "my_container.nc")
+    schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
+    container = XarrayNetCDFLoader().loads(file_path, target_class=Container, schemaview=schemaview)
+    _check_container(container)
+
+
+def test_yaml_array_file_loader_xarray_zarr():
+    """Test loading of pydantic-style classes from YAML + xarrays stored as .zarr."""
+    read_yaml = hbread(
+        "container_yaml_xarray_zarr.yaml", base_path=str(Path(__file__) / "../../input")
+    )
+    schemaview = SchemaView(Path(__file__) / "../../input/temperature_schema.yaml")
+
+    container = YamlLoader().loads(
+        read_yaml, target_class=Container, schemaview=schemaview, resolve_arrays=True
+    )
+    _check_container(container)
+
+
+def test_yaml_array_file_loader_xarray_netcdf():
+    """Test loading of pydantic-style classes from YAML + xarrays stored as .nc."""
+    read_yaml = hbread(
+        "container_yaml_xarray_netcdf.yaml", base_path=str(Path(__file__) / "../../input")
+    )
+    schemaview = SchemaView(Path(__file__).parent.parent / "input/temperature_schema.yaml")
+    container = YamlLoader().loads(
+        read_yaml, target_class=Container, schemaview=schemaview, resolve_arrays=True
     )
     _check_container(container)

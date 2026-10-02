@@ -1,0 +1,9 @@
+{
+  "attributes": {
+    "name": "my_temperature",
+    "latitude_in_deg": "my_latitude",
+    "longitude_in_deg": "my_longitude"
+  },
+  "zarr_format": 3,
+  "node_type": "group"
+}

@@ -1,8 +1,40 @@
-"""Backend independent graph representation of labeled array linkml model."""
+"""Backend independent graph representation of labeled array linkml model.
+
+This module provides an intermediate representation between a LinkML model
+and its serialzied forms. Rather than having each serializer traverse the
+Pydantic object hierarchy, a model is first converted into an `ObjectGraph`.
+Serializers and deserializers than operate on this graph.
+
+The mapping from LinkML to the graph is as follows:
+- Each instance of a LinkML class is represented by a `GraphNode`.
+- Scalar and array-valued slots are stored in `GraphNode.values`.
+- Object / class valued slots are represented by `GraphEdge` objects connecting
+the corresponding nodes.
+- LinkML slot properties needed during serialization, such as `multivalued` and
+`inlined`, are retained on the `GraphEdge`.
+- The value of a LinkML identifier slot, when present, is stored separately as
+`GraphNode.identifier`.
+
+Every graph node also has a UUID key. This key is internal to the graph and should not
+be confused with a LinkML identifier. A LinkML identifier is part of the data model and
+may be meaningful outside the graph, whereas the UUID only provides an unambigous way to
+refer to a node and construct edges between nodes. This is the case even in the absence
+of a LinkML identifier and thus can always be used to represent a relationship between
+2 `GraphNode` in an `ObjectGraph`.
+
+`SchemaView` provides the LinkML schema information needed to construct the `ObjectGraph`.
+In particular, it allows for distinguishing ordinary values and arrays from relationships
+to other LinkML class instances and to retain relevant slot metadata.
+
+The resulting `ObjectGraph` acts as a boundary between the LinkML labeled array object
+model and storage backends. YAML, HDF5, Zarr, xarray and other (future) serializers can
+therefore share the same representation of objects and relationships while remaining
+responsible for their own storage-specific layout.
+"""
 
 from __future__ import annotations
 
-from collections.abc import Iterator
+from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, field
 from graphlib import TopologicalSorter
 from pathlib import Path
@@ -11,11 +43,38 @@ from uuid import UUID, uuid4
 
 import h5py
 import numpy as np
+import xarray as xr
 import yaml
 import zarr
 from linkml_runtime import SchemaView
 from linkml_runtime.linkml_model import ClassDefinition
 from pydantic import BaseModel
+from xarray import DataTree
+
+
+@dataclass(slots=True)
+class GraphValueMetadata:
+    """Describe properties of a value stored in an ObjectGraph.
+
+    GraphValueMetadata contains backend-independent information needed to
+    interpret a value without referring back to its LinkML schema. When an
+    ObjectGraph is constructed from a LinkML model, this information is
+    derived from the corresponding slot definition.
+    In particular, `dimensions` represents the dimensions declared by a
+    LinkML array-valued slot. A value with dimensions is therefore considered
+    an array, while `None` indicates a non-array value.
+    This class exists to allow serializers to work without serializers.
+
+    Note: while only including dimensions currently, this could be expanded
+    """
+
+    # TODO: we should discuss what extra general fields could be useful here I think
+    dimensions: tuple[str, ...] | None = None
+
+    @property
+    def is_array(self) -> bool:
+        """Return True if graph value is an array."""
+        return self.dimensions is not None
 
 
 @dataclass(slots=True)
@@ -100,6 +159,7 @@ class GraphNode:
     obj: BaseModel | None = None
     identifier: str | None = None
     values: dict[str, Any] = field(default_factory=dict)
+    value_metadata: dict[str, GraphValueMetadata] = field(default_factory=dict)
     incoming: list[GraphEdge] = field(default_factory=list)
     outgoing: list[GraphEdge] = field(default_factory=list)
     key: UUID = field(default_factory=uuid4, init=False)
@@ -368,14 +428,24 @@ class ObjectGraph:
         """
         graph = cls()
 
-        if isinstance(source, (str, Path)):
-            if Path(source).exists(follow_symlinks=False):
-                with open(source) as f:
-                    data = yaml.safe_load(f)
-                base_path = Path(source).parent
-            else:
-                data = yaml.safe_load(str(source))
+        if isinstance(source, Path):
+            with source.open() as f:
+                data = yaml.safe_load(f)
+            base_path = source.parent
+        elif isinstance(source, str):
+            if "\n" in source:
+                data = yaml.safe_load(source)
                 base_path = Path(".")
+            else:
+                source_path = Path(source)
+
+                if source_path.exists():
+                    with source_path.open() as f:
+                        data = yaml.safe_load(f)
+                    base_path = source_path.parent
+                else:
+                    data = yaml.safe_load(source)
+                    base_path = Path(".")
         else:
             raise ValueError(f"Source should be of type Path or str, got {type(source)}")
 
@@ -394,6 +464,58 @@ class ObjectGraph:
 
         graph.root = root.key
 
+        return graph
+
+    @classmethod
+    def from_xarray(
+        cls,
+        source: DataTree,
+        schemaview: SchemaView,
+        root_class: str,
+    ) -> "ObjectGraph":
+        """Construct an ObjectGraph from an xarray DataTree representation of a LinkML model.
+
+        Traverses an xarray DataTree and constructs a graph representation in
+        which each nested LinkML class instance becomes a graph node. Dataset
+        attributes and array values are stored directly on nodes, while nested
+        class-valued attributes become directed graph edges.
+
+        The LinkML schema is used to determine how DataTree nodes, variables,
+        coordinates, and attributes map to classes and slots in the graph.
+
+        Parameters
+        ----------
+        source
+            DataTree containing the serialized LinkML model.
+        schemaview
+            SchemaView describing the LinkML schema.
+        root_class
+            Name of the LinkML root class represented by the DataTree.
+
+        Returns
+        -------
+        ObjectGraph
+            Graph representation of the LinkML model described by the DataTree.
+
+        Raises
+        ------
+        ValueError
+            If `root_class` is not defined in the schema.
+        """
+        graph = cls()
+
+        schema_class = schemaview.get_class(root_class)
+
+        if not schema_class:
+            raise ValueError(f"Root class {root_class} not found in schema.")
+
+        root = graph._discover_xarray_node(
+            tree=source,
+            class_definition=schema_class,
+            schemaview=schemaview,
+        )
+
+        graph.root = root.key
         return graph
 
     def __contains__(self, obj: BaseModel | UUID) -> bool:
@@ -543,7 +665,7 @@ class ObjectGraph:
             edge = GraphEdge(
                 parent=node.key,
                 child=child.key,
-                slot_name=slot.name,
+                slot_name=str(slot.name),
                 multivalued=bool(slot.multivalued),
                 inlined=bool(slot.inlined),
             )
@@ -621,7 +743,7 @@ class ObjectGraph:
             edge = GraphEdge(
                 parent=node.key,
                 child=child.key,
-                slot_name=slot.name,
+                slot_name=str(slot.name),
                 multivalued=bool(slot.multivalued),
                 inlined=bool(slot.inlined),
             )
@@ -629,6 +751,112 @@ class ObjectGraph:
             node.outgoing.append(edge)
             child.incoming.append(edge)
 
+        return node
+
+    def _discover_xarray_node(
+        self,
+        tree: DataTree,
+        class_definition: ClassDefinition,
+        schemaview: SchemaView,
+    ) -> GraphNode:
+        node = GraphNode(
+            class_name=class_definition.name,
+        )
+        self.nodes[node.key] = node
+        for name, value in tree.attrs.items():
+            node.values[str(name)] = value
+
+        dataset = tree.to_dataset()
+
+        for name in dict.fromkeys([*dataset.coords, *dataset.data_vars]):
+            array = dataset[name]
+
+            slot = schemaview.induced_slot(
+                name,
+                class_definition.name,
+            )
+
+            child_class = schemaview.get_class(slot.range)
+            if child_class is None:
+                raise ValueError(
+                    f"Slot '{name}' on {class_definition.name} " "does not have a class range."
+                )
+
+            child = self._discover_xarray_array(
+                array=array,
+                class_definition=child_class,
+                schemaview=schemaview,
+            )
+            edge = GraphEdge(
+                parent=node.key,
+                child=child.key,
+                slot_name=str(slot.name),
+                multivalued=bool(slot.multivalued),
+                inlined=bool(slot.inlined),
+            )
+
+            node.outgoing.append(edge)
+            child.incoming.append(edge)
+
+        for name, child_tree in tree.children.items():
+            slot = schemaview.induced_slot(
+                name,
+                class_definition.name,
+            )
+
+            child_class = schemaview.get_class(slot.range)
+
+            if child_class is None:
+                raise ValueError(
+                    f"Expected slot '{name}' on " f"{class_definition.name} to have a class range."
+                )
+
+            child = self._discover_xarray_node(
+                tree=child_tree,
+                class_definition=child_class,
+                schemaview=schemaview,
+            )
+            edge = GraphEdge(
+                parent=node.key,
+                child=child.key,
+                slot_name=str(slot.name),
+                multivalued=bool(slot.multivalued),
+                inlined=bool(slot.inlined),
+            )
+
+            node.outgoing.append(edge)
+            child.incoming.append(edge)
+        return node
+
+    def _discover_xarray_array(
+        self,
+        array: xr.DataArray,
+        class_definition: ClassDefinition,
+        schemaview: SchemaView,
+    ) -> GraphNode:
+        node = GraphNode(
+            class_name=class_definition.name,
+        )
+
+        self.nodes[node.key] = node
+        array_slot = None
+
+        for slot_name in schemaview.class_slots(class_definition.name):
+            slot = schemaview.induced_slot(
+                slot_name,
+                class_definition.name,
+            )
+            if slot.array:
+                array_slot = slot
+                break
+
+        if array_slot is None:
+            raise ValueError(f"{class_definition.name} has no array-valued slot.")
+
+        node.values[str(array_slot.name)] = array.values
+
+        for name, value in array.attrs.items():
+            node.values[str(name)] = value
         return node
 
     def _discover_yaml_dict(
@@ -725,6 +953,18 @@ class ObjectGraph:
                 elif fmt == "zarr":
                     z = zarr.open(file, mode="r")
                     node.values[name] = z["data"][()]
+                elif fmt == "xarray_netcdf":
+                    data_array = xr.open_dataarray(
+                        file,
+                        engine="h5netcdf",
+                    )
+                    node.values[name] = data_array.values
+                elif fmt == "xarray_zarr":
+                    data_array = xr.open_dataarray(
+                        file,
+                        engine="zarr",
+                    )
+                    node.values[name] = data_array.values
                 else:
                     raise ValueError(f"Unsupported array format '{fmt}'.")
                 continue
@@ -748,7 +988,7 @@ class ObjectGraph:
                 edge = GraphEdge(
                     parent=node.key,
                     child=child.key,
-                    slot_name=slot.name,
+                    slot_name=str(slot.name),
                     multivalued=bool(slot.multivalued),
                     inlined=bool(slot.inlined),
                 )
@@ -827,6 +1067,29 @@ class ObjectGraph:
 
         return node
 
+    def _set_value(
+        self,
+        node: GraphNode,
+        name: str,
+        value: Any,
+        slot,
+    ) -> None:
+        name = str(name)
+        node.values[name] = value
+
+        if slot.array is not None:
+            dimensions = tuple(
+                str(dimension.alias)
+                for dimension in slot.array.dimensions or []
+                if dimension.alias is not None
+            )
+        else:
+            dimensions = None
+
+        node.value_metadata[name] = GraphValueMetadata(
+            dimensions=dimensions,
+        )
+
     def _discover_value(
         self,
         value: Any,
@@ -856,53 +1119,66 @@ class ObjectGraph:
         schemaview
             SchemaView describing the LinkML schema.
         """
-        if isinstance(value, BaseModel):
-            child = self._discover(value, schemaview)
+        name = str(slot.name)
+        child_class = schemaview.get_class(slot.range)
 
-            edge = GraphEdge(
-                parent=parent.key,
-                child=child.key,
-                slot_name=slot.name,
+        if slot.array or child_class is None or value is None:
+            self._set_value(
+                node=parent,
+                name=name,
+                value=value,
+                slot=slot,
+            )
+            return
+
+        if isinstance(value, BaseModel):
+            self._add_child(
+                parent=parent,
+                child_obj=value,
+                slot=slot,
+                schemaview=schemaview,
                 multivalued=False,
-                inlined=bool(slot.inlined),
+            )
+            return
+
+        values: Iterable[Any] | list[Any] | tuple[Any, ...] | set[Any]
+        if isinstance(value, dict):
+            values = value.values()
+        elif isinstance(value, (list, tuple, set)):
+            values = value
+        else:
+            parent.values[name] = value
+            return
+
+        for child_obj in values:
+            self._add_child(
+                parent=parent,
+                child_obj=child_obj,
+                slot=slot,
+                schemaview=schemaview,
+                multivalued=True,
             )
 
-            parent.outgoing.append(edge)
-            child.incoming.append(edge)
+    def _add_child(
+        self,
+        parent: GraphNode,
+        child_obj: BaseModel,
+        slot,
+        schemaview: SchemaView,
+        multivalued: bool,
+    ) -> None:
+        child = self._discover(child_obj, schemaview)
 
-            return
+        edge = GraphEdge(
+            parent=parent.key,
+            child=child.key,
+            slot_name=str(slot.name),
+            multivalued=multivalued,
+            inlined=bool(slot.inlined),
+        )
 
-        if isinstance(value, dict):
-            for item in value.values():
-                self._discover_value(
-                    item,
-                    parent,
-                    slot,
-                    schemaview,
-                )
-
-            return
-
-        if isinstance(value, (list, tuple, set)):
-            for item in value:
-                if not isinstance(item, BaseModel):
-                    continue
-
-                child = self._discover(
-                    item,
-                    schemaview,
-                )
-
-                edge = GraphEdge(
-                    parent=parent.key,
-                    child=child.key,
-                    slot_name=slot.name,
-                    multivalued=True,
-                    inlined=bool(slot.inlined),
-                )
-
-                parent.outgoing.append(edge)
-                child.incoming.append(edge)
+        parent.outgoing.append(edge)
+        child.incoming.append(edge)
 
     def dependency_order(self) -> Iterator[GraphNode]:
         """Iterate over graph nodes in dependency order.

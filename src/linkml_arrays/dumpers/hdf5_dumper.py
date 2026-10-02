@@ -30,7 +30,6 @@ class Hdf5Dumper(Dumper):
         with h5py.File(output_file_path, "w") as f:
             serializer = Hdf5GraphSerializer(
                 graph=graph,
-                schemaview=schemaview,
                 h5file=f,
             )
             serializer.serialize()
